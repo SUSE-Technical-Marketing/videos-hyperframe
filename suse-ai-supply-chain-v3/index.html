@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Stop AI hacks - walls and a guard</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "SUSE";
+        src: url("assets/fonts/SUSE-wght.ttf") format("truetype");
+        font-weight: 100 800;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "SUSE Mono";
+        src: url("assets/fonts/SUSEMono-wght.ttf") format("truetype");
+        font-weight: 100 800;
+        font-style: normal;
+      }
+      :root {
+        --pine: #0c322c;
+        --jungle: #30ba78;
+        --jungle2: #025937;
+        --pine2: #01564a;
+        --mint: #90ebcd;
+        --persimmon: #fe7c3f;
+        --fog6: #bababa;
+        --white: #ffffff;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--pine);
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: var(--pine);
+        font-family: "SUSE", system-ui, sans-serif;
+        color: var(--white);
+        text-align: left;
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+      .mono {
+        font-family: "SUSE Mono", ui-monospace, monospace;
+        font-size: 0.92em;
+        font-weight: 500;
+      }
+      .block {
+        position: absolute;
+        left: 72px;
+        display: block;
+      }
+      .line {
+        display: block;
+      }
+
+      /* ---------- persistent logo, top right ---------- */
+      .logo {
+        position: absolute;
+        left: 1488px;
+        top: 35px;
+        width: 400px;
+        height: 133px;
+        display: block;
+      }
+
+      /* ---------- the spine (world) ---------- */
+      .stage {
+        position: absolute;
+        left: 72px;
+        top: 150px;
+        width: 1776px;
+        height: 858px;
+        overflow: hidden;
+      }
+      .stage svg {
+        display: block;
+      }
+      .svg-mono {
+        font-family: "SUSE Mono", ui-monospace, monospace;
+        font-weight: 500;
+      }
+
+      /* ---------- scene 1 ---------- */
+      .dateline {
+        font-family: "SUSE Mono", ui-monospace, monospace;
+        font-size: 40px;
+        font-weight: 500;
+        color: var(--mint);
+      }
+      .h-xl {
+        font-size: 72px;
+        font-weight: 500;
+        line-height: 1.1;
+        letter-spacing: -0.01em;
+      }
+      .h-lg {
+        font-size: 62px;
+        font-weight: 500;
+        line-height: 1.12;
+        letter-spacing: -0.01em;
+      }
+      .counter-num {
+        font-variant-numeric: tabular-nums;
+        font-size: 1em;
+      }
+      .pods {
+        position: absolute;
+        left: 1150px;
+        top: 330px;
+        width: 586px;
+        height: 434px;
+      }
+      .pod {
+        position: absolute;
+        width: 130px;
+        height: 130px;
+        border-radius: 22px;
+        background: var(--pine2);
+        display: block;
+      }
+      .pod-flash {
+        position: absolute;
+        inset: 0;
+        border-radius: 22px;
+        background: var(--persimmon);
+        opacity: 0;
+      }
+      .pod-dot {
+        position: absolute;
+        left: 51px;
+        top: 51px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--persimmon);
+        opacity: 0;
+      }
+
+      /* ---------- scene 2 ---------- */
+      .body-mint {
+        font-size: 46px;
+        font-weight: 400;
+        line-height: 1.3;
+        color: var(--mint);
+      }
+
+      /* ---------- steps ---------- */
+      .step-label {
+        top: 80px;
+        width: 1400px;
+        font-size: 56px;
+        font-weight: 500;
+        line-height: 1.15;
+        color: var(--persimmon);
+      }
+      .step-label .mono {
+        margin-right: 22px;
+        font-size: 1em;
+      }
+      .step-col {
+        top: 400px;
+        width: 780px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 36px;
+      }
+      .card {
+        display: block;
+        width: 780px;
+        padding: 40px 46px 46px;
+        border-radius: 24px;
+        background: var(--jungle2);
+        box-shadow:
+          0 26px 60px rgba(0, 0, 0, 0.32),
+          0 4px 12px rgba(0, 0, 0, 0.18);
+      }
+      .card-title {
+        font-size: 46px;
+        font-weight: 500;
+        line-height: 1.15;
+        color: var(--mint);
+      }
+      .card-body {
+        margin-top: 16px;
+        font-size: 40px;
+        font-weight: 400;
+        line-height: 1.3;
+        color: var(--white);
+      }
+      .card-note {
+        display: block;
+        width: 780px;
+        font-size: 35px;
+        font-weight: 400;
+        line-height: 1.32;
+        color: var(--mint);
+      }
+      .tag-wrap {
+        display: block;
+      }
+      .tag {
+        display: inline-block;
+        padding: 9px 24px 11px;
+        border-radius: 999px;
+        background: var(--jungle);
+        color: var(--pine);
+        font-size: 32px;
+        font-weight: 500;
+      }
+
+      /* ---------- walls and a guard ---------- */
+      .wg-visual {
+        position: absolute;
+        display: block;
+      }
+      .wg-icon {
+        position: absolute;
+        width: 160px;
+        height: 160px;
+        display: block;
+      }
+      .wg-text {
+        position: absolute;
+        display: block;
+      }
+      .wg-title {
+        font-size: 48px;
+        font-weight: 500;
+        line-height: 1.15;
+        color: var(--mint);
+      }
+      .wg-body {
+        margin-top: 14px;
+        font-size: 38px;
+        font-weight: 400;
+        line-height: 1.3;
+        color: var(--white);
+      }
+      .wg-footer {
+        font-family: "SUSE Mono", ui-monospace, monospace;
+        font-size: 32px;
+        font-weight: 500;
+        color: var(--fog6);
+      }
+
+      /* ---------- recap ---------- */
+      .reg-icon {
+        position: absolute;
+        left: 72px;
+        top: 372px;
+        width: 160px;
+        height: 160px;
+        display: block;
+      }
+      .points {
+        position: absolute;
+        left: 280px;
+        top: 376px;
+        width: 1000px;
+        display: flex;
+        flex-direction: column;
+        gap: 46px;
+      }
+      .point {
+        position: relative;
+        display: block;
+        padding-left: 36px;
+        font-size: 46px;
+        font-weight: 400;
+        line-height: 1.3;
+      }
+      .point-mark {
+        position: absolute;
+        left: 0;
+        top: 22px;
+        width: 16px;
+        height: 16px;
+        border-radius: 3px;
+        background: var(--jungle);
+      }
+
+      /* ---------- end card ---------- */
+      .end-h {
+        font-size: 116px;
+        font-weight: 500;
+        line-height: 1.04;
+        letter-spacing: -0.015em;
+      }
+      .end-sub {
+        font-size: 56px;
+        font-weight: 400;
+        line-height: 1.22;
+        color: var(--mint);
+      }
+      .end-small {
+        font-size: 38px;
+        font-weight: 400;
+        color: var(--fog6);
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-jrvh"
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="120"
+      data-width="1920"
+      data-height="1080"
+    >
+      <!-- ================= THE SPINE: path, gates, attacker (10s-104s, hidden 72-88) ================= -->
+      <section data-hf-id="hf-b1yo" id="world" class="clip" data-start="10" data-duration="94" data-track-index="0">
+        <div data-hf-id="hf-jvmt" class="stage" id="stage" data-layout-allow-overflow>
+          <svg data-hf-id="hf-e6ko" width="1776" height="858" viewBox="0 0 1776 858" xmlns="http://www.w3.org/2000/svg">
+            <g data-hf-id="hf-y1p0" id="cam">
+              <path data-hf-id="hf-mr28" id="spine" d="M -3000 360 H 1368 A 60 60 0 0 1 1428 420 V 2430" fill="none" stroke="#008878" stroke-width="8" stroke-linecap="round" />
+              <path data-hf-id="hf-25rv" id="trail" d="M -3000 360 H 1368 A 60 60 0 0 1 1428 420 V 2430" fill="none" stroke="#fe7c3f" stroke-width="7" stroke-linecap="round" opacity="0" />
+
+              <!-- target cluster at the end of the path -->
+              <g data-hf-id="hf-8xgg" id="cluster" transform="translate(1428 2480)">
+                <g data-hf-id="hf-kval" id="cluster-in">
+                  <rect data-hf-id="hf-wa29" x="-52" y="-44" width="46" height="46" rx="9" fill="#01564a" />
+                  <rect data-hf-id="hf-toyr" x="6" y="-44" width="46" height="46" rx="9" fill="#01564a" />
+                  <rect data-hf-id="hf-7dyz" x="-23" y="10" width="46" height="46" rx="9" fill="#01564a" />
+                  <g data-hf-id="hf-ouva" id="cluster-flash" opacity="0">
+                    <rect data-hf-id="hf-v3ue" x="-52" y="-44" width="46" height="46" rx="9" fill="#fe7c3f" />
+                    <rect data-hf-id="hf-hn64" x="6" y="-44" width="46" height="46" rx="9" fill="#fe7c3f" />
+                    <rect data-hf-id="hf-yjvy" x="-23" y="10" width="46" height="46" rx="9" fill="#fe7c3f" />
+                  </g>
+                </g>
+              </g>
+
+              <!-- gate 1: safe -->
+              <g data-hf-id="hf-9az5" class="gate" id="gate0" transform="translate(1428 600)">
+                <g data-hf-id="hf-sqoh" class="gate-in">
+                  <circle data-hf-id="hf-6lwj" r="80" fill="#01564a" />
+                  <g data-hf-id="hf-9650" class="gate-closed" opacity="0">
+                    <circle data-hf-id="hf-n1ca" r="80" fill="#025937" />
+                    <g data-hf-id="hf-302h" transform="translate(-48 -48) scale(0.8)" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+                      <rect data-hf-id="hf-d2z2" x="18" y="20" width="84" height="74" rx="9" />
+                      <rect data-hf-id="hf-dkdy" x="28" y="30" width="64" height="54" rx="5" />
+                      <circle data-hf-id="hf-qunp" cx="56" cy="57" r="12" stroke="#90ebcd" />
+                      <path data-hf-id="hf-uk8t" d="M56 45v-3 M56 72v-3 M44 57h-3 M71 57h-3" stroke="#90ebcd" />
+                      <path data-hf-id="hf-4sts" d="M83 49v16" />
+                      <path data-hf-id="hf-wjvf" d="M32 94v7 M88 94v7" />
+                    </g>
+                  </g>
+                  <rect data-hf-id="hf-0cro" class="bar-l" x="-110" y="-120" width="118" height="16" rx="8" fill="#30ba78" opacity="0" />
+                  <rect data-hf-id="hf-ehg4" class="bar-r" x="-8" y="-120" width="118" height="16" rx="8" fill="#30ba78" opacity="0" />
+                </g>
+              </g>
+              <!-- gate 2: shield -->
+              <g data-hf-id="hf-x2mq" class="gate" id="gate1" transform="translate(1428 1140)">
+                <g data-hf-id="hf-5e2t" class="gate-in">
+                  <circle data-hf-id="hf-bcyr" r="80" fill="#01564a" />
+                  <g data-hf-id="hf-ut0s" class="gate-closed" opacity="0">
+                    <circle data-hf-id="hf-u1ce" r="80" fill="#025937" />
+                    <g data-hf-id="hf-nxm5" transform="translate(-48 -48) scale(0.8)" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+                      <path data-hf-id="hf-9rlx" d="M60 14 L96 27 V57 C96 81 80 97 60 106 C40 97 24 81 24 57 V27 Z" />
+                      <path data-hf-id="hf-421l" d="M44 60 L56 72 L78 48" stroke="#90ebcd" />
+                    </g>
+                  </g>
+                  <rect data-hf-id="hf-xhss" class="bar-l" x="-110" y="-120" width="118" height="16" rx="8" fill="#30ba78" opacity="0" />
+                  <rect data-hf-id="hf-hwq4" class="bar-r" x="-8" y="-120" width="118" height="16" rx="8" fill="#30ba78" opacity="0" />
+                </g>
+              </g>
+              <!-- gate 3: server -->
+              <g data-hf-id="hf-hehm" class="gate" id="gate2" transform="translate(1428 1680)">
+                <g data-hf-id="hf-6kzw" class="gate-in">
+                  <circle data-hf-id="hf-aynq" r="80" fill="#01564a" />
+                  <g data-hf-id="hf-tm3p" class="gate-closed" opacity="0">
+                    <circle data-hf-id="hf-ufnf" r="80" fill="#025937" />
+                    <g data-hf-id="hf-p4j8" transform="translate(-48 -48) scale(0.8)" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+                      <rect data-hf-id="hf-48tj" x="20" y="18" width="80" height="25" rx="6" />
+                      <rect data-hf-id="hf-k39s" x="20" y="48" width="80" height="25" rx="6" />
+                      <rect data-hf-id="hf-69ox" x="20" y="78" width="80" height="25" rx="6" />
+                      <path data-hf-id="hf-krcc" d="M62 30.5h24 M62 60.5h24 M62 90.5h24" />
+                      <g data-hf-id="hf-slko" fill="#90ebcd" stroke="none">
+                        <circle data-hf-id="hf-d5v9" cx="34" cy="30.5" r="4" />
+                        <circle data-hf-id="hf-8g8m" cx="34" cy="60.5" r="4" />
+                        <circle data-hf-id="hf-6eff" cx="34" cy="90.5" r="4" />
+                      </g>
+                    </g>
+                  </g>
+                  <rect data-hf-id="hf-wavp" class="bar-l" x="-110" y="-120" width="118" height="16" rx="8" fill="#30ba78" opacity="0" />
+                  <rect data-hf-id="hf-gpt1" class="bar-r" x="-8" y="-120" width="118" height="16" rx="8" fill="#30ba78" opacity="0" />
+                </g>
+              </g>
+              <!-- gate 4: users -->
+              <g data-hf-id="hf-mfx4" class="gate" id="gate3" transform="translate(1428 2220)">
+                <g data-hf-id="hf-66ov" class="gate-in">
+                  <circle data-hf-id="hf-akcp" r="80" fill="#01564a" />
+                  <g data-hf-id="hf-u0eq" class="gate-closed" opacity="0">
+                    <circle data-hf-id="hf-utyg" r="80" fill="#025937" />
+                    <g data-hf-id="hf-l8c5" transform="translate(-48 -48) scale(0.8)" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+                      <path data-hf-id="hf-ngfz" d="M16 56 L60 18 L104 56" stroke="#90ebcd" />
+                      <path data-hf-id="hf-mi8t" d="M26 50 V102 H94 V50" stroke="#ffffff" />
+                      <path data-hf-id="hf-0udx" d="M50 102 V76 H70 V102" stroke="#90ebcd" />
+                    </g>
+                  </g>
+                  <rect data-hf-id="hf-wp6q" class="bar-l" x="-110" y="-120" width="118" height="16" rx="8" fill="#30ba78" opacity="0" />
+                  <rect data-hf-id="hf-h442" class="bar-r" x="-8" y="-120" width="118" height="16" rx="8" fill="#30ba78" opacity="0" />
+                </g>
+              </g>
+
+              <!-- step 2 prop: shell -->
+              <g data-hf-id="hf-elke" id="prop-shell" opacity="0" transform="translate(1060 1140)">
+                <rect data-hf-id="hf-mzpd" x="0" y="-48" width="250" height="96" rx="14" fill="#1d1d1d" />
+                <text data-hf-id="hf-vokf" class="svg-mono" x="30" y="14" font-size="42" fill="#ffffff">$ sh</text>
+                <rect data-hf-id="hf-8k7d" id="shell-cursor" x="156" y="-21" width="22" height="42" rx="2" fill="#fe7c3f" opacity="0" />
+              </g>
+              <!-- step 3 prop: privileged pod -->
+              <g data-hf-id="hf-avj0" id="prop-pod" opacity="0" transform="translate(870 1680)">
+                <rect data-hf-id="hf-vxx1" x="0" y="-66" width="440" height="132" rx="18" fill="#01564a" />
+                <text data-hf-id="hf-aybw" class="svg-mono" x="28" y="-16" font-size="28" fill="#90ebcd">pod</text>
+                <text data-hf-id="hf-xeb7" class="svg-mono" x="28" y="34" font-size="32" fill="#ffffff">privileged + hostPath</text>
+              </g>
+              <!-- step 4 prop: shared key (travels with the attacker) -->
+              <g data-hf-id="hf-i0vc" id="prop-key" opacity="0" transform="translate(0 0)">
+                <g data-hf-id="hf-933c" fill="none" stroke="#dcdbdc" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle data-hf-id="hf-vy84" cx="-36" cy="0" r="15" />
+                  <path data-hf-id="hf-k2sx" d="M-21 0 H22 M12 0 v12 M21 0 v9" />
+                </g>
+              </g>
+
+              <!-- attacker dot -->
+              <g data-hf-id="hf-34sw" id="dot" opacity="0">
+                <circle data-hf-id="hf-istu" id="dot-core" r="18" fill="#fe7c3f" />
+              </g>
+
+              <!-- step 1 prop: package (drawn above the dot so the dot passes through it) -->
+              <g data-hf-id="hf-7jnr" id="prop-pkg" opacity="0" transform="translate(1000 360)">
+                <g data-hf-id="hf-7ctj" fill="#0c322c" stroke="#bababa" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+                  <path data-hf-id="hf-cb9z" d="M0 -54 L50 -28 V28 L0 54 L-50 28 V-28 Z" />
+                  <path data-hf-id="hf-d4eh" d="M-50 -28 L0 -2 L50 -28 M0 -2 V54 M-25 -41 L25 -15" fill="none" />
+                </g>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </section>
+
+      <!-- ================= 1. HOOK 0-10s ================= -->
+      <section data-hf-id="hf-l8d5" id="pods-clip" class="clip" data-start="0" data-duration="11.4" data-track-index="2">
+        <div data-hf-id="hf-tvza" class="pods" id="pods">
+          <div data-hf-id="hf-seff" class="pod" id="pod0" style="left: 0px; top: 0px"><div data-hf-id="hf-6dbs" class="pod-flash"></div><div data-hf-id="hf-69ar" class="pod-dot"></div></div>
+          <div data-hf-id="hf-huku" class="pod" id="pod1" style="left: 152px; top: 0px"><div data-hf-id="hf-52a8" class="pod-flash"></div><div data-hf-id="hf-t52r" class="pod-dot"></div></div>
+          <div data-hf-id="hf-nnwm" class="pod" id="pod2" style="left: 304px; top: 0px"><div data-hf-id="hf-3vd5" class="pod-flash"></div><div data-hf-id="hf-sqrq" class="pod-dot"></div></div>
+          <div data-hf-id="hf-4os9" class="pod" id="pod3" style="left: 456px; top: 0px"><div data-hf-id="hf-49o6" class="pod-flash"></div><div data-hf-id="hf-scgp" class="pod-dot"></div></div>
+          <div data-hf-id="hf-muxb" class="pod" id="pod4" style="left: 0px; top: 152px"><div data-hf-id="hf-32r3" class="pod-flash"></div><div data-hf-id="hf-ry5o" class="pod-dot"></div></div>
+          <div data-hf-id="hf-kqwm" class="pod" id="pod5" style="left: 152px; top: 152px"><div data-hf-id="hf-3h24" class="pod-flash"></div><div data-hf-id="hf-rjun" class="pod-dot"></div></div>
+          <div data-hf-id="hf-6h4u" class="pod" id="pod6" style="left: 304px; top: 152px"><div data-hf-id="hf-2a51" class="pod-flash"></div><div data-hf-id="hf-r5jm" class="pod-dot"></div></div>
+          <div data-hf-id="hf-aee9" class="pod" id="pod7" style="left: 456px; top: 152px"><div data-hf-id="hf-2og2" class="pod-flash"></div><div data-hf-id="hf-qr8l" class="pod-dot"></div></div>
+          <div data-hf-id="hf-x1ic" class="pod" id="pod8" style="left: 0px; top: 304px"><div data-hf-id="hf-1hiz" class="pod-flash"></div><div data-hf-id="hf-qcxk" class="pod-dot"></div></div>
+          <div data-hf-id="hf-mihd" class="pod" id="pod9" style="left: 152px; top: 304px"><div data-hf-id="hf-1vu0" class="pod-flash"></div><div data-hf-id="hf-pymj" class="pod-dot"></div></div>
+          <div data-hf-id="hf-yfeg" class="pod" id="pod10" style="left: 304px; top: 304px"><div data-hf-id="hf-wyw0" class="pod-flash"></div><div data-hf-id="hf-iuih" class="pod-dot"></div></div>
+        </div>
+        <!-- the test sandbox the agent breaks out of -->
+        <svg data-hf-id="hf-b1sd" id="sandbox" style="position: absolute; left: 0px; top: 0px; display: block" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+          <g data-hf-id="hf-2s35" id="sb-box" opacity="0" fill="none" stroke="#fe7c3f" stroke-width="4" stroke-linecap="square">
+            <path data-hf-id="hf-vhiz" d="M1430 330 H1150 V610 H1430" />
+            <line data-hf-id="hf-gne4" id="sb-wall-t" x1="1430" y1="330" x2="1430" y2="470" />
+            <line data-hf-id="hf-93bz" id="sb-wall-b" x1="1430" y1="470" x2="1430" y2="610" />
+          </g>
+          <circle data-hf-id="hf-f0fd" id="sb-dot" cx="0" cy="0" r="14" fill="#fe7c3f" opacity="0" />
+        </svg>
+      </section>
+
+      <section data-hf-id="hf-ptxy" id="s1" class="clip" data-start="0" data-duration="10" data-track-index="1">
+        <div data-hf-id="hf-pfi4" class="block dateline" id="s1-date" style="top: 236px">July 2026.</div>
+        <div data-hf-id="hf-1y9d" class="block h-xl" id="s1-h" style="top: 296px; width: 960px">An AI agent escaped its test sandbox.</div>
+        <div data-hf-id="hf-yfpt" class="block h-lg" id="s1-l2" style="top: 524px; width: 960px">It took one pod.</div>
+        <div data-hf-id="hf-ad33" class="block h-lg" id="s1-count" style="top: 610px; width: 960px"><span data-hf-id="hf-zanq" class="mono counter-num" id="counter">1</span> nodes rooted.</div>
+      </section>
+
+      <!-- ================= 2. THE ESSENCE 10-24s ================= -->
+      <section data-hf-id="hf-6p4a" id="s2" class="clip" data-start="10" data-duration="14" data-track-index="1">
+        <div data-hf-id="hf-oic2" class="block h-lg" id="s2-a" style="top: 80px; width: 1400px">Nothing exotic. Ordinary weaknesses, exploited at machine speed.</div>
+        <div data-hf-id="hf-fznt" class="block body-mint" id="s2-b" style="top: 380px; width: 1000px">And poisoned Python libraries stole cloud keys the moment Python started.</div>
+      </section>
+
+      <!-- ================= 3. STEP 1 24-36s ================= -->
+      <section data-hf-id="hf-c5pa" id="s3" class="clip" data-start="24" data-duration="12" data-track-index="1">
+        <div data-hf-id="hf-embz" class="block step-label" id="s3-label"><span data-hf-id="hf-jyib" class="mono">1</span>Bad code gets in</div>
+        <div data-hf-id="hf-viki" class="block step-col">
+          <div data-hf-id="hf-ma41" class="card" id="s3-card">
+            <div data-hf-id="hf-s53z" class="card-title">SUSE Application Collection</div>
+            <div data-hf-id="hf-l2o7" class="card-body"><span data-hf-id="hf-4j98" class="mono">1,000+</span> Python libraries, built from verified source, signed, with <span data-hf-id="hf-r145" class="mono">SBOM</span> and provenance.</div>
+          </div>
+          <div data-hf-id="hf-qs6h" class="card-note" id="s3-note">In-cluster, SUSE Security Vulnerability Scanner ranks what’s really exploitable: <span data-hf-id="hf-izxm" class="mono">KEV + EPSS</span>.</div>
+        </div>
+      </section>
+
+      <!-- ================= 4. STEP 2 36-48s ================= -->
+      <section data-hf-id="hf-zok6" id="s4" class="clip" data-start="36" data-duration="12" data-track-index="1">
+        <div data-hf-id="hf-lzt1" class="block step-label" id="s4-label"><span data-hf-id="hf-jk7a" class="mono">2</span>The workload goes off-script</div>
+        <div data-hf-id="hf-fkme" class="block step-col">
+          <div data-hf-id="hf-vljo" class="card" id="s4-card">
+            <div data-hf-id="hf-3ift" class="card-title">SUSE Security Runtime Enforcer</div>
+            <div data-hf-id="hf-mxkw" class="card-body"><span data-hf-id="hf-t9vd" class="mono">eBPF</span> learns normal behaviour, then blocks the rest.</div>
+          </div>
+          <div data-hf-id="hf-drkp" class="tag-wrap" id="s4-tag"><span data-hf-id="hf-6lya" class="tag">Now available</span></div>
+        </div>
+      </section>
+
+      <!-- ================= 5. STEP 3 48-60s ================= -->
+      <section data-hf-id="hf-rs2i" id="s5" class="clip" data-start="48" data-duration="12" data-track-index="1">
+        <div data-hf-id="hf-cbvp" class="block step-label" id="s5-label"><span data-hf-id="hf-j5w9" class="mono">3</span>A pod reaches further than it should</div>
+        <div data-hf-id="hf-fyxf" class="block step-col">
+          <div data-hf-id="hf-p44n" class="card" id="s5-card">
+            <div data-hf-id="hf-0dku" class="card-title">SUSE Security Admission Controller</div>
+            <div data-hf-id="hf-vnld" class="card-body">Privileged and <span data-hf-id="hf-bm2p" class="mono">hostPath</span> pods rejected before they ever run.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 6. STEP 4 60-72s ================= -->
+      <section data-hf-id="hf-dlnn" id="s6" class="clip" data-start="60" data-duration="28" data-track-index="1">
+        <div data-hf-id="hf-ng9m" class="block step-label" id="s6-label"><span data-hf-id="hf-irl8" class="mono">4</span>Stolen credentials finish the job</div>
+      </section>
+
+      <!-- ================= 6b. THE CASTLE: walls and a guard 64-88s ================= -->
+      <section data-hf-id="hf-yhro" id="s6b" class="clip" data-start="64" data-duration="24" data-track-index="1">
+        <div data-hf-id="hf-dwaa" class="block h-lg" id="wg-h" style="top: 170px; width: 1500px">Give your own agents walls and a guard.</div>
+        <div data-hf-id="hf-k4nv" id="wg-fade" style="position: absolute; left: 0; top: 0; width: 1920px; height: 1080px" data-layout-allow-overflow>
+          <div data-hf-id="hf-ca06" id="wg-cast" style="position: absolute; left: 0; top: 0; width: 1100px; height: 520px; transform-origin: 0 0" data-layout-allow-overflow>
+            <svg data-hf-id="hf-ni5i" width="1100" height="520" viewBox="0 0 1100 520" xmlns="http://www.w3.org/2000/svg" style="display: block; overflow: visible">
+              <line data-hf-id="hf-n5d9" x1="0" y1="516" x2="1100" y2="516" stroke="#008878" stroke-width="6" stroke-linecap="round" />
+              <g data-hf-id="hf-yc0y" id="wg-bricks" fill="#008878">
+            <rect data-hf-id="hf-ig1s" x="0" y="296" width="134" height="48" rx="4" />
+            <rect data-hf-id="hf-ml8f" x="142" y="296" width="134" height="48" rx="4" />
+            <rect data-hf-id="hf-kara" x="284" y="296" width="134" height="48" rx="4" />
+            <rect data-hf-id="hf-4ldg" x="0" y="352" width="63" height="48" rx="4" />
+            <rect data-hf-id="hf-dmpr" x="71" y="352" width="134" height="48" rx="4" />
+            <rect data-hf-id="hf-m61z" x="213" y="352" width="134" height="48" rx="4" />
+            <rect data-hf-id="hf-u0rh" x="355" y="352" width="63" height="48" rx="4" />
+            <rect data-hf-id="hf-2hgf" x="0" y="408" width="134" height="48" rx="4" />
+            <rect data-hf-id="hf-quxs" x="142" y="408" width="134" height="48" rx="4" />
+            <rect data-hf-id="hf-9pwl" x="284" y="408" width="134" height="48" rx="4" />
+            <rect data-hf-id="hf-59uk" x="0" y="464" width="63" height="48" rx="4" />
+            <rect data-hf-id="hf-0pi3" x="71" y="464" width="134" height="48" rx="4" />
+            <rect data-hf-id="hf-hmcj" x="213" y="464" width="134" height="48" rx="4" />
+            <rect data-hf-id="hf-0jul" x="355" y="464" width="63" height="48" rx="4" />
+            <rect data-hf-id="hf-494o" x="822" y="296" width="134" height="48" rx="4" />
+            <rect data-hf-id="hf-qdfz" x="964" y="296" width="134" height="48" rx="4" />
+            <rect data-hf-id="hf-ax40" x="822" y="352" width="63" height="48" rx="4" />
+            <rect data-hf-id="hf-mvq1" x="893" y="352" width="134" height="48" rx="4" />
+            <rect data-hf-id="hf-kf33" x="1035" y="352" width="63" height="48" rx="4" />
+            <rect data-hf-id="hf-h7ef" x="822" y="408" width="134" height="48" rx="4" />
+            <rect data-hf-id="hf-1ve8" x="964" y="408" width="134" height="48" rx="4" />
+            <rect data-hf-id="hf-5ifc" x="822" y="464" width="63" height="48" rx="4" />
+            <rect data-hf-id="hf-3ym1" x="893" y="464" width="134" height="48" rx="4" />
+            <rect data-hf-id="hf-7hvf" x="1035" y="464" width="63" height="48" rx="4" />
+              </g>
+              <polygon data-hf-id="hf-vt6g" points="420,270 620,130 820,270" fill="#008878" />
+              <rect data-hf-id="hf-atyn" x="440" y="270" width="360" height="246" rx="6" fill="#01564a" />
+              <rect data-hf-id="hf-75y2" x="560" y="370" width="120" height="146" rx="6" fill="#0c322c" />
+              <g data-hf-id="hf-y2yt" id="wg-guard-g">
+                <rect data-hf-id="hf-7ck6" id="wg-bar-t" x="582" y="372" width="14" height="144" rx="7" fill="#90ebcd" opacity="0" />
+                <rect data-hf-id="hf-p795" id="wg-bar-b" x="644" y="372" width="14" height="144" rx="7" fill="#90ebcd" opacity="0" />
+              </g>
+              <circle data-hf-id="hf-xobp" id="wg-dot" cx="100" cy="480" r="18" fill="#fe7c3f" opacity="0" />
+            </svg>
+          </div>
+        </div>
+        <div data-hf-id="hf-ke34" class="wg-text" id="wg-wall-text" style="left: 1150px; top: 300px; width: 700px">
+          <div data-hf-id="hf-scwu" class="wg-title">Wall - isolation.</div>
+          <div data-hf-id="hf-qlt3" class="wg-body">Kata Containers run each agent in its own lightweight virtual machine. A breakout stays inside the wall.</div>
+        </div>
+        <div data-hf-id="hf-jivn" class="wg-text" id="wg-guard-text" style="left: 1150px; top: 610px; width: 700px">
+          <div data-hf-id="hf-xes7" class="wg-title">Guard - policy.</div>
+          <div data-hf-id="hf-g7r5" class="wg-body">NVIDIA OpenShell checks every connection. The agent never sees the real credentials.</div>
+        </div>
+        <div data-hf-id="hf-lj4k" class="block wg-footer" id="wg-foot" style="top: 960px; width: 1400px">SUSE Linux Enterprise Server 16 supports OpenShell and Landlock.</div>
+      </section>
+
+      <!-- ================= 7a. RECAP 88-104s ================= -->
+      <section data-hf-id="hf-yk0p" id="s7a" class="clip" data-start="88" data-duration="16" data-track-index="1">
+        <div data-hf-id="hf-2ve7" class="block h-lg" id="s7-h" style="top: 80px; width: 1400px"><span data-hf-id="hf-fpqv" class="line">Four steps to stop.</span><span data-hf-id="hf-vp9f" class="line">Walls and a guard for your own agents.</span></div>
+        <svg data-hf-id="hf-ngal" class="reg-icon" id="s7-icon" width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+          <circle data-hf-id="hf-z070" cx="80" cy="80" r="80" fill="#025937" />
+          <g data-hf-id="hf-zvji" transform="translate(32 32) scale(0.8)" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+            <path data-hf-id="hf-xy7i" d="M30 14 H72 L90 32 V106 H30 Z" />
+            <path data-hf-id="hf-jcxx" d="M72 14 V32 H90" />
+            <path data-hf-id="hf-61gk" d="M42 48h34 M42 61h34 M42 74h18" />
+            <circle data-hf-id="hf-4ylp" cx="84" cy="92" r="17" fill="#025937" stroke="#90ebcd" />
+            <path data-hf-id="hf-gths" d="M76 92 l6 6 l10 -11" stroke="#90ebcd" />
+          </g>
+        </svg>
+        <div data-hf-id="hf-c7sd" class="points">
+          <div data-hf-id="hf-d58e" class="point" id="s7-p1"><span data-hf-id="hf-108t" class="point-mark"></span><span data-hf-id="hf-xn75" class="line">On premises and <span data-hf-id="hf-5m2v" style="white-space: nowrap">air-gapped</span>.</span><span data-hf-id="hf-be2k" class="line">No cloud control plane.</span></div>
+          <div data-hf-id="hf-974d" class="point" id="s7-p2"><span data-hf-id="hf-vi4x" class="point-mark"></span><span data-hf-id="hf-xwsw" class="line">Built on open source -</span><span data-hf-id="hf-2drf" class="line">Kubewarden, a <span data-hf-id="hf-hcqk" class="mono">CNCF</span> project.</span></div>
+          <div data-hf-id="hf-8fgk" class="point" id="s7-p3"><span data-hf-id="hf-wp20" class="point-mark"></span><span data-hf-id="hf-8k50" class="line">Ready for the Cyber Resilience Act</span><span data-hf-id="hf-52ya" class="line">and CISA <span data-hf-id="hf-lviu" class="mono">BOD 26-04</span>.</span></div>
+        </div>
+      </section>
+
+      <!-- ================= 7b. END CARD 104-120s ================= -->
+      <section data-hf-id="hf-97qd" id="s7b" class="clip" data-start="104" data-duration="16" data-track-index="1">
+        <div data-hf-id="hf-afat" class="block end-h" id="e-h" style="top: 300px; width: 1400px"><span data-hf-id="hf-x3ip" class="line">Stop AI hacks</span><span data-hf-id="hf-kgt5" class="line">at every step.</span></div>
+        <div data-hf-id="hf-4j0n" class="block end-sub" id="e-sub" style="top: 584px; width: 1400px"><span data-hf-id="hf-ue37" class="line">From the library you install</span><span data-hf-id="hf-8y7m" class="line">to the pod you run.</span></div>
+        <div data-hf-id="hf-ivtk" class="block end-small" id="e-small" style="top: 770px; width: 1240px; font-size: 33px"><span data-hf-id="hf-fumw" class="mono line">suse.com/blog/kubecon-na-2026-secure-supply-chain-platform/</span><span data-hf-id="hf-vs77" class="line" style="margin-top: 54px">KubeCon NA 2026</span></div>
+        <img data-hf-id="hf-g5sg" id="e-qr" src="assets/blog-qr.png" alt="QR code to the SUSE blog" style="position: absolute; left: 1340px; top: 380px; width: 440px; height: 440px; border-radius: 24px; display: block" />
+      </section>
+
+      <!-- ================= SUSE logo, top right, the whole film ================= -->
+      <section data-hf-id="hf-64lo" id="logo-clip" class="clip" data-start="0" data-duration="120" data-track-index="3">
+        <img data-hf-id="hf-b36m" class="logo" id="logo" src="assets/SUSE_Logo-hor_L_Green-White-neg_sRGB.svg" alt="SUSE" />
+      </section>
+    </div>
+
+    <script>
+      (function () {
+        const tl = gsap.timeline({ paused: true });
+
+        // ---------- helpers ----------
+        const clamp01 = (x) => (x < 0 ? 0 : x > 1 ? 1 : x);
+        const seg = (t, a, d) => clamp01((t - a) / d);
+        const lerp = (a, b, p) => a + (b - a) * p;
+        const e2io = (x) => (x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2);
+        const e3o = (x) => 1 - Math.pow(1 - x, 3);
+
+        const FADE = 0.6;
+        const fadeUp = (sel, at, dist) =>
+          tl.fromTo(sel, { opacity: 0, y: dist == null ? 28 : dist }, { opacity: 1, y: 0, duration: FADE, ease: "power3.out" }, at);
+        const fadeOut = (sel, at) =>
+          tl.fromTo(sel, { opacity: 1 }, { opacity: 0, duration: 0.5, ease: "power2.in", immediateRender: false }, at);
+
+        // ---------- world geometry (spine) ----------
+        const PX = 1428, H = 360, X0 = -3000, R = 60;
+        const G = [600, 1140, 1680, 2220];
+        const END = 2430;
+        const LH = PX - R - X0;
+        const L0 = LH + (Math.PI * R) / 2;
+        const lenX = (x) => x - X0;
+        const lenY = (y) => L0 + (y - (H + R));
+        const LTOT = lenY(END);
+        const pt = (l) => {
+          if (l <= LH) return [X0 + l, H];
+          if (l <= L0) {
+            const th = (l - LH) / R;
+            return [PX - R + R * Math.sin(th), H + R - R * Math.cos(th)];
+          }
+          return [PX, H + R + (l - L0)];
+        };
+
+        // camera poses (stage-local coordinates; stage is 1776 x 858 at frame 72,150)
+        const OS = 0.331;
+        const O = { s: OS, tx: PX * (1 - OS), ty: 130 - OS * H };
+        const S = G.map((g) => ({ s: 1, tx: 0, ty: 430 - g }));
+        const Z = { s: 4, tx: PX * (1 - 4), ty: 430 - 4 * G[3] };
+
+        // ---------- timing (120 s) ----------
+        const STEP_T = [24, 36, 48, 60];
+        const CAM_D = 1.2;
+        const camKeys = [
+          [STEP_T[0] - 0.6, CAM_D, O, S[0]],
+          [STEP_T[1] - 0.6, CAM_D, S[0], S[1]],
+          [STEP_T[2] - 0.6, CAM_D, S[1], S[2]],
+          [STEP_T[3] - 0.6, CAM_D, S[2], S[3]],
+          [63.7, 1.5, S[3], Z],
+          [88.3, 1.8, Z, O],
+        ];
+        const cam = (t) => {
+          let pose = O;
+          for (const [a, d, f, to] of camKeys) {
+            if (t < a) break;
+            const p = e2io(seg(t, a, d));
+            pose = { s: lerp(f.s, to.s, p), tx: lerp(f.tx, to.tx, p), ty: lerp(f.ty, to.ty, p) };
+          }
+          return pose;
+        };
+
+        // per-step beats, relative to the step start T
+        const B = {
+          dotIn: 0.8, go: 1.0, goD: 1.4, rew: 2.8, rewD: 0.6,
+          close: 3.5, closeD: 0.6, stop: 3.9, stopD: 0.7,
+          out: 11.3,
+        };
+        const stepDot = (k, t) => {
+          const T = STEP_T[k];
+          const g = G[k];
+          const ls = k === 0 ? lenX(560) : lenY(g - 420);
+          const le = k === 3 ? lenY(END) : lenY(g + 240);
+          const lr = lenY(g - 250);
+          const lst = lenY(g - 142);
+          let l = ls;
+          if (t >= T + B.go) l = lerp(ls, le, e2io(seg(t, T + B.go, B.goD)));
+          if (t >= T + B.rew) l = lerp(le, lr, e2io(seg(t, T + B.rew, B.rewD)));
+          if (t >= T + B.stop) l = lerp(lr, lst, e3o(seg(t, T + B.stop, B.stopD)));
+          const op = seg(t, T + B.dotIn, 0.4) * (1 - seg(t, T + B.out, 0.5));
+          return { l, a: ls, op };
+        };
+        const closeAt = (k) => STEP_T[k] + B.close;
+
+        // ---------- cached nodes ----------
+        const $ = (id) => document.getElementById(id);
+        const camEl = $("cam"), spine = $("spine"), trail = $("trail"), dot = $("dot"), dotCore = $("dot-core");
+        const gates = [0, 1, 2, 3].map((i) => {
+          const g = $("gate" + i);
+          return {
+            inner: g.querySelector(".gate-in"),
+            closed: g.querySelector(".gate-closed"),
+            bl: g.querySelector(".bar-l"),
+            br: g.querySelector(".bar-r"),
+          };
+        });
+        const clusterIn = $("cluster-in"), clusterFlash = $("cluster-flash");
+        const pkg = $("prop-pkg"), shell = $("prop-shell"), cursor = $("shell-cursor");
+        const pod = $("prop-pod"), key = $("prop-key");
+        const counter = $("counter");
+        const sbBox = $("sb-box"), sbT = $("sb-wall-t"), sbB = $("sb-wall-b"), sbDot = $("sb-dot");
+        const wgDot = $("wg-dot"), wgBt = $("wg-bar-t"), wgBb = $("wg-bar-b");
+        const e2i = (x) => x * x;
+        const e2o = (x) => 1 - (1 - x) * (1 - x);
+
+        // ---------- master render: everything procedural is a pure function of t ----------
+        const C0 = 4.4, CSTEP = 0.22;
+        function render(t) {
+          // hook: the agent breaks out of its test sandbox, then lands in the first pod
+          sbBox.setAttribute("opacity", (seg(t, 0.6, 0.5) * (1 - seg(t, 2.8, 0.5))).toFixed(3));
+          const br = e3o(seg(t, 2.2, 0.5));
+          sbT.setAttribute("transform", "rotate(" + (-40 * br).toFixed(2) + " 1430 330)");
+          sbB.setAttribute("transform", "rotate(" + (40 * br).toFixed(2) + " 1430 610)");
+          let hx = 1290, hy = 470;
+          if (t >= 1.6) hx = lerp(1290, 1430, e2i(seg(t, 1.6, 0.6)));
+          if (t >= 2.2) hx = lerp(1430, 1580, e2o(seg(t, 2.2, 0.5)));
+          if (t >= 2.9) {
+            const q = e2io(seg(t, 2.9, 0.7));
+            hx = lerp(1580, 1215, q);
+            hy = lerp(470, 395, q);
+          }
+          sbDot.setAttribute("cx", hx.toFixed(2));
+          sbDot.setAttribute("cy", hy.toFixed(2));
+          sbDot.setAttribute("opacity", (seg(t, 1.0, 0.4) * (1 - seg(t, 3.6, 0.15))).toFixed(3));
+
+          // walls and a guard: the agent tries to leave, the guard closes the gate
+          let gx = 100;
+          if (t >= 66.0) gx = lerp(100, 548, e2io(seg(t, 66.0, 1.4)));
+          if (t >= 67.4) gx = lerp(548, 500, e2io(seg(t, 67.4, 0.4)));
+          wgDot.setAttribute("cx", gx.toFixed(2));
+          wgDot.setAttribute("opacity", (seg(t, 65.6, 0.4) * (1 - seg(t, 69.4, 0.4))).toFixed(3));
+          const gc = e3o(seg(t, 66.6, 0.5));
+          wgBt.setAttribute("transform", "translate(0 " + (-(1 - gc) * 70).toFixed(2) + ")");
+          wgBb.setAttribute("transform", "translate(0 " + (-(1 - gc) * 70).toFixed(2) + ")");
+          wgBt.setAttribute("opacity", gc.toFixed(3));
+          wgBb.setAttribute("opacity", gc.toFixed(3));
+
+          // counter 1 -> 11 (one pod, then ten more nodes)
+          const n = t < C0 ? 1 : 1 + Math.min(10, Math.floor((t - C0) / CSTEP + 1e-6) + 1);
+          counter.textContent = String(n);
+
+          // camera
+          const c = cam(t);
+          camEl.setAttribute("transform", "translate(" + c.tx.toFixed(3) + " " + c.ty.toFixed(3) + ") scale(" + c.s.toFixed(5) + ")");
+
+          // path draw-in
+          const drawn = LTOT * e2io(seg(t, 10.9, 2.6));
+          spine.setAttribute("stroke-dasharray", drawn.toFixed(2) + " 100000");
+
+          // gates appear, then close
+          for (let i = 0; i < 4; i++) {
+            const gp = e3o(seg(t, 12.8 + 0.3 * i, 0.6));
+            const cl = e3o(seg(t, closeAt(i), B.closeD));
+            gates[i].inner.setAttribute("transform", "scale(" + (0.6 + 0.4 * gp).toFixed(4) + ")");
+            gates[i].inner.setAttribute("opacity", gp.toFixed(3));
+            gates[i].closed.setAttribute("opacity", cl.toFixed(3));
+            gates[i].closed.setAttribute("transform", "scale(" + (0.86 + 0.14 * cl).toFixed(4) + ")");
+            gates[i].bl.setAttribute("transform", "translate(" + (-(1 - cl) * 130).toFixed(2) + " 0)");
+            gates[i].br.setAttribute("transform", "translate(" + ((1 - cl) * 130).toFixed(2) + " 0)");
+            gates[i].bl.setAttribute("opacity", cl.toFixed(3));
+            gates[i].br.setAttribute("opacity", cl.toFixed(3));
+          }
+          const cp = e3o(seg(t, 14.0, 0.6));
+          clusterIn.setAttribute("opacity", cp.toFixed(3));
+          clusterIn.setAttribute("transform", "scale(" + (0.6 + 0.4 * cp).toFixed(4) + ")");
+
+          // attacker dot + short trail; keep the dot at least ~10 px on screen in the wide shot
+          dotCore.setAttribute("r", Math.max(18, 10 / c.s).toFixed(2));
+          let st = null;
+          for (let k = 0; k < 4; k++) {
+            if (t >= STEP_T[k] + 0.5 && t < STEP_T[k] + 12) st = stepDot(k, t);
+          }
+          if (t >= 89.8) {
+            st = { l: lenY(G[0] - 142), a: 0, op: seg(t, 89.8, 0.6) };
+          }
+          if (st && st.op > 0) {
+            const p = pt(st.l);
+            dot.setAttribute("transform", "translate(" + p[0].toFixed(2) + " " + p[1].toFixed(2) + ")");
+            dot.setAttribute("opacity", st.op.toFixed(3));
+            const ta = Math.max(st.a, st.l - 300);
+            const span = Math.max(0, st.l - ta);
+            trail.setAttribute("stroke-dasharray", "0 " + ta.toFixed(2) + " " + span.toFixed(2) + " 100000");
+            trail.setAttribute("opacity", st.op.toFixed(3));
+          } else {
+            dot.setAttribute("opacity", "0");
+            trail.setAttribute("opacity", "0");
+          }
+
+          // props: visible during their own step only
+          const propOp = (k) => {
+            const T = STEP_T[k];
+            return seg(t, T + 0.5, 0.4) * (1 - seg(t, T + B.out, 0.5));
+          };
+          pkg.setAttribute("opacity", propOp(0).toFixed(3));
+
+          const T2 = STEP_T[1];
+          const c1 = e3o(seg(t, closeAt(1), B.closeD));
+          shell.setAttribute("opacity", (propOp(1) * (1 - 0.6 * c1)).toFixed(3));
+          cursor.setAttribute("opacity", t >= T2 + 1.7 && t < T2 + 3.1 ? "1" : "0");
+
+          const T3 = STEP_T[2];
+          const c2 = e3o(seg(t, closeAt(2), B.closeD));
+          const dx = 30 * e2io(seg(t, T3 + 1.1, 0.8)) - 100 * e2io(seg(t, T3 + 4.1, 0.9));
+          pod.setAttribute("transform", "translate(" + (870 + dx).toFixed(2) + " 1680)");
+          pod.setAttribute("opacity", (propOp(2) * (1 - 0.7 * c2)).toFixed(3));
+
+          const T4 = STEP_T[3];
+          const c3 = e3o(seg(t, closeAt(3), B.closeD));
+          if (t >= T4 + 0.5 && t < T4 + 12) {
+            const s4 = stepDot(3, t);
+            const p = pt(s4.l);
+            key.setAttribute("transform", "translate(" + (p[0] - 78).toFixed(2) + " " + p[1].toFixed(2) + ")");
+            key.setAttribute("opacity", (s4.op * (1 - 0.6 * c3)).toFixed(3));
+          } else {
+            key.setAttribute("opacity", "0");
+          }
+          const flash = seg(t, T4 + 2.3, 0.2) * (1 - seg(t, T4 + 2.9, 0.4));
+          clusterFlash.setAttribute("opacity", flash.toFixed(3));
+        }
+
+        // one linear driver over the full 120 s: any seek lands the identical frame
+        const proxy = { t: 0 };
+        tl.fromTo(proxy, { t: 0 }, { t: 120, duration: 120, ease: "none", onUpdate: () => render(proxy.t) }, 0);
+        render(0);
+
+        // ---------- 1. Hook (0-10) ----------
+        fadeUp("#s1-date", 0.4);
+        fadeUp("#s1-h", 0.7);
+        fadeUp("#s1-l2", 3.2);
+        tl.fromTo("#pod0", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }, 3.2);
+        tl.fromTo("#pod0 .pod-dot", { opacity: 0 }, { opacity: 1, duration: 0.05, ease: "none" }, 3.55);
+        fadeUp("#s1-count", C0);
+        for (let i = 0; i < 11; i++) {
+          const at = i === 0 ? C0 : C0 + CSTEP * (i - 1);
+          const p = "#pod" + i;
+          if (i > 0) tl.fromTo(p, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" }, at);
+          tl.fromTo(p + " .pod-flash", { opacity: 0 }, { opacity: 1, duration: 0.1, ease: "none" }, at);
+          tl.fromTo(p + " .pod-flash", { opacity: 1 }, { opacity: 0, duration: 0.5, ease: "power2.out", immediateRender: false }, at + 0.14);
+          tl.fromTo(p, { backgroundColor: "#01564a" }, { backgroundColor: "#47190d", duration: 0.25, ease: "none" }, at + 0.12);
+          if (i > 0) tl.fromTo(p + " .pod-dot", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" }, at + 0.12);
+        }
+        fadeOut(["#s1-date", "#s1-h", "#s1-l2", "#s1-count"], 9.3);
+        tl.fromTo("#pods", { opacity: 1 }, { opacity: 0, duration: 0.6, ease: "power2.inOut", immediateRender: false }, 10.1);
+
+        // world fade (inner stage, never the clip itself)
+        tl.fromTo("#stage", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 10.6);
+        tl.fromTo("#stage", { opacity: 1 }, { opacity: 0, duration: 0.7, ease: "power2.in", immediateRender: false }, 64.4);
+        tl.fromTo("#stage", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out", immediateRender: false }, 88.0);
+        tl.fromTo("#stage", { opacity: 1 }, { opacity: 0, duration: 0.6, ease: "power2.inOut", immediateRender: false }, 103.2);
+
+        // ---------- 2. Essence (10-24) ----------
+        fadeUp("#s2-a", 11.2);
+        fadeUp("#s2-b", 15.0);
+        fadeOut(["#s2-a", "#s2-b"], 22.9);
+
+        // ---------- 3-6. Steps (12 s each) ----------
+        const steps = [
+          { id: "s3", T: STEP_T[0], extra: "#s3-note" },
+          { id: "s4", T: STEP_T[1], extra: "#s4-tag" },
+          { id: "s5", T: STEP_T[2], extra: null },
+          { id: "s6", T: STEP_T[3], extra: null },
+        ];
+        for (const s of steps) {
+          fadeUp("#" + s.id + "-label", s.T + 0.2, 18);
+          if (s.id !== "s6") fadeUp("#" + s.id + "-card", s.T + 3.9, 30);
+          if (s.id === "s6") continue;
+          const outs = ["#" + s.id + "-label", "#" + s.id + "-card"];
+          if (s.extra) {
+            fadeUp(s.extra, s.T + 4.6, 18);
+            outs.push(s.extra);
+          }
+          fadeOut(outs, s.T + B.out);
+        }
+
+        // ---------- 6b. The castle: walls and a guard (64-88) ----------
+        fadeUp("#wg-h", 65.2);
+        fadeUp("#wg-fade", 65.4, 20);
+        tl.fromTo("#wg-cast", { x: 520, y: 340, scale: 0.8 }, { x: -305, y: 230, scale: 1.25, duration: 1.8, ease: "power2.inOut", immediateRender: true }, 69.6);
+        fadeUp("#wg-wall-text", 72.0, 18);
+        tl.to("#wg-bricks", { fill: "#30ba78", duration: 0.6, ease: "none" }, 72.2);
+        tl.to("#wg-bricks", { fill: "#008878", duration: 0.6, ease: "none" }, 77.0);
+        fadeUp("#wg-guard-text", 77.6, 18);
+        fadeUp("#wg-foot", 82.0, 14);
+        fadeOut(["#wg-h", "#wg-fade", "#wg-wall-text", "#wg-guard-text", "#wg-foot", "#s6-label"], 87.3);
+
+        // ---------- 7a. Recap (88-104) ----------
+        fadeUp("#s7-h", 88.8);
+        fadeUp("#s7-icon", 90.4, 20);
+        fadeUp("#s7-p1", 91.2, 18);
+        fadeUp("#s7-p2", 92.8, 18);
+        fadeUp("#s7-p3", 94.4, 18);
+        fadeOut(["#s7-h", "#s7-icon", "#s7-p1", "#s7-p2", "#s7-p3"], 103.1);
+
+        // ---------- 7b. End card (104-120; all motion done by 107.2 s) ----------
+        fadeUp("#e-h", 104.6, 30);
+        fadeUp("#e-sub", 105.6, 22);
+        fadeUp("#e-small", 106.6, 16);
+        fadeUp("#e-qr", 106.9, 16);
+
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
