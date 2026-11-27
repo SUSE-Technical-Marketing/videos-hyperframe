@@ -1,0 +1,2010 @@
+{
+  "audio": "assets/voiceover_v4.mp3",
+  "language": "en",
+  "words": [
+    {
+      "text": "July",
+      "start": 0.14,
+      "end": 0.5,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "2026.",
+      "start": 0.62,
+      "end": 1.68,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "An",
+      "start": 2.28,
+      "end": 2.42,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "AI",
+      "start": 2.5,
+      "end": 2.78,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "agent",
+      "start": 2.84,
+      "end": 3.16,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "escaped",
+      "start": 3.22,
+      "end": 3.72,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "its",
+      "start": 3.76,
+      "end": 3.92,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "test",
+      "start": 3.98,
+      "end": 4.22,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "sandbox.",
+      "start": 4.28,
+      "end": 4.8,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "It",
+      "start": 5.32,
+      "end": 5.38,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "took",
+      "start": 5.44,
+      "end": 5.6,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "one",
+      "start": 5.76,
+      "end": 5.94,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "pod,",
+      "start": 6.04,
+      "end": 6.28,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "then",
+      "start": 6.78,
+      "end": 7,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "11",
+      "start": 7.04,
+      "end": 7.52,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "nodes.",
+      "start": 7.6,
+      "end": 8,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Rooted.",
+      "start": 8.58,
+      "end": 8.98,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Here's",
+      "start": 9.56,
+      "end": 9.78,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "how",
+      "start": 9.84,
+      "end": 10.04,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "SUSE",
+      "start": 10.12,
+      "end": 10.44,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "AI",
+      "start": 10.54,
+      "end": 10.8,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Factory",
+      "start": 10.92,
+      "end": 11.32,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "stops",
+      "start": 11.52,
+      "end": 11.8,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "it.",
+      "start": 11.86,
+      "end": 12.02,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Defense",
+      "start": 12.48,
+      "end": 13.08,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "in",
+      "start": 13.14,
+      "end": 13.26,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "depth.",
+      "start": 13.38,
+      "end": 13.72,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "No",
+      "start": 14.2,
+      "end": 14.34,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "single",
+      "start": 14.52,
+      "end": 14.78,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "wall.",
+      "start": 14.9,
+      "end": 15.18,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "A",
+      "start": 15.54,
+      "end": 15.58,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "control",
+      "start": 15.62,
+      "end": 16.04,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "at",
+      "start": 16.079,
+      "end": 16.28,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "every",
+      "start": 16.379,
+      "end": 16.66,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "step",
+      "start": 16.8,
+      "end": 17.02,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "of",
+      "start": 17.08,
+      "end": 17.14,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "the",
+      "start": 17.18,
+      "end": 17.28,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "AI",
+      "start": 17.36,
+      "end": 17.62,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "supply",
+      "start": 17.7,
+      "end": 18.04,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "chain,",
+      "start": 18.08,
+      "end": 18.32,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "layer",
+      "start": 18.78,
+      "end": 19.06,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "after",
+      "start": 19.28,
+      "end": 19.54,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "layer.",
+      "start": 19.64,
+      "end": 19.94,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "An",
+      "start": 20.3,
+      "end": 20.36,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "attacker",
+      "start": 20.42,
+      "end": 20.88,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "has",
+      "start": 20.92,
+      "end": 21.08,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "to",
+      "start": 21.12,
+      "end": 21.2,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "beat",
+      "start": 21.3,
+      "end": 21.46,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "them",
+      "start": 21.5,
+      "end": 21.74,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "all.",
+      "start": 21.86,
+      "end": 22.16,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Built",
+      "start": 22.58,
+      "end": 22.82,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "on",
+      "start": 22.94,
+      "end": 23.12,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "SUSE",
+      "start": 23.22,
+      "end": 23.54,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Linux",
+      "start": 23.62,
+      "end": 23.92,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Enterprise",
+      "start": 24.04,
+      "end": 24.54,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "base",
+      "start": 24.66,
+      "end": 24.84,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "containers.",
+      "start": 24.9,
+      "end": 25.46,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Full",
+      "start": 25.94,
+      "end": 26.14,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "SLSA",
+      "start": 26.26,
+      "end": 26.62,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "level",
+      "start": 26.68,
+      "end": 26.88,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "three",
+      "start": 26.98,
+      "end": 27.2,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "provenance",
+      "start": 27.34,
+      "end": 27.84,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "and",
+      "start": 27.92,
+      "end": 28.02,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "attestation,",
+      "start": 28.16,
+      "end": 28.86,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "and",
+      "start": 29.18,
+      "end": 29.26,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "a",
+      "start": 29.3,
+      "end": 29.38,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "software",
+      "start": 29.44,
+      "end": 29.82,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "bill",
+      "start": 29.88,
+      "end": 29.98,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "of",
+      "start": 30.02,
+      "end": 30.08,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "materials",
+      "start": 30.12,
+      "end": 30.68,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "for",
+      "start": 30.72,
+      "end": 30.82,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "everyone.",
+      "start": 31,
+      "end": 31.54,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Next,",
+      "start": 32.08,
+      "end": 32.4,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "the",
+      "start": 32.7,
+      "end": 32.84,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "AI",
+      "start": 32.92,
+      "end": 33.2,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "dependencies.",
+      "start": 33.26,
+      "end": 34.02,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "A",
+      "start": 34.46,
+      "end": 34.54,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "thousand",
+      "start": 34.64,
+      "end": 35.04,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "plus",
+      "start": 35.16,
+      "end": 35.4,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Python",
+      "start": 35.5,
+      "end": 35.84,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "libraries",
+      "start": 35.92,
+      "end": 36.36,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "from",
+      "start": 36.4,
+      "end": 36.6,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "SUSE",
+      "start": 36.66,
+      "end": 36.96,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Application",
+      "start": 37.06,
+      "end": 37.6,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Collection.",
+      "start": 37.66,
+      "end": 38.12,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Verified",
+      "start": 38.52,
+      "end": 38.98,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "source,",
+      "start": 39.08,
+      "end": 39.42,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "full",
+      "start": 39.82,
+      "end": 40,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "provenance.",
+      "start": 40.1,
+      "end": 40.62,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Your",
+      "start": 41.08,
+      "end": 41.2,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "data",
+      "start": 41.28,
+      "end": 41.5,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "scientists",
+      "start": 41.56,
+      "end": 42.16,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "just",
+      "start": 42.32,
+      "end": 42.5,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "pip",
+      "start": 42.68,
+      "end": 42.82,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "install.",
+      "start": 42.88,
+      "end": 43.36,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "The",
+      "start": 43.82,
+      "end": 43.92,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "agent",
+      "start": 43.98,
+      "end": 44.28,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "runs",
+      "start": 44.36,
+      "end": 44.62,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "in",
+      "start": 44.64,
+      "end": 44.7,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "its",
+      "start": 44.74,
+      "end": 44.92,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "own",
+      "start": 45,
+      "end": 45.24,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Kata",
+      "start": 45.3,
+      "end": 45.56,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Containers",
+      "start": 45.62,
+      "end": 46.12,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "sandbox,",
+      "start": 46.22,
+      "end": 46.76,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "its",
+      "start": 47.08,
+      "end": 47.24,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "own",
+      "start": 47.32,
+      "end": 47.52,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "lightweight",
+      "start": 47.66,
+      "end": 48.08,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "virtual",
+      "start": 48.18,
+      "end": 48.52,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "machine.",
+      "start": 48.56,
+      "end": 48.98,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "The",
+      "start": 49.44,
+      "end": 49.52,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "host",
+      "start": 49.56,
+      "end": 49.78,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "kernel?",
+      "start": 49.84,
+      "end": 50.12,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Out",
+      "start": 50.6,
+      "end": 50.72,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "of",
+      "start": 50.78,
+      "end": 50.86,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "reach.",
+      "start": 50.92,
+      "end": 51.2,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "A",
+      "start": 51.56,
+      "end": 51.6,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "breakout",
+      "start": 51.66,
+      "end": 52.12,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "stays",
+      "start": 52.24,
+      "end": 52.48,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "inside.",
+      "start": 52.52,
+      "end": 53.06,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Technology",
+      "start": 53.56,
+      "end": 54.02,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "preview",
+      "start": 54.12,
+      "end": 54.56,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "on",
+      "start": 54.6,
+      "end": 54.78,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "SUSE",
+      "start": 54.84,
+      "end": 55.14,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Rancher",
+      "start": 55.22,
+      "end": 55.52,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Prime,",
+      "start": 55.62,
+      "end": 55.96,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "RKE2.",
+      "start": 56.28,
+      "end": 57.24,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "NVIDIA",
+      "start": 57.74,
+      "end": 58.14,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Open",
+      "start": 58.26,
+      "end": 58.48,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Shell",
+      "start": 58.56,
+      "end": 58.8,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "guards",
+      "start": 58.9,
+      "end": 59.16,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "the",
+      "start": 59.22,
+      "end": 59.4,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "only",
+      "start": 59.48,
+      "end": 59.76,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "way",
+      "start": 59.82,
+      "end": 59.98,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "out.",
+      "start": 60.06,
+      "end": 60.28,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Approved",
+      "start": 60.66,
+      "end": 61.06,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "addresses",
+      "start": 61.1,
+      "end": 61.64,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "only.",
+      "start": 61.72,
+      "end": 62.06,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "The",
+      "start": 62.4,
+      "end": 62.48,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "agent",
+      "start": 62.56,
+      "end": 62.9,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "never",
+      "start": 63.06,
+      "end": 63.3,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "holds",
+      "start": 63.34,
+      "end": 63.62,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "the",
+      "start": 63.66,
+      "end": 63.74,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "real",
+      "start": 63.8,
+      "end": 64,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "keys.",
+      "start": 64.08,
+      "end": 64.48,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "SUSE",
+      "start": 64.959,
+      "end": 65.26,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Linux",
+      "start": 65.34,
+      "end": 65.62,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Enterprise",
+      "start": 65.72,
+      "end": 66.14,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Server",
+      "start": 66.26,
+      "end": 66.5,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "sixteen",
+      "start": 66.64,
+      "end": 67.12,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "supports",
+      "start": 67.22,
+      "end": 67.62,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "it",
+      "start": 67.7,
+      "end": 67.82,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "with",
+      "start": 68.06,
+      "end": 68.2,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Landlock.",
+      "start": 68.26,
+      "end": 68.76,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "The",
+      "start": 69.18,
+      "end": 69.26,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "cluster?",
+      "start": 69.3,
+      "end": 69.68,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "SUSE",
+      "start": 70.18,
+      "end": 70.48,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Rancher",
+      "start": 70.54,
+      "end": 70.84,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Prime",
+      "start": 70.94,
+      "end": 71.2,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "manages",
+      "start": 71.3,
+      "end": 71.66,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "it",
+      "start": 71.74,
+      "end": 71.86,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "and",
+      "start": 72.04,
+      "end": 72.14,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "every",
+      "start": 72.36,
+      "end": 72.62,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "workload",
+      "start": 72.72,
+      "end": 73.12,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "on",
+      "start": 73.16,
+      "end": 73.26,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "it.",
+      "start": 73.3,
+      "end": 73.46,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Clusters",
+      "start": 73.86,
+      "end": 74.26,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "across",
+      "start": 74.3,
+      "end": 74.58,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "clouds",
+      "start": 74.68,
+      "end": 75.18,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "and",
+      "start": 75.24,
+      "end": 75.4,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "on",
+      "start": 75.44,
+      "end": 75.54,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "premises.",
+      "start": 75.62,
+      "end": 76.14,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Workloads",
+      "start": 76.54,
+      "end": 76.98,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "across",
+      "start": 77.04,
+      "end": 77.4,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "all",
+      "start": 77.5,
+      "end": 77.62,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "of",
+      "start": 77.66,
+      "end": 77.74,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "them",
+      "start": 77.8,
+      "end": 77.94,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "from",
+      "start": 78.2,
+      "end": 78.38,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "one",
+      "start": 78.46,
+      "end": 78.62,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "place.",
+      "start": 78.7,
+      "end": 79.08,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "SUSE",
+      "start": 79.62,
+      "end": 79.92,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Security",
+      "start": 79.98,
+      "end": 80.46,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Vulnerability",
+      "start": 80.54,
+      "end": 81.16,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Scanner",
+      "start": 81.26,
+      "end": 81.52,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "checks",
+      "start": 81.64,
+      "end": 81.88,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "every",
+      "start": 82.08,
+      "end": 82.34,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "pod",
+      "start": 82.46,
+      "end": 82.66,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "as",
+      "start": 82.7,
+      "end": 82.76,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "it",
+      "start": 82.82,
+      "end": 82.9,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "arrives",
+      "start": 82.94,
+      "end": 83.4,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "and",
+      "start": 83.68,
+      "end": 83.76,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "ranks",
+      "start": 83.88,
+      "end": 84.16,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "what's",
+      "start": 84.22,
+      "end": 84.54,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "really",
+      "start": 84.58,
+      "end": 84.84,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "exploitable",
+      "start": 84.86,
+      "end": 85.52,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "with",
+      "start": 85.58,
+      "end": 85.74,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "KEV",
+      "start": 85.8,
+      "end": 86.48,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "and",
+      "start": 86.6,
+      "end": 86.72,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "EPSS.",
+      "start": 86.86,
+      "end": 87.64,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Full",
+      "start": 88.1,
+      "end": 88.26,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "reports",
+      "start": 88.34,
+      "end": 88.84,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "in",
+      "start": 88.9,
+      "end": 89.02,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Rancher",
+      "start": 89.08,
+      "end": 89.38,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Prime.",
+      "start": 89.46,
+      "end": 89.8,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Something",
+      "start": 90.32,
+      "end": 90.6,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "slips",
+      "start": 90.7,
+      "end": 90.92,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "through",
+      "start": 90.96,
+      "end": 91.18,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "anyway?",
+      "start": 91.22,
+      "end": 91.56,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "SUSE",
+      "start": 92.12,
+      "end": 92.44,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Security",
+      "start": 92.52,
+      "end": 93.06,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Runtime",
+      "start": 93.18,
+      "end": 93.62,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Enforcer.",
+      "start": 93.66,
+      "end": 94.2,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "With",
+      "start": 94.56,
+      "end": 94.7,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "eBPF,",
+      "start": 94.78,
+      "end": 95.46,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "it",
+      "start": 95.66,
+      "end": 95.76,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "learns",
+      "start": 95.84,
+      "end": 96.12,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "what",
+      "start": 96.18,
+      "end": 96.32,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "normal",
+      "start": 96.46,
+      "end": 96.76,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "looks",
+      "start": 96.82,
+      "end": 97.04,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "like,",
+      "start": 97.1,
+      "end": 97.32,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "then",
+      "start": 97.72,
+      "end": 97.94,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "blocks",
+      "start": 98.06,
+      "end": 98.36,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "the",
+      "start": 98.4,
+      "end": 98.48,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "rest.",
+      "start": 98.54,
+      "end": 98.86,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Available",
+      "start": 99.32,
+      "end": 99.8,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "now.",
+      "start": 99.94,
+      "end": 100.22,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "A",
+      "start": 100.68,
+      "end": 100.72,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "hijacked",
+      "start": 100.78,
+      "end": 101.2,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "worker",
+      "start": 101.26,
+      "end": 101.52,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "tries",
+      "start": 101.6,
+      "end": 101.82,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "to",
+      "start": 101.84,
+      "end": 101.92,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "open",
+      "start": 101.98,
+      "end": 102.14,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "a",
+      "start": 102.2,
+      "end": 102.26,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "shell?",
+      "start": 102.3,
+      "end": 102.58,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Blocked.",
+      "start": 103.02,
+      "end": 103.46,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Not",
+      "start": 103.84,
+      "end": 104.02,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "in",
+      "start": 104.08,
+      "end": 104.14,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "the",
+      "start": 104.18,
+      "end": 104.24,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "profile.",
+      "start": 104.28,
+      "end": 104.82,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Then",
+      "start": 105.34,
+      "end": 105.56,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "the",
+      "start": 105.72,
+      "end": 105.86,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "front",
+      "start": 105.94,
+      "end": 106.16,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "door.",
+      "start": 106.24,
+      "end": 106.52,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "SUSE",
+      "start": 106.98,
+      "end": 107.28,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Security",
+      "start": 107.36,
+      "end": 107.86,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Admission",
+      "start": 107.9,
+      "end": 108.26,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Controller",
+      "start": 108.34,
+      "end": 108.78,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "checks",
+      "start": 108.9,
+      "end": 109.14,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "every",
+      "start": 109.34,
+      "end": 109.58,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "request",
+      "start": 109.66,
+      "end": 110.08,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "against",
+      "start": 110.14,
+      "end": 110.42,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "policy.",
+      "start": 110.48,
+      "end": 110.92,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Privileged",
+      "start": 111.32,
+      "end": 111.74,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "pods?",
+      "start": 111.82,
+      "end": 112.16,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Denied",
+      "start": 112.52,
+      "end": 113.08,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "before",
+      "start": 113.26,
+      "end": 113.54,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "they",
+      "start": 113.56,
+      "end": 113.8,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "ever",
+      "start": 113.88,
+      "end": 114.06,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "run.",
+      "start": 114.16,
+      "end": 114.42,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Every",
+      "start": 114.9,
+      "end": 115.18,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "image",
+      "start": 115.28,
+      "end": 115.52,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "signature",
+      "start": 115.58,
+      "end": 116.02,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "verified,",
+      "start": 116.36,
+      "end": 116.94,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "and",
+      "start": 117.34,
+      "end": 117.46,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "you",
+      "start": 117.56,
+      "end": 117.66,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "manage",
+      "start": 117.72,
+      "end": 117.98,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "the",
+      "start": 118,
+      "end": 118.08,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "policies",
+      "start": 118.12,
+      "end": 118.58,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "from",
+      "start": 118.64,
+      "end": 118.8,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Rancher",
+      "start": 118.84,
+      "end": 119.16,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Prime.",
+      "start": 119.24,
+      "end": 119.6,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "That's",
+      "start": 120.1,
+      "end": 120.36,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "defense",
+      "start": 120.4,
+      "end": 120.94,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "in",
+      "start": 121,
+      "end": 121.1,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "depth",
+      "start": 121.26,
+      "end": 121.62,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "inside",
+      "start": 121.92,
+      "end": 122.32,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "the",
+      "start": 122.34,
+      "end": 122.44,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "factory",
+      "start": 122.5,
+      "end": 122.9,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "and",
+      "start": 123.08,
+      "end": 123.22,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "around",
+      "start": 123.3,
+      "end": 123.66,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "it.",
+      "start": 123.7,
+      "end": 123.86,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Built",
+      "start": 124.26,
+      "end": 124.5,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "right,",
+      "start": 124.72,
+      "end": 125,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "sandboxed,",
+      "start": 125.44,
+      "end": 126.08,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "guarded",
+      "start": 126.44,
+      "end": 126.9,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "at",
+      "start": 127.04,
+      "end": 127.26,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "every",
+      "start": 127.36,
+      "end": 127.62,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "step.",
+      "start": 127.76,
+      "end": 128.039,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Managed",
+      "start": 128.479,
+      "end": 128.9,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "and",
+      "start": 128.94,
+      "end": 129.039,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "delivered",
+      "start": 129.1,
+      "end": 129.52,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "with",
+      "start": 129.56,
+      "end": 129.74,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "SUSE",
+      "start": 129.82,
+      "end": 130.16,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Rancher",
+      "start": 130.259,
+      "end": 130.58,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Prime.",
+      "start": 130.66,
+      "end": 131.039,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "On",
+      "start": 131.42,
+      "end": 131.54,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "premises,",
+      "start": 131.62,
+      "end": 132.14,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "air",
+      "start": 132.46,
+      "end": 132.6,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "gapped,",
+      "start": 132.68,
+      "end": 132.96,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "built",
+      "start": 133.22,
+      "end": 133.46,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "on",
+      "start": 133.5,
+      "end": 133.66,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "open",
+      "start": 133.74,
+      "end": 133.98,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "source,",
+      "start": 134.1,
+      "end": 134.44,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "and",
+      "start": 134.78,
+      "end": 134.88,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "ready",
+      "start": 135,
+      "end": 135.28,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "for",
+      "start": 135.34,
+      "end": 135.4,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "the",
+      "start": 135.44,
+      "end": 135.56,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Cyber",
+      "start": 135.64,
+      "end": 135.94,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Resilience",
+      "start": 136,
+      "end": 136.52,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Act.",
+      "start": 136.62,
+      "end": 136.84,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "So",
+      "start": 137.36,
+      "end": 137.52,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "stop",
+      "start": 137.64,
+      "end": 137.92,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "AI",
+      "start": 138,
+      "end": 138.26,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "hacks",
+      "start": 138.36,
+      "end": 138.62,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "at",
+      "start": 138.66,
+      "end": 138.86,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "every",
+      "start": 138.94,
+      "end": 139.18,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "step,",
+      "start": 139.32,
+      "end": 139.58,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "from",
+      "start": 139.96,
+      "end": 140.06,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "the",
+      "start": 140.1,
+      "end": 140.18,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "library",
+      "start": 140.24,
+      "end": 140.62,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "you",
+      "start": 140.68,
+      "end": 140.76,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "install",
+      "start": 140.8,
+      "end": 141.24,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "to",
+      "start": 141.54,
+      "end": 141.6,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "the",
+      "start": 141.66,
+      "end": 141.74,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "pod",
+      "start": 141.8,
+      "end": 142.02,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "you",
+      "start": 142.08,
+      "end": 142.16,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "run.",
+      "start": 142.22,
+      "end": 142.44,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "Scan",
+      "start": 142.9,
+      "end": 143.14,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "the",
+      "start": 143.18,
+      "end": 143.26,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "code",
+      "start": 143.3,
+      "end": 143.62,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "and",
+      "start": 143.8,
+      "end": 143.92,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "read",
+      "start": 144.04,
+      "end": 144.24,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "the",
+      "start": 144.28,
+      "end": 144.38,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "full",
+      "start": 144.52,
+      "end": 144.7,
+      "speaker": "speaker_0"
+    },
+    {
+      "text": "story.",
+      "start": 144.84,
+      "end": 145.26,
+      "speaker": "speaker_0"
+    }
+  ]
+}

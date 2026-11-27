@@ -1,0 +1,1329 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Stop AI hacks - walls and a guard</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "SUSE";
+        src: url("assets/fonts/SUSE-wght.ttf") format("truetype");
+        font-weight: 100 800;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "SUSE Mono";
+        src: url("assets/fonts/SUSEMono-wght.ttf") format("truetype");
+        font-weight: 100 800;
+        font-style: normal;
+      }
+      :root {
+        --pine: #0c322c;
+        --jungle: #30ba78;
+        --jungle2: #025937;
+        --pine2: #01564a;
+        --mint: #90ebcd;
+        --persimmon: #fe7c3f;
+        --fog6: #bababa;
+        --white: #ffffff;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--pine);
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: var(--pine);
+        font-family: "SUSE", system-ui, sans-serif;
+        color: var(--white);
+        text-align: left;
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+      .mono {
+        font-family: "SUSE Mono", ui-monospace, monospace;
+        font-size: 0.92em;
+        font-weight: 500;
+      }
+      .block {
+        position: absolute;
+        left: 72px;
+        display: block;
+      }
+      .line {
+        display: block;
+      }
+
+      /* ---------- persistent logo, top right ---------- */
+      .logo {
+        position: absolute;
+        left: 1488px;
+        top: 35px;
+        width: 400px;
+        height: 133px;
+        display: block;
+      }
+
+      #fstage {
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+      }
+      .logo-af {
+        position: absolute;
+        left: 1710px;
+        top: 52px;
+        width: 138px;
+        height: 124px;
+        display: block;
+      }
+
+      /* ---------- the spine (world) ---------- */
+      .stage {
+        position: absolute;
+        left: 72px;
+        top: 150px;
+        width: 1776px;
+        height: 858px;
+        overflow: hidden;
+      }
+      .stage svg {
+        display: block;
+      }
+
+      /* ---------- scene 1 ---------- */
+      .dateline {
+        font-family: "SUSE Mono", ui-monospace, monospace;
+        font-size: 40px;
+        font-weight: 500;
+        color: var(--mint);
+      }
+      .h-xl {
+        font-size: 72px;
+        font-weight: 500;
+        line-height: 1.1;
+        letter-spacing: -0.01em;
+      }
+      .h-lg {
+        font-size: 62px;
+        font-weight: 500;
+        line-height: 1.12;
+        letter-spacing: -0.01em;
+      }
+      .counter-num {
+        font-variant-numeric: tabular-nums;
+        font-size: 1em;
+      }
+      .pods {
+        position: absolute;
+        left: 1150px;
+        top: 330px;
+        width: 586px;
+        height: 434px;
+      }
+      .pod {
+        position: absolute;
+        width: 130px;
+        height: 130px;
+        border-radius: 22px;
+        background: var(--pine2);
+        display: block;
+      }
+      .pod-flash {
+        position: absolute;
+        inset: 0;
+        border-radius: 22px;
+        background: var(--persimmon);
+        opacity: 0;
+      }
+      .pod-dot {
+        position: absolute;
+        left: 51px;
+        top: 51px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--persimmon);
+        opacity: 0;
+      }
+
+      /* ---------- scene 2 ---------- */
+      .body-mint {
+        font-size: 46px;
+        font-weight: 400;
+        line-height: 1.3;
+        color: var(--mint);
+      }
+
+      .step-label {
+        top: 80px;
+        width: 1400px;
+        font-size: 56px;
+        font-weight: 500;
+        line-height: 1.15;
+        color: var(--persimmon);
+      }
+      .step-label .mono {
+        margin-right: 22px;
+        font-size: 1em;
+      }
+      .card {
+        display: block;
+        width: 780px;
+        padding: 40px 46px 46px;
+        border-radius: 24px;
+        background: var(--jungle2);
+        box-shadow:
+          0 26px 60px rgba(0, 0, 0, 0.32),
+          0 4px 12px rgba(0, 0, 0, 0.18);
+      }
+      .tag-wrap {
+        display: block;
+      }
+      .tag {
+        display: inline-block;
+        padding: 9px 24px 11px;
+        border-radius: 999px;
+        background: var(--jungle);
+        color: var(--pine);
+        font-size: 32px;
+        font-weight: 500;
+      }
+
+
+      .point {
+        position: relative;
+        display: block;
+        padding-left: 36px;
+        font-size: 46px;
+        font-weight: 400;
+        line-height: 1.3;
+      }
+      .point-mark {
+        position: absolute;
+        left: 0;
+        top: 22px;
+        width: 16px;
+        height: 16px;
+        border-radius: 3px;
+        background: var(--jungle);
+      }
+
+      /* ---------- factory scenes ---------- */
+      .body-white {
+        font-size: 40px;
+        font-weight: 400;
+        line-height: 1.3;
+        color: var(--white);
+      }
+      /* all scene headers share the fog colour; product names get .hl (persimmon) */
+      .step-label,
+      #s2-a,
+      #s7-h {
+        color: var(--fog6);
+      }
+      #s2-a .hl,
+      #s3-label .hl,
+      #s3b-h .hl,
+      #s3c-h .hl,
+      #s3d-h .hl,
+      #s3e-h .hl,
+      #s3h-h .hl,
+      #s3f-h .hl,
+      #s3g-h .hl,
+      #s7-h .hl,
+      .cardbox .hl {
+        color: var(--persimmon);
+      }
+      .tw-caret {
+        display: inline-block;
+        width: 0;
+        height: 1em;
+        position: relative;
+      }
+      .tw-caret::after {
+        content: "";
+        position: absolute;
+        left: 3px;
+        top: 0.1em;
+        width: 4px;
+        height: 0.85em;
+        background: var(--mint);
+      }
+      .cardbox {
+        position: absolute;
+        left: 72px;
+        top: 290px;
+        width: 880px;
+      }
+      .cardbox .point {
+        font-size: 40px;
+      }
+      .cardbox .point + .point {
+        margin-top: 26px;
+      }
+      .cardbox .point-mark {
+        background: var(--mint);
+        top: 18px;
+      }
+      .pill {
+        display: inline-block;
+        padding: 6px 22px 8px;
+        border-radius: 999px;
+        background: var(--jungle);
+        color: var(--pine);
+        font-size: 30px;
+        font-weight: 500;
+      }
+      .cardgroup + .cardgroup {
+        margin-top: 26px;
+      }
+      .group-text {
+        margin-top: 10px;
+        font-size: 34px;
+        font-weight: 400;
+        line-height: 1.3;
+        color: var(--white);
+      }
+
+      /* ---------- end card ---------- */
+      .end-h {
+        font-size: 116px;
+        font-weight: 500;
+        line-height: 1.04;
+        letter-spacing: -0.015em;
+      }
+      .end-sub {
+        font-size: 56px;
+        font-weight: 400;
+        line-height: 1.22;
+        color: var(--mint);
+      }
+      .end-small {
+        font-size: 38px;
+        font-weight: 400;
+        color: var(--fog6);
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-jrvh"
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="160.8"
+      data-width="1920"
+      data-height="1080"
+    >
+
+      <!-- Background music bed (catalog track looped to 173s, faded in/out in the file) -->
+      <audio data-hf-id="hf-zjeg" id="voiceover" src="assets/voiceover_v4.mp3" data-start="0" data-duration="57.49" data-track-index="21" data-volume="1"></audio>
+      <audio id="voiceover-b" src="assets/voiceover_v4.mp3" data-start="58.29" data-media-start="57.49" data-duration="11.48" data-track-index="21" data-volume="1"></audio>
+      <audio id="voiceover-c" src="assets/voiceover_v4.mp3" data-start="71.77" data-media-start="68.97" data-duration="76.584" data-track-index="21" data-volume="1"></audio>
+      <audio data-hf-id="hf-kvvo" id="music-bed" src="assets/music-bed.mp3" data-start="0" data-duration="160.8" data-track-index="20" data-volume="1"
+        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0.18},{"t":20.5,"v":0.18},{"t":22.5,"v":0.05},{"t":69.5,"v":0.05},{"t":72.8,"v":0.18},{"t":146.1,"v":0.18},{"t":150.1,"v":0.4},{"t":156.8,"v":0.4},{"t":160.8,"v":0}]}]}'></audio>
+      <!-- Factory sound: industrial bed (two copies, crossfaded) from the door zoom until the vault leaves for the cluster, plus a low rumble swell on entry. The calm bed dips meanwhile. -->
+      <audio id="factory-bed-a" src="assets/factory-industrial.mp3" data-start="21.5" data-duration="27" data-track-index="22" data-volume="0.12" data-fade-in="1.5" data-fade-out="2"></audio>
+      <audio id="factory-bed-b" src="assets/factory-industrial.mp3" data-start="46.5" data-duration="25.1" data-track-index="23" data-volume="0.12" data-fade-in="2" data-fade-out="2"></audio>
+      <audio id="factory-rumble" src="assets/factory-rumble.mp3" data-start="21.4" data-duration="9.28" data-track-index="24" data-volume="0.2" data-fade-out="2"></audio>
+
+      <!-- ================= SUSE AI FACTORY: building (10-24s) and the door zoom into the conveyor belt (24-36s) ================= -->
+      <section data-hf-id="hf-vytl" id="factory" class="clip" data-start="9.5" data-duration="62.48" data-track-index="4">
+        <div data-hf-id="hf-jjdt" class="stage" id="fstage" data-layout-allow-overflow>
+          <svg data-hf-id="hf-xrnk" width="1920" height="1080" viewBox="-72 -150 1920 1080" xmlns="http://www.w3.org/2000/svg">
+            <defs data-hf-id="hf-mh0t">
+              <linearGradient data-hf-id="hf-5x2g" id="gnd-grad" x1="0" y1="0" x2="1" y2="0">
+                <stop data-hf-id="hf-x98i" offset="0" stop-color="#008878" stop-opacity="0" />
+                <stop data-hf-id="hf-t6r3" offset="0.15" stop-color="#008878" stop-opacity="1" />
+                <stop data-hf-id="hf-9cz4" offset="0.85" stop-color="#008878" stop-opacity="1" />
+                <stop data-hf-id="hf-tnlz" offset="1" stop-color="#008878" stop-opacity="0" />
+              </linearGradient>
+              <linearGradient data-hf-id="hf-2xqz" id="fl-grad" x1="0" y1="0" x2="1" y2="0">
+                <stop data-hf-id="hf-p0w6" offset="0" stop-color="#01564a" stop-opacity="0" />
+                <stop data-hf-id="hf-fnlb" offset="0.2" stop-color="#01564a" stop-opacity="1" />
+                <stop data-hf-id="hf-sjzl" offset="0.8" stop-color="#01564a" stop-opacity="1" />
+                <stop data-hf-id="hf-cwbb" offset="1" stop-color="#01564a" stop-opacity="0" />
+              </linearGradient>
+              <pattern data-hf-id="hf-s3i7" id="tread" width="62" height="56" patternUnits="userSpaceOnUse" patternTransform="translate(0 620)">
+                <path data-hf-id="hf-hxxm" d="M14 44 L30 28 L14 12" fill="none" stroke="#008878" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+              </pattern>
+              <g data-hf-id="hf-bjmy" id="gear">
+                <g data-hf-id="hf-lub3" fill="#008878"><rect data-hf-id="hf-nvl4" x="-8" y="-58" width="16" height="18" rx="3" transform="rotate(0)" /><rect data-hf-id="hf-pki7" x="-8" y="-58" width="16" height="18" rx="3" transform="rotate(36)" /><rect data-hf-id="hf-gczj" x="-8" y="-58" width="16" height="18" rx="3" transform="rotate(72)" /><rect data-hf-id="hf-52ef" x="-8" y="-58" width="16" height="18" rx="3" transform="rotate(108)" /><rect data-hf-id="hf-um5j" x="-8" y="-58" width="16" height="18" rx="3" transform="rotate(144)" /><rect data-hf-id="hf-4q9z" x="-8" y="-58" width="16" height="18" rx="3" transform="rotate(180)" /><rect data-hf-id="hf-7u1t" x="-8" y="-58" width="16" height="18" rx="3" transform="rotate(216)" /><rect data-hf-id="hf-mill" x="-8" y="-58" width="16" height="18" rx="3" transform="rotate(252)" /><rect data-hf-id="hf-ybna" x="-8" y="-58" width="16" height="18" rx="3" transform="rotate(288)" /><rect data-hf-id="hf-punj" x="-8" y="-58" width="16" height="18" rx="3" transform="rotate(324)" /><circle data-hf-id="hf-vc89" r="46" /></g>
+                <circle data-hf-id="hf-4vq7" r="30" fill="none" stroke="#01564a" stroke-width="6" />
+                <circle data-hf-id="hf-ho6z" r="13" fill="#0c322c" />
+              </g>
+              <clipPath data-hf-id="hf-fe4k" id="door-clip"><rect id="door-clip-rect" data-hf-id="hf-4uj1" x="1080" y="540" width="320" height="260" /></clipPath>
+            </defs>
+            <g data-hf-id="hf-67pk" id="fcam">
+              <g data-hf-id="hf-jq8r" id="fc-body">
+                <g data-hf-id="hf-rb7t" id="fc-shell-a">
+                <rect data-hf-id="hf-uzi0" x="0" y="798" width="1776" height="4" fill="url(#gnd-grad)" />
+
+                <!-- chimneys (drawn first so the roof overlaps their feet) -->
+                <g data-hf-id="hf-9sfc" fill="#025937">
+                  <rect data-hf-id="hf-73bu" x="940" y="200" width="56" height="240" />
+                  <rect data-hf-id="hf-mv0m" x="1500" y="215" width="56" height="225" />
+                </g>
+                <g data-hf-id="hf-skql" fill="#90ebcd">
+                  <rect data-hf-id="hf-s18x" x="940" y="228" width="56" height="12" />
+                  <rect data-hf-id="hf-h7zb" x="1500" y="243" width="56" height="12" />
+                </g>
+                <g data-hf-id="hf-6w0f" fill="#008878">
+                  <rect data-hf-id="hf-l3yt" x="930" y="192" width="76" height="16" rx="4" />
+                  <rect data-hf-id="hf-k0hi" x="1490" y="207" width="76" height="16" rx="4" />
+                </g>
+
+                <!-- hall and sawtooth roof -->
+                <rect data-hf-id="hf-kysh" x="860" y="440" width="760" height="360" rx="6" fill="#01564a" />
+                <polygon data-hf-id="hf-nds6" points="860,440 860,360 1113,440 1113,360 1367,440 1367,360 1620,440" fill="#008878" />
+
+                <!-- windows, lit from inside -->
+                <rect data-hf-id="hf-sids" id="fc-win0" x="892" y="570" width="110" height="120" rx="8" fill="#90ebcd" opacity="0.7" />
+                <rect data-hf-id="hf-ky1r" id="fc-win1" x="1477" y="570" width="110" height="120" rx="8" fill="#90ebcd" opacity="0.7" />
+
+                <image data-hf-id="hf-yg6i" href="assets/SUSE-AI-Factory-Logo_neg-green-horizontal.svg" x="960" y="472" width="560" height="56.7" preserveAspectRatio="xMidYMid meet" />
+
+                </g>
+                <!-- open double doors: the interior (conveyor hall) is drawn inside the opening -->
+                <g data-hf-id="hf-3frw" clip-path="url(#door-clip)">
+                  <g data-hf-id="hf-mrfq" transform="translate(1240 670) scale(0.18018) translate(-888 -429)">
+                    <rect data-hf-id="hf-y04i" x="-300" y="-300" width="2376" height="1460" fill="#0c322c" />
+
+                    <!-- cogwheels under the belt, drawn first so the belt tucks over their teeth -->
+                    <use data-hf-id="hf-hhfo" href="#gear" id="gear0" transform="translate(150 734)" />
+                    <use data-hf-id="hf-sx3w" href="#gear" id="gear1" transform="translate(450 734)" />
+                    <use data-hf-id="hf-mj10" href="#gear" id="gear2" transform="translate(750 734)" />
+                    <use data-hf-id="hf-c4k7" href="#gear" id="gear3" transform="translate(1050 734)" />
+                    <use data-hf-id="hf-1635" href="#gear" id="gear4" transform="translate(1350 734)" />
+                    <use data-hf-id="hf-hbzf" href="#gear" id="gear5" transform="translate(1650 734)" />
+                    <use data-hf-id="hf-gro9" href="#gear" id="gear6" transform="translate(1950 734)" />
+                    <use data-hf-id="hf-rbk6" href="#gear" id="gear7" transform="translate(2250 734)" />
+                    <use data-hf-id="hf-qybs" href="#gear" id="gear8" transform="translate(2550 734)" />
+                    <use data-hf-id="hf-i27e" href="#gear" id="gear9" transform="translate(2850 734)" />
+                    <rect data-hf-id="hf-ouy0" x="-200" y="786" width="2176" height="12" fill="#025937" />
+
+                    <!-- empty conveyor belt: static in frame, the camera pans along it -->
+                    <rect data-hf-id="hf-dk06" x="-200" y="620" width="2176" height="56" rx="28" fill="#01564a" stroke="#008878" stroke-width="4" />
+                    <rect data-hf-id="hf-3otc" x="-160" y="624" width="2096" height="48" fill="url(#tread)" />
+                    <rect data-hf-id="hf-egnm" x="-200" y="676" width="2176" height="10" fill="#025937" />
+                    <line data-hf-id="hf-gbos" id="fl-dash" x1="-200" y1="845" x2="1976" y2="845" stroke="#008878" stroke-width="4" stroke-dasharray="70 56" opacity="0.7" />
+
+                    <!-- steel microVM vault, back wall (behind the box) -->
+                    <g data-hf-id="hf-rgbn" id="iv-vault-back" transform="translate(2150 620)">
+                      <rect data-hf-id="hf-7wof" x="-170" y="-240" width="340" height="240" rx="14" fill="#0c322c" />
+                    </g>
+
+                    <!-- flat 2D box in the brand line style; origin is the bottom centre, resting on the belt at y 620 -->
+                    <g data-hf-id="hf-139d" id="iv-box" opacity="0" transform="translate(1208 -300)">
+                      <g data-hf-id="hf-3shi" id="iv-pkgs"><g data-hf-id="hf-flv6" id="pk0" opacity="0" transform="translate(0 -720)"><rect data-hf-id="hf-zwiy" x="-32" y="-32" width="64" height="64" rx="9" fill="#30ba78" /><rect data-hf-id="hf-207m" x="-6" y="-32" width="12" height="64" fill="#90ebcd" /><rect data-hf-id="hf-oosj" x="12" y="8" width="14" height="14" rx="3" fill="#0c322c" /></g><g data-hf-id="hf-fhor" id="pk1" opacity="0" transform="translate(0 -720)"><rect data-hf-id="hf-xsfi" x="-32" y="-32" width="64" height="64" rx="9" fill="#30ba78" /><rect data-hf-id="hf-zydy" x="-6" y="-32" width="12" height="64" fill="#90ebcd" /><rect data-hf-id="hf-h5vn" x="12" y="8" width="14" height="14" rx="3" fill="#0c322c" /></g><g data-hf-id="hf-dlpc" id="pk2" opacity="0" transform="translate(0 -720)"><rect data-hf-id="hf-y6qj" x="-32" y="-32" width="64" height="64" rx="9" fill="#30ba78" /><rect data-hf-id="hf-0coz" x="-6" y="-32" width="12" height="64" fill="#90ebcd" /><rect data-hf-id="hf-grkm" x="12" y="8" width="14" height="14" rx="3" fill="#0c322c" /></g><g data-hf-id="hf-x2ll" id="pk3" opacity="0" transform="translate(0 -720)"><rect data-hf-id="hf-yl1k" x="-32" y="-32" width="64" height="64" rx="9" fill="#30ba78" /><rect data-hf-id="hf-0r00" x="-6" y="-32" width="12" height="64" fill="#90ebcd" /><rect data-hf-id="hf-gd9l" x="12" y="8" width="14" height="14" rx="3" fill="#0c322c" /></g><g data-hf-id="hf-zroe" id="pk4" opacity="0" transform="translate(0 -720)"><rect data-hf-id="hf-vswd" x="-32" y="-32" width="64" height="64" rx="9" fill="#30ba78" /><rect data-hf-id="hf-xyut" x="-6" y="-32" width="12" height="64" fill="#90ebcd" /><rect data-hf-id="hf-fyyk" x="12" y="8" width="14" height="14" rx="3" fill="#0c322c" /></g><g data-hf-id="hf-1qef" id="pk5" opacity="0" transform="translate(0 -720)"><rect data-hf-id="hf-w77e" x="-32" y="-32" width="64" height="64" rx="9" fill="#30ba78" /><rect data-hf-id="hf-yd5u" x="-6" y="-32" width="12" height="64" fill="#90ebcd" /><rect data-hf-id="hf-fknj" x="12" y="8" width="14" height="14" rx="3" fill="#0c322c" /></g><g data-hf-id="hf-lpmk" id="pk6" opacity="0" transform="translate(0 -720)"><rect data-hf-id="hf-wlif" x="-32" y="-32" width="64" height="64" rx="9" fill="#30ba78" /><rect data-hf-id="hf-yrgv" x="-6" y="-32" width="12" height="64" fill="#90ebcd" /><rect data-hf-id="hf-f6ci" x="12" y="8" width="14" height="14" rx="3" fill="#0c322c" /></g><g data-hf-id="hf-1e05" id="pk7" opacity="0" transform="translate(0 -720)"><rect data-hf-id="hf-wztg" x="-32" y="-32" width="64" height="64" rx="9" fill="#30ba78" /><rect data-hf-id="hf-z5rw" x="-6" y="-32" width="12" height="64" fill="#90ebcd" /><rect data-hf-id="hf-es1h" x="12" y="8" width="14" height="14" rx="3" fill="#0c322c" /></g></g>
+                      <path data-hf-id="hf-tzmx" id="iv-front" d="" fill="#025937" stroke="#ffffff" stroke-width="5" stroke-linejoin="round" />
+                      <path data-hf-id="hf-08nh" d="M-105 -138 H105" stroke="#90ebcd" stroke-width="5" stroke-linecap="round" />
+                      <g data-hf-id="hf-ru9m" id="iv-flapl" transform="translate(-105 -170)"><rect data-hf-id="hf-g6j8" x="0" y="-16" width="105" height="16" rx="4" fill="#025937" stroke="#ffffff" stroke-width="5" stroke-linejoin="round" /></g>
+                      <g data-hf-id="hf-1vxl" id="iv-flapr" transform="translate(105 -170)"><rect data-hf-id="hf-261r" x="-105" y="-16" width="105" height="16" rx="4" fill="#025937" stroke="#ffffff" stroke-width="5" stroke-linejoin="round" /></g>
+                      <rect data-hf-id="hf-4tns" id="iv-tab" x="-16" y="-190" width="32" height="52" fill="#90ebcd" />
+                      <circle data-hf-id="hf-ngu8" id="iv-dot" cx="0" cy="-90" r="15" fill="#fe7c3f" opacity="0" />
+                      <g data-hf-id="hf-o6yy" id="iv-chip1" opacity="0">
+                        <rect data-hf-id="hf-f5rx" x="-86" y="-110" width="172" height="40" rx="20" fill="#30ba78" />
+                        <text data-hf-id="hf-x2qo" x="0" y="-81" text-anchor="middle" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="26" fill="#0c322c">SLSA L3</text>
+                      </g>
+                      <g data-hf-id="hf-rgnh" id="iv-chip2" opacity="0">
+                        <rect data-hf-id="hf-13yy" x="-86" y="-58" width="172" height="40" rx="20" fill="#30ba78" />
+                        <text data-hf-id="hf-xrh7" x="0" y="-29" text-anchor="middle" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="26" fill="#0c322c">SBOM</text>
+                      </g>
+                    </g>
+                    <!-- steel microVM vault, front wall with a window onto the box, plus lid -->
+                    <g data-hf-id="hf-svvj" id="iv-vault-front" transform="translate(2150 620)">
+                      <path data-hf-id="hf-h4bb" d="M-156 -240 H156 A14 14 0 0 1 170 -226 V-14 A14 14 0 0 1 156 0 H-156 A14 14 0 0 1 -170 -14 V-226 A14 14 0 0 1 -156 -240 Z M-104 -200 H104 A16 16 0 0 1 120 -184 V-60 A16 16 0 0 1 104 -44 H-104 A16 16 0 0 1 -120 -60 V-184 A16 16 0 0 1 -104 -200 Z" fill="#34524c" fill-rule="evenodd" stroke="#bababa" stroke-width="6" stroke-linejoin="round" />
+                      <rect data-hf-id="hf-vrxt" x="-120" y="-200" width="240" height="156" rx="16" fill="none" stroke="#90ebcd" stroke-width="3" />
+                      <g data-hf-id="hf-dogd" fill="#bababa"><circle data-hf-id="hf-0f2f" cx="-148" cy="-218" r="5" /><circle data-hf-id="hf-6ik8" cx="148" cy="-218" r="5" /><circle data-hf-id="hf-6ckc" cx="-148" cy="-20" r="5" /><circle data-hf-id="hf-pio5" cx="148" cy="-20" r="5" /></g>
+                      <text data-hf-id="hf-sa9p" x="0" y="-14" text-anchor="middle" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="26" fill="#90ebcd">microVM</text>
+                      <rect data-hf-id="hf-xrkm" id="iv-port" x="166" y="-148" width="30" height="60" rx="6" fill="#34524c" stroke="#bababa" stroke-width="5" />
+                      <rect data-hf-id="hf-gvsx" id="iv-flash" x="-170" y="-240" width="340" height="240" rx="14" fill="none" stroke="#90ebcd" stroke-width="10" opacity="0" />
+                      <g data-hf-id="hf-vq92" id="iv-lid" opacity="0"><rect data-hf-id="hf-xai4" x="-184" y="-266" width="368" height="26" rx="8" fill="#34524c" stroke="#bababa" stroke-width="6" stroke-linejoin="round" /></g>
+                    </g>
+
+                    <!-- gantry rail and the grabbing arm -->
+                    <g data-hf-id="hf-w4pf" id="iv-rail" opacity="0">
+                      <rect data-hf-id="hf-ndi4" x="-200" y="44" width="2176" height="10" fill="#008878" />
+                      <rect data-hf-id="hf-jygx" x="1154" y="36" width="108" height="36" rx="8" fill="#90ebcd" />
+                    </g>
+                    <g data-hf-id="hf-kvli" id="iv-claw" opacity="0" transform="translate(1208 100)">
+                      <rect data-hf-id="hf-q593" id="iv-rod" x="-9" y="-30" width="18" height="14" fill="#90ebcd" />
+                      <rect data-hf-id="hf-gt8k" x="-150" y="-16" width="300" height="16" rx="6" fill="#90ebcd" />
+                      <g data-hf-id="hf-u1ja" id="iv-fl" transform="translate(-150 0)"><rect data-hf-id="hf-ck92" x="-8" y="0" width="16" height="74" rx="6" fill="#90ebcd" /><rect data-hf-id="hf-g49q" x="0" y="58" width="22" height="16" rx="5" fill="#90ebcd" /></g>
+                      <g data-hf-id="hf-34wd" id="iv-fr" transform="translate(150 0)"><rect data-hf-id="hf-4m16" x="-8" y="0" width="16" height="74" rx="6" fill="#90ebcd" /><rect data-hf-id="hf-h3ql" x="-22" y="58" width="22" height="16" rx="5" fill="#90ebcd" /></g>
+                    </g>
+
+                    <!-- OpenShell: destinations, request packets and the guard at the port -->
+                    <g data-hf-id="hf-1f8i" id="iv-tiles" opacity="0" transform="translate(-25 0)">
+                      <g data-hf-id="hf-vera">
+                        <rect data-hf-id="hf-pbr6" x="1585" y="370" width="180" height="90" rx="12" fill="#025937" stroke="#90ebcd" stroke-width="5" />
+                        <rect data-hf-id="hf-sbwi" id="iv-tile-a-flash" x="1585" y="370" width="180" height="90" rx="12" fill="#90ebcd" opacity="0" />
+                        <g data-hf-id="hf-su8h" fill="#90ebcd"><rect data-hf-id="hf-q0hm" x="1600" y="395" width="32" height="10" rx="3" /><rect data-hf-id="hf-pe4w" x="1600" y="410" width="32" height="10" rx="3" /><rect data-hf-id="hf-euho" x="1600" y="425" width="32" height="10" rx="3" /></g>
+                        <text data-hf-id="hf-6u8l" x="1642" y="422" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="22" fill="#90ebcd">approved</text>
+                        <circle data-hf-id="hf-6erm" cx="1765" cy="370" r="16" fill="#30ba78" /><path data-hf-id="hf-l12t" d="M1757 370 L1763 376 L1773 363" fill="none" stroke="#0c322c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                      </g>
+                      <g data-hf-id="hf-pwpm">
+                        <rect data-hf-id="hf-28wg" x="1585" y="510" width="180" height="90" rx="12" fill="#025937" stroke="#fe7c3f" stroke-width="5" stroke-dasharray="12 9" />
+                        <rect data-hf-id="hf-s0ba" id="iv-tile-b-ring" x="1585" y="510" width="180" height="90" rx="12" fill="none" stroke="#fe7c3f" stroke-width="10" opacity="0" />
+                        <g data-hf-id="hf-a1l8" fill="#fe7c3f"><rect data-hf-id="hf-rppu" x="1600" y="535" width="32" height="10" rx="3" /><rect data-hf-id="hf-2p2p" x="1600" y="550" width="32" height="10" rx="3" /><rect data-hf-id="hf-fjjh" x="1600" y="565" width="32" height="10" rx="3" /></g>
+                        <text data-hf-id="hf-i4ba" x="1642" y="562" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="22" fill="#fe7c3f">unknown</text>
+                        <circle data-hf-id="hf-mmi5" cx="1765" cy="510" r="16" fill="#fe7c3f" /><path data-hf-id="hf-zik3" d="M1758 503 L1772 517 M1772 503 L1758 517" fill="none" stroke="#0c322c" stroke-width="4" stroke-linecap="round" />
+                      </g>
+                    </g>
+                    <g data-hf-id="hf-wyna" id="iv-packets">
+                      <g data-hf-id="hf-eqa4" id="rq0" opacity="0"><rect data-hf-id="hf-tljw" x="-23" y="-17" width="46" height="34" rx="9" fill="#01564a" stroke="#bababa" stroke-width="3" /><g data-hf-id="hf-kqd0" id="rqk0" fill="none" stroke="#bababa" stroke-width="3.5" stroke-linecap="round"><circle data-hf-id="hf-mamr" cx="-8" cy="0" r="6" /><path data-hf-id="hf-rlot" d="M-2 0 H12 M8 0 V6 M12 0 V5" /></g></g>
+                      <g data-hf-id="hf-ck5d" id="rq1" opacity="0"><rect data-hf-id="hf-9v10" x="-23" y="-17" width="46" height="34" rx="9" fill="#01564a" stroke="#bababa" stroke-width="3" /><g data-hf-id="hf-gelj" id="rqk1" fill="none" stroke="#bababa" stroke-width="3.5" stroke-linecap="round"><circle data-hf-id="hf-ykdv" cx="-8" cy="0" r="6" /><path data-hf-id="hf-9hoh" d="M-2 0 H12 M8 0 V6 M12 0 V5" /></g></g>
+                      <g data-hf-id="hf-k826" id="rq2" opacity="0"><rect data-hf-id="hf-8o3x" x="-23" y="-17" width="46" height="34" rx="9" fill="#01564a" stroke="#bababa" stroke-width="3" /><g data-hf-id="hf-3s1e" id="rqk2" fill="none" stroke="#bababa" stroke-width="3.5" stroke-linecap="round"><circle data-hf-id="hf-y62u" cx="-8" cy="0" r="6" /><path data-hf-id="hf-aolk" d="M-2 0 H12 M8 0 V6 M12 0 V5" /></g></g>
+                      <g data-hf-id="hf-9h6z" id="rq3" opacity="0"><rect data-hf-id="hf-92ey" x="-23" y="-17" width="46" height="34" rx="9" fill="#01564a" stroke="#bababa" stroke-width="3" /><g data-hf-id="hf-lle5" id="rqk3" fill="none" stroke="#bababa" stroke-width="3.5" stroke-linecap="round"><circle data-hf-id="hf-xrrt" cx="-8" cy="0" r="6" /><path data-hf-id="hf-aaaj" d="M-2 0 H12 M8 0 V6 M12 0 V5" /></g></g>
+                    </g>
+                    <g data-hf-id="hf-r602" id="iv-guard" opacity="0" transform="translate(1480 502)">
+                      <circle data-hf-id="hf-wehg" r="58" fill="#025937" stroke="#ffffff" stroke-width="5" />
+                      <image data-hf-id="hf-k7r0" href="assets/openshell-logo.png" x="-54" y="-54" width="108" height="108" />
+                      <circle data-hf-id="hf-ihpj" id="iv-ring-ok" r="68" fill="none" stroke="#90ebcd" stroke-width="8" opacity="0" />
+                      <circle data-hf-id="hf-9oef" id="iv-ring-bad" r="68" fill="none" stroke="#fe7c3f" stroke-width="8" opacity="0" />
+                    </g>
+
+                    <!-- foreground floor props: scroll past faster than the belt (parallax) -->
+                    <g data-hf-id="hf-iol6" id="fg0" transform="translate(300 845)"><rect data-hf-id="hf-mdfn" x="-50" y="-70" width="100" height="70" rx="6" fill="#01564a" stroke="#008878" stroke-width="5" /><path data-hf-id="hf-1fma" d="M-50 -35 H50" stroke="#008878" stroke-width="4" /><rect data-hf-id="hf-o5d7" x="-50" y="-140" width="100" height="70" rx="6" fill="#01564a" stroke="#008878" stroke-width="5" /><path data-hf-id="hf-h1he" d="M-50 -105 H50" stroke="#008878" stroke-width="4" /></g>
+                    <g data-hf-id="hf-dcgz" id="fg1" transform="translate(760 845)"><rect data-hf-id="hf-q8ji" x="-60" y="-80" width="120" height="80" rx="6" fill="#01564a" stroke="#008878" stroke-width="5" /><path data-hf-id="hf-n90e" d="M-60 -40 H60" stroke="#008878" stroke-width="4" /></g>
+                    <g data-hf-id="hf-2r58" id="fg2" transform="translate(1150 845)"><rect data-hf-id="hf-6etj" x="-102" y="-66" width="100" height="66" rx="6" fill="#01564a" stroke="#008878" stroke-width="5" /><path data-hf-id="hf-8lhq" d="M-102 -33 H-2" stroke="#008878" stroke-width="4" /><rect data-hf-id="hf-rwh1" x="2" y="-66" width="100" height="66" rx="6" fill="#01564a" stroke="#008878" stroke-width="5" /><path data-hf-id="hf-y00s" d="M2 -33 H102" stroke="#008878" stroke-width="4" /><rect data-hf-id="hf-0f1p" x="-50" y="-132" width="100" height="66" rx="6" fill="#01564a" stroke="#008878" stroke-width="5" /><path data-hf-id="hf-0ig0" d="M-50 -99 H50" stroke="#008878" stroke-width="4" /></g>
+                    <g data-hf-id="hf-6vv0" id="fg3" transform="translate(1500 845)"><rect data-hf-id="hf-vey5" x="-80" y="-16" width="160" height="16" rx="3" fill="#008878" /><rect data-hf-id="hf-3jrg" x="-50" y="-96" width="100" height="80" rx="6" fill="#01564a" stroke="#008878" stroke-width="5" /><path data-hf-id="hf-a3db" d="M-50 -56 H50" stroke="#008878" stroke-width="4" /></g>
+                    <g data-hf-id="hf-honz" id="fg4" transform="translate(1980 845)"><rect data-hf-id="hf-iwea" x="-14" y="-120" width="28" height="120" rx="6" fill="#025937" stroke="#008878" stroke-width="4" /><rect data-hf-id="hf-36a9" x="-14" y="-96" width="28" height="18" fill="#90ebcd" /><rect data-hf-id="hf-1l8e" x="-14" y="-60" width="28" height="18" fill="#90ebcd" /></g>
+                    <g data-hf-id="hf-9ypa" id="fg5" transform="translate(2400 845)"><rect data-hf-id="hf-3awz" x="-50" y="-70" width="100" height="70" rx="6" fill="#01564a" stroke="#008878" stroke-width="5" /><path data-hf-id="hf-ssd2" d="M-50 -35 H50" stroke="#008878" stroke-width="4" /><rect data-hf-id="hf-zq4r" x="-50" y="-140" width="100" height="70" rx="6" fill="#01564a" stroke="#008878" stroke-width="5" /><path data-hf-id="hf-6qsm" d="M-50 -105 H50" stroke="#008878" stroke-width="4" /></g>
+                    <g data-hf-id="hf-syi9" id="fg6" transform="translate(2800 845)"><rect data-hf-id="hf-j8z5" x="-55" y="-72" width="110" height="72" rx="6" fill="#01564a" stroke="#008878" stroke-width="5" /><path data-hf-id="hf-azc9" d="M-55 -36 H55" stroke="#008878" stroke-width="4" /></g>
+                    <g data-hf-id="hf-gq1n" id="fg7" transform="translate(3200 845)"><rect data-hf-id="hf-x76v" x="-102" y="-66" width="100" height="66" rx="6" fill="#01564a" stroke="#008878" stroke-width="5" /><path data-hf-id="hf-x4uq" d="M-102 -33 H-2" stroke="#008878" stroke-width="4" /><rect data-hf-id="hf-1bw9" x="2" y="-66" width="100" height="66" rx="6" fill="#01564a" stroke="#008878" stroke-width="5" /><path data-hf-id="hf-z6hg" d="M2 -33 H102" stroke="#008878" stroke-width="4" /><rect data-hf-id="hf-yhgh" x="-50" y="-132" width="100" height="66" rx="6" fill="#01564a" stroke="#008878" stroke-width="5" /><path data-hf-id="hf-aixk" d="M-50 -99 H50" stroke="#008878" stroke-width="4" /></g>
+                  </g>
+                </g>
+                <g data-hf-id="hf-v9bu" id="fc-shell-b">
+                <polygon data-hf-id="hf-x9m8" points="1080,540 1035,562 1035,778 1080,800" fill="#008878" />
+                <polygon data-hf-id="hf-qx5e" points="1400,540 1445,562 1445,778 1400,800" fill="#008878" />
+                <rect data-hf-id="hf-hto3" id="fc-doorframe" x="1080" y="540" width="320" height="260" fill="none" stroke="#90ebcd" stroke-width="4" />
+                </g>
+              </g>
+
+              <!-- smoke: 7 puffs per chimney, positions are a pure function of t -->
+              <g data-hf-id="hf-v57x" id="fc-smoke" fill="#90ebcd">
+                <circle data-hf-id="hf-ea3j" id="sm0" r="0" opacity="0" /><circle data-hf-id="hf-nvwe" id="sm1" r="0" opacity="0" /><circle data-hf-id="hf-9nbt" id="sm2" r="0" opacity="0" /><circle data-hf-id="hf-w1dc" id="sm3" r="0" opacity="0" />
+                <circle data-hf-id="hf-kwsz" id="sm4" r="0" opacity="0" /><circle data-hf-id="hf-gv2q" id="sm5" r="0" opacity="0" /><circle data-hf-id="hf-0i4t" id="sm6" r="0" opacity="0" />
+                <circle data-hf-id="hf-5jxw" id="sm7" r="0" opacity="0" /><circle data-hf-id="hf-c5on" id="sm8" r="0" opacity="0" /><circle data-hf-id="hf-lkpy" id="sm9" r="0" opacity="0" /><circle data-hf-id="hf-z0hs" id="sm10" r="0" opacity="0" />
+                <circle data-hf-id="hf-225l" id="sm11" r="0" opacity="0" /><circle data-hf-id="hf-neku" id="sm12" r="0" opacity="0" /><circle data-hf-id="hf-a29b" id="sm13" r="0" opacity="0" />
+              </g>
+            </g>
+          </svg>
+        </div>
+      </section>
+
+      <!-- ================= CLUSTER 76-88s: the vault arrives among the other pods and the Vulnerability Scanner sweeps them ================= -->
+      <section data-hf-id="hf-006p" id="cluster" class="clip" data-start="71.98" data-duration="50.92" data-track-index="5">
+        <svg data-hf-id="hf-9fna" id="cl-svg" style="position: absolute; left: 0; top: 0; display: block" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+          <defs data-hf-id="hf-vl9d">
+            <linearGradient data-hf-id="hf-fnym" id="beam-grad" x1="0" y1="0" x2="1" y2="0">
+              <stop data-hf-id="hf-jno8" offset="0" stop-color="#90ebcd" stop-opacity="0" />
+              <stop data-hf-id="hf-dxa2" offset="0.5" stop-color="#90ebcd" stop-opacity="0.38" />
+              <stop data-hf-id="hf-a4kx" offset="1" stop-color="#90ebcd" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <g data-hf-id="hf-tnv0" id="cl-cam">
+          <g data-hf-id="hf-tv6i" id="cl-frame" opacity="0">
+            <rect data-hf-id="hf-d9yp" x="1050" y="240" width="666" height="544" rx="30" fill="none" stroke="#008878" stroke-width="4" stroke-dasharray="12 9" />
+            <text data-hf-id="hf-77wn" x="1078" y="772" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="26" fill="#bababa">cluster</text>
+          </g>
+          <g data-hf-id="hf-siah" id="rn-lines" opacity="0"><line data-hf-id="hf-xccd" x1="1383" y1="270" x2="1383" y2="322" stroke="#90ebcd" stroke-width="3" stroke-dasharray="3 9" stroke-linecap="round" /><line data-hf-id="hf-qh0y" x1="1155" y1="322" x2="1611" y2="322" stroke="#90ebcd" stroke-width="3" stroke-dasharray="3 9" stroke-linecap="round" /><line data-hf-id="hf-e36t" x1="1155" y1="322" x2="1155" y2="744" stroke="#90ebcd" stroke-width="3" stroke-dasharray="3 9" stroke-linecap="round" /><line data-hf-id="hf-063p" x1="1307" y1="322" x2="1307" y2="744" stroke="#90ebcd" stroke-width="3" stroke-dasharray="3 9" stroke-linecap="round" /><line data-hf-id="hf-dk45" x1="1459" y1="322" x2="1459" y2="744" stroke="#90ebcd" stroke-width="3" stroke-dasharray="3 9" stroke-linecap="round" /><line data-hf-id="hf-m5qp" x1="1611" y1="322" x2="1611" y2="744" stroke="#90ebcd" stroke-width="3" stroke-dasharray="3 9" stroke-linecap="round" /><circle data-hf-id="hf-iddo" id="rn-pu0" r="7" cx="1155" cy="322" fill="#90ebcd" opacity="0" /><circle data-hf-id="hf-rt5a" id="rn-pu1" r="7" cx="1307" cy="322" fill="#90ebcd" opacity="0" /><circle data-hf-id="hf-86bj" id="rn-pu2" r="7" cx="1459" cy="322" fill="#90ebcd" opacity="0" /><circle data-hf-id="hf-04do" id="rn-pu3" r="7" cx="1611" cy="322" fill="#90ebcd" opacity="0" /><circle data-hf-id="hf-1iyo" id="rn-pu4" r="7" cx="1155" cy="322" fill="#90ebcd" opacity="0" /><circle data-hf-id="hf-jwxm" id="rn-pu5" r="7" cx="1307" cy="322" fill="#90ebcd" opacity="0" /><circle data-hf-id="hf-94hn" id="rn-pu6" r="7" cx="1459" cy="322" fill="#90ebcd" opacity="0" /><circle data-hf-id="hf-0cmo" id="rn-pu7" r="7" cx="1611" cy="322" fill="#90ebcd" opacity="0" /></g>
+          <g data-hf-id="hf-0tml" id="rn-hub" opacity="0">
+            <rect data-hf-id="hf-qzaf" x="1233" y="212" width="300" height="58" rx="29" fill="#025937" stroke="#ffffff" stroke-width="4" />
+            <text data-hf-id="hf-176k" x="1383" y="250" text-anchor="middle" font-family="SUSE, system-ui, sans-serif" font-weight="500" font-size="26" fill="#ffffff">SUSE Rancher Prime</text>
+          </g>
+                    <g data-hf-id="hf-6ci0" id="cl-pod0" opacity="0" transform="translate(1090 310)"><rect data-hf-id="hf-4ih4" width="130" height="130" rx="22" fill="#01564a" /><g data-hf-id="hf-go93" id="cl-bd0" opacity="0"><circle data-hf-id="hf-hnvt" cx="116" cy="14" r="17" fill="#30ba78" /><path data-hf-id="hf-79zc" d="M108 14 L114 20 L124 8" fill="none" stroke="#0c322c" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" /></g></g>
+            <g data-hf-id="hf-zum4" id="cl-pod1" opacity="0" transform="translate(1242 310)"><rect data-hf-id="hf-l8g0" width="130" height="130" rx="22" fill="#01564a" /><g data-hf-id="hf-dwlm" id="cl-bd1" opacity="0"><circle data-hf-id="hf-sobh" cx="116" cy="14" r="17" fill="#30ba78" /><path data-hf-id="hf-ewg0" d="M108 14 L114 20 L124 8" fill="none" stroke="#0c322c" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" /></g></g>
+            <g data-hf-id="hf-spwj" id="cl-pod2" opacity="0" transform="translate(1394 310)"><rect data-hf-id="hf-k1ix" width="130" height="130" rx="22" fill="#01564a" /><rect data-hf-id="hf-qllt" id="cl-fl2" width="130" height="130" rx="22" fill="none" stroke="#fe7c3f" stroke-width="7" opacity="0" /><g data-hf-id="hf-h6a5" id="cl-bd2" opacity="0"><circle data-hf-id="hf-dh5e" cx="116" cy="14" r="17" fill="#fe7c3f" /><path data-hf-id="hf-qvbk" d="M116 6 V16 M116 21 V22" stroke="#0c322c" stroke-width="5" stroke-linecap="round" fill="none" /></g></g>
+            <g data-hf-id="hf-jwuz" id="cl-pod3" opacity="0" transform="translate(1546 310)"><rect data-hf-id="hf-kfty" width="130" height="130" rx="22" fill="#01564a" /><g data-hf-id="hf-vnu0" id="cl-bd3" opacity="0"><circle data-hf-id="hf-tv8k" cx="116" cy="14" r="17" fill="#30ba78" /><path data-hf-id="hf-dpix" d="M108 14 L114 20 L124 8" fill="none" stroke="#0c322c" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" /></g></g>
+            <g data-hf-id="hf-3n3w" id="cl-pod4" opacity="0" transform="translate(1090 462)"><rect data-hf-id="hf-j8wv" width="130" height="130" rx="22" fill="#01564a" /><g data-hf-id="hf-i6e3" id="cl-bd4" opacity="0"><circle data-hf-id="hf-tgxj" cx="116" cy="14" r="17" fill="#30ba78" /><path data-hf-id="hf-e3ty" d="M108 14 L114 20 L124 8" fill="none" stroke="#0c322c" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" /></g></g>
+            <g data-hf-id="hf-2wyd" id="cl-vault" opacity="0" transform="translate(1242 -200)">
+              <rect data-hf-id="hf-ykru" width="130" height="130" rx="22" fill="#34524c" stroke="#bababa" stroke-width="5" />
+              <rect data-hf-id="hf-fwjm" x="20" y="30" width="90" height="62" rx="10" fill="#0c322c" stroke="#90ebcd" stroke-width="3" />
+              <circle data-hf-id="hf-4k8l" id="cl-vdot" cx="65" cy="61" r="12" fill="#fe7c3f" />
+              <text data-hf-id="hf-hg82" x="65" y="116" text-anchor="middle" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="17" fill="#90ebcd">microVM</text>
+              <g data-hf-id="hf-dnyp" id="cl-vbd" opacity="0"><circle data-hf-id="hf-unum" cx="116" cy="14" r="17" fill="#30ba78" /><path data-hf-id="hf-cwwv" d="M108 14 L114 20 L124 8" fill="none" stroke="#0c322c" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" /></g>
+            </g>
+            <g data-hf-id="hf-4abz" id="cl-pod6" opacity="0" transform="translate(1394 462)"><rect data-hf-id="hf-jn7w" width="130" height="130" rx="22" fill="#01564a" /><g data-hf-id="hf-cdhk" id="cl-in6" opacity="0">
+              <g data-hf-id="hf-wb8m" id="cl-ch0" opacity="0"><rect data-hf-id="hf-4ig1" x="16" y="14" width="98" height="20" rx="7" fill="#025937" stroke="#90ebcd" stroke-width="2" /><text data-hf-id="hf-fiow" x="26" y="29" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="12" fill="#90ebcd">app</text></g>
+              <g data-hf-id="hf-u9lv" id="cl-ch1" opacity="0"><rect data-hf-id="hf-y3if" x="16" y="38" width="98" height="20" rx="7" fill="#025937" stroke="#90ebcd" stroke-width="2" /><text data-hf-id="hf-voi8" x="26" y="53" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="12" fill="#90ebcd">worker</text></g>
+              <g data-hf-id="hf-86x0" id="cl-ch2" opacity="0"><rect data-hf-id="hf-nnqa" x="16" y="62" width="98" height="20" rx="7" fill="#025937" stroke="#90ebcd" stroke-width="2" /><text data-hf-id="hf-i2bs" x="26" y="77" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="12" fill="#90ebcd">proxy</text></g>
+              <g data-hf-id="hf-4mp0" id="cl-mt"><rect data-hf-id="hf-ai5m" x="16" y="92" width="98" height="8" rx="4" fill="#0c322c" /><rect data-hf-id="hf-iby2" id="cl-meter" x="16" y="92" width="0" height="8" rx="4" fill="#90ebcd" /></g>
+              <g data-hf-id="hf-29bm" id="cl-sh" opacity="0"><rect data-hf-id="hf-3b43" x="16" y="104" width="70" height="20" rx="7" fill="#47190d" stroke="#fe7c3f" stroke-width="2" /><text data-hf-id="hf-en75" x="26" y="119" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="12" fill="#fe7c3f">$ sh</text><path data-hf-id="hf-1ebr" id="cl-x" d="M66 108 L78 120 M78 108 L66 120" stroke="#fe7c3f" stroke-width="3" stroke-linecap="round" opacity="0" /></g>
+            </g>
+            <rect data-hf-id="hf-f2pj" id="cl-pol" width="130" height="130" rx="22" fill="none" stroke="#90ebcd" stroke-width="7" opacity="0" />
+            <rect data-hf-id="hf-2i7q" id="cl-blk" width="130" height="130" rx="22" fill="none" stroke="#fe7c3f" stroke-width="9" opacity="0" />
+            <g data-hf-id="hf-i0ww" id="cl-shb" opacity="0" transform="translate(118 116)"><circle data-hf-id="hf-fv3j" r="20" fill="#025937" stroke="#ffffff" stroke-width="3" /><g data-hf-id="hf-2mgg" transform="translate(-18 -18) scale(0.3)" fill="none" stroke="#ffffff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-9rlx" d="M60 14 L96 27 V57 C96 81 80 97 60 106 C40 97 24 81 24 57 V27 Z" /><path data-hf-id="hf-421l" d="M44 60 L56 72 L78 48" stroke="#90ebcd" /></g></g>
+            <g data-hf-id="hf-6ngx" id="cl-bd6" opacity="0"><circle data-hf-id="hf-u9jl" cx="116" cy="14" r="17" fill="#30ba78" /><path data-hf-id="hf-db7w" d="M108 14 L114 20 L124 8" fill="none" stroke="#0c322c" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" /></g></g>
+            <g data-hf-id="hf-fmmv" id="cl-pod7" opacity="0" transform="translate(1546 462)"><rect data-hf-id="hf-igat" width="130" height="130" rx="22" fill="#01564a" /><g data-hf-id="hf-2nks" id="cl-bd7" opacity="0"><circle data-hf-id="hf-vggo" cx="116" cy="14" r="17" fill="#30ba78" /><path data-hf-id="hf-c4at" d="M108 14 L114 20 L124 8" fill="none" stroke="#0c322c" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" /></g></g>
+            <g data-hf-id="hf-zufv" id="cl-pod8" opacity="0" transform="translate(1090 614)"><rect data-hf-id="hf-iulu" width="130" height="130" rx="22" fill="#01564a" /><rect data-hf-id="hf-3gz7" id="cl-ok8" width="130" height="130" rx="22" fill="none" stroke="#90ebcd" stroke-width="8" opacity="0" />
+            <g data-hf-id="hf-05nz" id="cl-bd8" opacity="0"><circle data-hf-id="hf-v25n" cx="116" cy="14" r="17" fill="#30ba78" /><path data-hf-id="hf-cilu" d="M108 14 L114 20 L124 8" fill="none" stroke="#0c322c" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" /></g></g>
+            <g data-hf-id="hf-avkf" id="cl-pod9" opacity="0" transform="translate(1242 614)"><rect data-hf-id="hf-hnor" width="130" height="130" rx="22" fill="#01564a" /><rect data-hf-id="hf-9zcy" id="cl-fl9" width="130" height="130" rx="22" fill="none" stroke="#fe7c3f" stroke-width="7" opacity="0" /><g data-hf-id="hf-b1xu" id="cl-bd9" opacity="0"><circle data-hf-id="hf-9p3q" cx="116" cy="14" r="17" fill="#fe7c3f" /><path data-hf-id="hf-imeg" d="M116 6 V16 M116 21 V22" stroke="#0c322c" stroke-width="5" stroke-linecap="round" fill="none" /></g></g>
+            <g data-hf-id="hf-zlut" id="cl-pod10" opacity="0" transform="translate(1394 614)"><rect data-hf-id="hf-i1zs" width="130" height="130" rx="22" fill="#01564a" /><g data-hf-id="hf-g6e6" id="cl-bd10" opacity="0"><circle data-hf-id="hf-w92q" cx="116" cy="14" r="17" fill="#30ba78" /><path data-hf-id="hf-bbor" d="M108 14 L114 20 L124 8" fill="none" stroke="#0c322c" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" /></g></g>
+            <g data-hf-id="hf-2o19" id="cl-pod11" opacity="0" transform="translate(1546 614)"><rect data-hf-id="hf-b7o0" width="130" height="130" rx="22" fill="#01564a" /><g data-hf-id="hf-vdjv" id="cl-bd11" opacity="0"><circle data-hf-id="hf-vurp" cx="116" cy="14" r="17" fill="#30ba78" /><path data-hf-id="hf-bpzs" d="M108 14 L114 20 L124 8" fill="none" stroke="#0c322c" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" /></g></g>
+            <g data-hf-id="hf-mazy" id="cl-beam" opacity="0">
+            <rect data-hf-id="hf-41md" x="-60" y="250" width="120" height="524" fill="url(#beam-grad)" />
+            <rect data-hf-id="hf-467u" x="-4" y="250" width="8" height="524" rx="4" fill="#90ebcd" />
+          </g>
+        <g data-hf-id="hf-r53o" id="cl-pk" opacity="0"><rect data-hf-id="hf-blnl" x="-20" y="-20" width="40" height="40" rx="7" fill="#fe7c3f" /><rect data-hf-id="hf-tlk1" x="-4" y="-20" width="8" height="40" fill="#0c322c" opacity="0.45" /></g>
+          </g>
+          <g data-hf-id="hf-t5oa" id="cl-state" opacity="0">
+            <text data-hf-id="hf-9bsb" id="cl-st-learn" x="1450" y="752" text-anchor="middle" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="30" fill="#bababa" opacity="0">learning normal behaviour</text>
+            <text data-hf-id="hf-j8yl" id="cl-st-enf" x="1450" y="752" text-anchor="middle" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="30" fill="#90ebcd" opacity="0">enforcing</text>
+            <text data-hf-id="hf-44kl" id="cl-st-blk" x="1450" y="752" text-anchor="middle" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="30" fill="#fe7c3f" opacity="0">blocked: not in the profile</text>
+          </g>
+        <g data-hf-id="hf-kd29" id="ad0" opacity="0" transform="translate(700 679)"><rect data-hf-id="hf-ie0y" x="-50" y="-50" width="100" height="100" rx="18" fill="#01564a" stroke="#90ebcd" stroke-width="4" stroke-dasharray="10 7" /><g data-hf-id="hf-qb0n"><rect data-hf-id="hf-68eg" x="-44" y="-88" width="88" height="30" rx="15" fill="#025937" stroke="#90ebcd" stroke-width="2" /><text data-hf-id="hf-if3r" x="0" y="-67" text-anchor="middle" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="18" fill="#90ebcd">signed</text></g><g data-hf-id="hf-croo" id="adx0" opacity="0"><circle data-hf-id="hf-fkbe" cx="46" cy="-46" r="17" fill="#fe7c3f" /><path data-hf-id="hf-urwk" d="M39 -53 L53 -39 M53 -53 L39 -39" stroke="#0c322c" stroke-width="4.5" stroke-linecap="round" fill="none" /></g></g>
+          <g data-hf-id="hf-gsqy" id="ad1" opacity="0" transform="translate(700 679)"><rect data-hf-id="hf-7cva" x="-50" y="-50" width="100" height="100" rx="18" fill="#01564a" stroke="#90ebcd" stroke-width="4" stroke-dasharray="10 7" /><g data-hf-id="hf-qpbo"><rect data-hf-id="hf-q0q1" x="-62" y="-88" width="124" height="30" rx="15" fill="#47190d" stroke="#fe7c3f" stroke-width="2" /><text data-hf-id="hf-eq4t" x="0" y="-67" text-anchor="middle" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="18" fill="#fe7c3f">privileged</text></g><g data-hf-id="hf-ohcd" id="adx1" opacity="0"><circle data-hf-id="hf-ikla" cx="46" cy="-46" r="17" fill="#fe7c3f" /><path data-hf-id="hf-iqyk" d="M39 -53 L53 -39 M53 -53 L39 -39" stroke="#0c322c" stroke-width="4.5" stroke-linecap="round" fill="none" /></g></g>
+          <g data-hf-id="hf-94in" id="ad2" opacity="0" transform="translate(700 679)"><rect data-hf-id="hf-7r6b" x="-50" y="-50" width="100" height="100" rx="18" fill="#01564a" stroke="#90ebcd" stroke-width="4" stroke-dasharray="10 7" /><g data-hf-id="hf-r3mp"><rect data-hf-id="hf-5hmo" x="-44" y="-88" width="88" height="30" rx="15" fill="#025937" stroke="#90ebcd" stroke-width="2" /><text data-hf-id="hf-vbav" x="0" y="-67" text-anchor="middle" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="18" fill="#90ebcd">signed</text></g><g data-hf-id="hf-e616" id="adx2" opacity="0"><circle data-hf-id="hf-iywb" cx="46" cy="-46" r="17" fill="#fe7c3f" /><path data-hf-id="hf-hk1h" d="M39 -53 L53 -39 M53 -53 L39 -39" stroke="#0c322c" stroke-width="4.5" stroke-linecap="round" fill="none" /></g></g>
+          <g data-hf-id="hf-4mk0" id="ad3" opacity="0" transform="translate(700 679)"><rect data-hf-id="hf-85hc" x="-50" y="-50" width="100" height="100" rx="18" fill="#01564a" stroke="#90ebcd" stroke-width="4" stroke-dasharray="10 7" /><g data-hf-id="hf-rhxq"><rect data-hf-id="hf-mucd" x="-62" y="-88" width="124" height="30" rx="15" fill="#47190d" stroke="#fe7c3f" stroke-width="2" /><text data-hf-id="hf-e50u" x="0" y="-67" text-anchor="middle" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="18" fill="#fe7c3f">untrusted</text></g><g data-hf-id="hf-nxqf" id="adx3" opacity="0"><circle data-hf-id="hf-jd7c" cx="46" cy="-46" r="17" fill="#fe7c3f" /><path data-hf-id="hf-hyci" d="M39 -53 L53 -39 M53 -53 L39 -39" stroke="#0c322c" stroke-width="4.5" stroke-linecap="round" fill="none" /></g></g>
+          <g data-hf-id="hf-cl83" id="ad-gate" opacity="0" transform="translate(1030 829)">
+            <circle data-hf-id="hf-7w9b" r="62" fill="#025937" stroke="#ffffff" stroke-width="5" />
+            <g data-hf-id="hf-emfb" transform="translate(-37 -37) scale(0.62)" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><path data-hf-id="hf-lvfd" d="M60 14 L96 27 V57 C96 81 80 97 60 106 C40 97 24 81 24 57 V27 Z" /><path data-hf-id="hf-tctp" d="M44 60 L56 72 L78 48" stroke="#90ebcd" /></g>
+            <circle data-hf-id="hf-xu8l" id="ad-ring-ok" r="73" fill="none" stroke="#90ebcd" stroke-width="8" opacity="0" />
+            <circle data-hf-id="hf-qhch" id="ad-ring-bad" r="73" fill="none" stroke="#fe7c3f" stroke-width="8" opacity="0" />
+          </g>
+          <text data-hf-id="hf-pf6n" id="ad-rej" x="1000" y="968" text-anchor="middle" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="28" fill="#fe7c3f" opacity="0">denied before it runs</text>
+        </svg>
+      </section>
+
+      <!-- ================= 1. HOOK 0-10s ================= -->
+      <section data-hf-id="hf-l8d5" id="pods-clip" class="clip" data-start="0" data-duration="10.121" data-track-index="2">
+        <div data-hf-id="hf-tvza" class="pods" id="pods">
+          <div data-hf-id="hf-seff" class="pod" id="pod0" style="left: 0px; top: 0px"><div data-hf-id="hf-6dbs" class="pod-flash"></div><div data-hf-id="hf-69ar" class="pod-dot"></div></div>
+          <div data-hf-id="hf-huku" class="pod" id="pod1" style="left: 152px; top: 0px"><div data-hf-id="hf-52a8" class="pod-flash"></div><div data-hf-id="hf-t52r" class="pod-dot"></div></div>
+          <div data-hf-id="hf-nnwm" class="pod" id="pod2" style="left: 304px; top: 0px"><div data-hf-id="hf-3vd5" class="pod-flash"></div><div data-hf-id="hf-sqrq" class="pod-dot"></div></div>
+          <div data-hf-id="hf-4os9" class="pod" id="pod3" style="left: 456px; top: 0px"><div data-hf-id="hf-49o6" class="pod-flash"></div><div data-hf-id="hf-scgp" class="pod-dot"></div></div>
+          <div data-hf-id="hf-muxb" class="pod" id="pod4" style="left: 0px; top: 152px"><div data-hf-id="hf-32r3" class="pod-flash"></div><div data-hf-id="hf-ry5o" class="pod-dot"></div></div>
+          <div data-hf-id="hf-kqwm" class="pod" id="pod5" style="left: 152px; top: 152px"><div data-hf-id="hf-3h24" class="pod-flash"></div><div data-hf-id="hf-rjun" class="pod-dot"></div></div>
+          <div data-hf-id="hf-6h4u" class="pod" id="pod6" style="left: 304px; top: 152px"><div data-hf-id="hf-2a51" class="pod-flash"></div><div data-hf-id="hf-r5jm" class="pod-dot"></div></div>
+          <div data-hf-id="hf-aee9" class="pod" id="pod7" style="left: 456px; top: 152px"><div data-hf-id="hf-2og2" class="pod-flash"></div><div data-hf-id="hf-qr8l" class="pod-dot"></div></div>
+          <div data-hf-id="hf-x1ic" class="pod" id="pod8" style="left: 0px; top: 304px"><div data-hf-id="hf-1hiz" class="pod-flash"></div><div data-hf-id="hf-qcxk" class="pod-dot"></div></div>
+          <div data-hf-id="hf-mihd" class="pod" id="pod9" style="left: 152px; top: 304px"><div data-hf-id="hf-1vu0" class="pod-flash"></div><div data-hf-id="hf-pymj" class="pod-dot"></div></div>
+          <div data-hf-id="hf-yfeg" class="pod" id="pod10" style="left: 304px; top: 304px"><div data-hf-id="hf-wyw0" class="pod-flash"></div><div data-hf-id="hf-iuih" class="pod-dot"></div></div>
+        </div>
+        <!-- the test sandbox the agent breaks out of -->
+        <svg data-hf-id="hf-b1sd" id="sandbox" style="position: absolute; left: 0px; top: 0px; display: block" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+          <g data-hf-id="hf-2s35" id="sb-box" opacity="0" fill="none" stroke="#fe7c3f" stroke-width="4" stroke-linecap="square">
+            <path data-hf-id="hf-vhiz" d="M1430 330 H1150 V610 H1430" />
+            <line data-hf-id="hf-gne4" id="sb-wall-t" x1="1430" y1="330" x2="1430" y2="470" />
+            <line data-hf-id="hf-93bz" id="sb-wall-b" x1="1430" y1="470" x2="1430" y2="610" />
+          </g>
+          <circle data-hf-id="hf-f0fd" id="sb-dot" cx="0" cy="0" r="14" fill="#fe7c3f" opacity="0" />
+        </svg>
+      </section>
+
+      <section data-hf-id="hf-ptxy" id="s1" class="clip" data-start="0" data-duration="9.5" data-track-index="1">
+        <div data-hf-id="hf-pfi4" class="block dateline" id="s1-date" style="top: 236px">July 2026.</div>
+        <div data-hf-id="hf-1y9d" class="block h-xl" id="s1-h" style="top: 296px; width: 960px">An AI agent escaped its test sandbox.</div>
+        <div data-hf-id="hf-yfpt" class="block h-lg" id="s1-l2" style="top: 524px; width: 960px">It took one pod.</div>
+        <div data-hf-id="hf-ad33" class="block h-lg" id="s1-count" style="top: 610px; width: 960px"><span data-hf-id="hf-zanq" class="mono counter-num" id="counter">1</span> nodes rooted.</div>
+      </section>
+
+      <!-- ================= 2. SUSE AI FACTORY 10-24s ================= -->
+      <section data-hf-id="hf-6p4a" id="s2" class="clip" data-start="9.5" data-duration="13.08" data-track-index="1">
+        <div data-hf-id="hf-6t7v" class="block h-lg" id="s2-a" style="top: 80px; width: 1400px">Here’s how <span data-hf-id="hf-p6vv" class="hl">SUSE AI Factory</span> stops it</div>
+        <div data-hf-id="hf-9j6j" class="block dateline" id="s2-tag" style="top: 296px">Defence in depth</div>
+        <div data-hf-id="hf-aiqn" class="block body-mint" id="s2-b" style="top: 366px; width: 680px">No single wall to beat. A control at every step of the AI supply chain.</div>
+        <div data-hf-id="hf-igxv" class="block body-white" id="s2-c" style="top: 580px; width: 680px">Layer after layer. The attacker has to get past all of them.</div>
+      </section>
+
+      <!-- ================= 3. BASE CONTAINERS 24-36s ================= -->
+      <section data-hf-id="hf-c5pa" id="s3" class="clip" data-start="22.58" data-duration="9.5" data-track-index="1">
+        <div data-hf-id="hf-tqlw" class="block step-label" id="s3-label"><span data-hf-id="hf-jyib" class="mono">1</span>Built on <span data-hf-id="hf-51eu" class="hl">SUSE Linux Enterprise</span> base containers</div>
+        <div data-hf-id="hf-yodn" class="card cardbox" id="s3-card">
+          <div data-hf-id="hf-loa2" class="point" id="s3-p1"><span data-hf-id="hf-waqz" class="point-mark"></span><span data-hf-id="hf-2bxi" class="line">Full <span data-hf-id="hf-qvdc" class="mono">SLSA L3</span> provenance and attestation</span></div>
+          <div data-hf-id="hf-fik9" class="point" id="s3-p2"><span data-hf-id="hf-ub7u" class="point-mark"></span><span data-hf-id="hf-6c9z" class="line"><span data-hf-id="hf-c3ey" class="mono">100%</span> <span data-hf-id="hf-r145" class="mono">SBOM</span></span></div>
+        </div>
+      </section>
+
+      <!-- ================= 3b. APPLICATION COLLECTION 36-48s: same conveyor shot, the box opens and packages drop in ================= -->
+      <section data-hf-id="hf-pvyx" id="s3b" class="clip" data-start="32.08" data-duration="11.74" data-track-index="1">
+        <div data-hf-id="hf-h5am" class="block step-label" id="s3b-h">AI Dependencies from <span data-hf-id="hf-ov6t" class="hl">SUSE Application Collection</span></div>
+        <div data-hf-id="hf-vv5m" class="card cardbox" id="s3b-card">
+          <div data-hf-id="hf-rolc" class="point" id="s3b-p1"><span data-hf-id="hf-108t" class="point-mark"></span><span data-hf-id="hf-dtz2" class="line"><span data-hf-id="hf-iony" class="mono">1000+</span> Python libraries</span></div>
+          <div data-hf-id="hf-0ch7" class="point" id="s3b-p2"><span data-hf-id="hf-vi4x" class="point-mark"></span><span data-hf-id="hf-idum" class="line">Built from verified source</span></div>
+          <div data-hf-id="hf-wed6" class="point" id="s3b-p3"><span data-hf-id="hf-wp20" class="point-mark"></span><span data-hf-id="hf-s77m" class="line">Full provenance and attestation</span></div>
+        </div>
+      </section>
+
+      <!-- ================= 3c. KATA CONTAINERS 48-60s: arm lowers the box into a steel microVM ================= -->
+      <section data-hf-id="hf-d21f" id="s3c" class="clip" data-start="43.82" data-duration="14.72" data-track-index="1">
+        <div data-hf-id="hf-k0mq" class="block step-label" id="s3c-h">The agent runs in its own <span data-hf-id="hf-lhhi" class="hl">Kata Containers</span> sandbox</div>
+        <div data-hf-id="hf-vwod" class="card cardbox" id="s3c-card">
+          <div data-hf-id="hf-7lub" class="point" id="s3c-p1"><span data-hf-id="hf-twwt" class="point-mark"></span><span data-hf-id="hf-jx3t" class="line">Its own lightweight virtual machine</span></div>
+          <div data-hf-id="hf-yxyg" class="point" id="s3c-p2"><span data-hf-id="hf-v3tw" class="point-mark"></span><span data-hf-id="hf-wj7d" class="line">The host Linux kernel stays out of reach</span></div>
+          <div data-hf-id="hf-zpm9" class="point" id="s3c-p3"><span data-hf-id="hf-upiv" class="point-mark"></span><span data-hf-id="hf-a6z0" class="line">A breakout stays inside the wall</span></div>
+          <div data-hf-id="hf-ou4m" class="point" id="s3c-p4"><span data-hf-id="hf-z2w6" class="point-mark"></span><span data-hf-id="hf-o1ae" class="line">Technology Preview on <span data-hf-id="hf-ck5x" class="hl">SUSE Rancher Prime: RKE2</span></span></div>
+        </div>
+      </section>
+
+      <!-- ================= 3d. OPENSHELL 64-76s: a guard at the vault's only port ================= -->
+      <section data-hf-id="hf-rjey" id="s3d" class="clip" data-start="58.54" data-duration="13.44" data-track-index="1">
+        <div data-hf-id="hf-dlgl" class="block step-label" id="s3d-h"><span data-hf-id="hf-hscg" class="hl">NVIDIA OpenShell</span> guards the only way out</div>
+        <div data-hf-id="hf-pooo" class="card cardbox" id="s3d-card">
+          <div data-hf-id="hf-65ga" class="point" id="s3d-p1"><span data-hf-id="hf-yol5" class="point-mark"></span><span data-hf-id="hf-kf0r" class="line">Only approved network addresses get through</span></div>
+          <div data-hf-id="hf-27c9" class="point" id="s3d-p2"><span data-hf-id="hf-rr77" class="point-mark"></span><span data-hf-id="hf-24do" class="line">The agent never holds the real keys</span></div>
+          <div data-hf-id="hf-5hnk" class="point" id="s3d-p3"><span data-hf-id="hf-s5i8" class="point-mark"></span><span data-hf-id="hf-o8uu" class="line"><span data-hf-id="hf-m1dg" class="hl">SUSE Linux Enterprise Server 16</span> supports OpenShell and Landlock</span></div>
+        </div>
+      </section>
+
+      <!-- ================= 3h. SUSE RANCHER PRIME 76-88s: the vault is delivered into a managed cluster ================= -->
+      <section data-hf-id="hf-b7qv" id="s3h" class="clip" data-start="71.98" data-duration="10.44" data-track-index="1">
+        <div data-hf-id="hf-ag2n" class="block step-label" id="s3h-h"><span data-hf-id="hf-4yy7" class="hl">SUSE Rancher Prime</span> manages the cluster and its workloads</div>
+        <div data-hf-id="hf-lr64" class="card cardbox" id="s3h-card">
+          <div data-hf-id="hf-6r5y" class="point" id="s3h-p1"><span data-hf-id="hf-qyl5" class="point-mark"></span><span data-hf-id="hf-n7uz" class="line">Create and manage clusters across clouds and on-premise</span></div>
+          <div data-hf-id="hf-2t1x" class="point" id="s3h-p2"><span data-hf-id="hf-rcw6" class="point-mark"></span><span data-hf-id="hf-b3m5" class="line">Deploys and manages workloads across your clusters</span></div>
+        </div>
+        </section>
+
+      <!-- ================= 3e. VULNERABILITY SCANNER 88-100s ================= -->
+      <section data-hf-id="hf-rcq5" id="s3e" class="clip" data-start="82.42" data-duration="10.7" data-track-index="1">
+        <div data-hf-id="hf-w4ff" class="block step-label" id="s3e-h">In the cluster, every pod is scanned by <span data-hf-id="hf-5fmd" class="hl">SUSE Security Vulnerability Scanner</span></div>
+        <div data-hf-id="hf-mn0r" class="card cardbox" id="s3e-card">
+          <div data-hf-id="hf-5exh" class="point" id="s3e-p1"><span data-hf-id="hf-q5z3" class="point-mark"></span><span data-hf-id="hf-jvpq" class="line">Scans every pod as it arrives</span></div>
+          <div data-hf-id="hf-9d1i" class="point" id="s3e-p2"><span data-hf-id="hf-qka4" class="point-mark"></span><span data-hf-id="hf-j7c2" class="line">Ranks what’s really exploitable: <span data-hf-id="hf-a2ff" class="mono" style="white-space: nowrap">KEV + EPSS</span></span></div>
+          <div data-hf-id="hf-db5j" class="point" id="s3e-p3"><span data-hf-id="hf-pdd1" class="point-mark"></span><span data-hf-id="hf-xlmk" class="line">Full vulnerability reports from within <span data-hf-id="hf-glcf" class="hl">SUSE Rancher Prime</span></span></div>
+        </div>
+      </section>
+
+      <!-- ================= 3f. RUNTIME ENFORCER 100-118s: zoom on a neighbouring pod ================= -->
+      <section data-hf-id="hf-qxdb" id="s3f" class="clip" data-start="93.12" data-duration="15.02" data-track-index="1">
+        <div data-hf-id="hf-zmca" class="block step-label" id="s3f-h"><span data-hf-id="hf-dbsn" class="hl">SUSE Security Runtime Enforcer</span> blocks everything <span data-hf-id="hf-rp6a" style="white-space: nowrap">off-script</span></div>
+        <div data-hf-id="hf-4jri" class="card cardbox" id="s3f-card">
+          <div data-hf-id="hf-2oto" class="point" id="s3f-p1"><span data-hf-id="hf-pro2" class="point-mark"></span><span data-hf-id="hf-e05c" class="line"><span data-hf-id="hf-t9vd" class="mono">eBPF</span> learns normal behaviour</span></div>
+          <div data-hf-id="hf-dkbb" class="point" id="s3f-p2"><span data-hf-id="hf-okqz" class="point-mark"></span><span data-hf-id="hf-dqx5" class="line">Then blocks the rest</span></div>
+        </div>
+        <div data-hf-id="hf-fuj1" class="tag-wrap block" id="s3f-tag" style="top: 540px"><span data-hf-id="hf-6lya" class="tag">Now available</span></div>
+      </section>
+
+      <!-- ================= 3g. ADMISSION CONTROLLER 118-134s: a gate at the cluster entrance ================= -->
+      <section data-hf-id="hf-w2oj" id="s3g" class="clip" data-start="108.14" data-duration="14.76" data-track-index="1">
+        <div data-hf-id="hf-oxpt" class="block step-label" id="s3g-h"><span data-hf-id="hf-4bf0" class="hl">SUSE Security Admission Controller</span> stops risky pods at the door</div>
+        <div data-hf-id="hf-920h" class="card cardbox" id="s3g-card">
+          <div data-hf-id="hf-07kv" class="point" id="s3g-p1"><span data-hf-id="hf-oz20" class="point-mark"></span><span data-hf-id="hf-9yn3" class="line">Every request is checked against policy</span></div>
+          <div data-hf-id="hf-rjp0" class="point" id="s3g-p2"><span data-hf-id="hf-vnlk" class="point-mark"></span><span data-hf-id="hf-swxt" class="line">Privileged pods are denied before they run</span></div>
+          <div data-hf-id="hf-sbct" class="point" id="s3g-p3"><span data-hf-id="hf-v9aj" class="point-mark"></span><span data-hf-id="hf-wjmu" class="line">Verifies image signatures</span></div>
+          <div data-hf-id="hf-b32i" class="point" id="s3g-p4"><span data-hf-id="hf-uuzi" class="point-mark"></span><span data-hf-id="hf-r3to" class="line">Install and manage policies from <span data-hf-id="hf-g71e" class="hl">SUSE Rancher Prime</span></span></div>
+        </div>
+      </section>
+
+      <!-- ================= 7a. RECAP 88-104s ================= -->
+      <section data-hf-id="hf-o3tf" id="s7a" class="clip" data-start="122.9" data-duration="17.26" data-track-index="1">
+        <div data-hf-id="hf-y0q7" class="block step-label" id="s7-h"><span data-hf-id="hf-o7ob" class="hl">Defence in depth</span>, inside the factory and around it</div>
+        <div data-hf-id="hf-9nu1" class="card cardbox" id="s7-card" style="top: 200px">
+          <div data-hf-id="hf-9vx1" class="cardgroup" id="s7-p1"><span data-hf-id="hf-qv1y" class="pill">Built right</span><div data-hf-id="hf-zx5o" class="group-text">SUSE Linux Enterprise base containers and SUSE Application Collection</div></div>
+          <div data-hf-id="hf-du12" class="cardgroup" id="s7-p2"><span data-hf-id="hf-m5sy" class="pill">Sandboxed</span><div data-hf-id="hf-ogl2" class="group-text">Kata Containers and NVIDIA OpenShell</div></div>
+          <div data-hf-id="hf-hs53" class="cardgroup" id="s7-p3"><span data-hf-id="hf-3ngg" class="pill">Guarded</span><div data-hf-id="hf-3jp3" class="group-text">Vulnerability Scanner, Runtime Enforcer and Admission Controller</div></div>
+          <div data-hf-id="hf-lq94" class="cardgroup" id="s7-p4"><span data-hf-id="hf-z85k" class="pill">Managed and delivered</span><div data-hf-id="hf-zxgt" class="group-text">SUSE Rancher Prime</div></div>
+        </div>
+        <svg data-hf-id="hf-9gle" id="rc-svg" style="position: absolute; left: 0; top: 0; display: block" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+          <g data-hf-id="hf-tze1" id="rc-rp" opacity="0">
+            <rect data-hf-id="hf-m7y4" x="1060" y="220" width="680" height="680" rx="70" fill="none" stroke="#ffffff" stroke-width="4" stroke-dasharray="3 12" stroke-linecap="round" />
+            <rect data-hf-id="hf-2xz3" id="rc-glow-rp" x="1060" y="220" width="680" height="680" rx="70" fill="none" stroke="#90ebcd" stroke-width="10" opacity="0" />
+            <text data-hf-id="hf-hgpa" x="1096" y="262" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="24" fill="#ffffff">managed and delivered</text>
+          </g>
+          <g data-hf-id="hf-jc4k" id="rc-outer" opacity="0">
+            <rect data-hf-id="hf-f1z0" x="1140" y="300" width="520" height="520" rx="56" fill="none" stroke="#008878" stroke-width="5" stroke-dasharray="14 10" />
+            <rect data-hf-id="hf-1xdo" id="rc-glow-outer" x="1140" y="300" width="520" height="520" rx="56" fill="none" stroke="#90ebcd" stroke-width="10" opacity="0" />
+            <text data-hf-id="hf-5isd" x="1172" y="346" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="24" fill="#bababa">guarded</text>
+          </g>
+          <g data-hf-id="hf-nqff" id="rc-mid" opacity="0">
+            <rect data-hf-id="hf-f9yf" x="1220" y="380" width="360" height="360" rx="34" fill="#34524c" stroke="#bababa" stroke-width="6" />
+            <rect data-hf-id="hf-5bxa" id="rc-glow-mid" x="1220" y="380" width="360" height="360" rx="34" fill="none" stroke="#90ebcd" stroke-width="10" opacity="0" />
+            <text data-hf-id="hf-bwia" x="1246" y="424" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="22" fill="#90ebcd">sandboxed</text>
+          </g>
+          <g data-hf-id="hf-0ofu" id="rc-in" opacity="0">
+            <rect data-hf-id="hf-za78" x="1300" y="460" width="200" height="200" rx="18" fill="#025937" stroke="#ffffff" stroke-width="5" />
+            <rect data-hf-id="hf-dfl9" id="rc-glow-in" x="1300" y="460" width="200" height="200" rx="18" fill="none" stroke="#90ebcd" stroke-width="10" opacity="0" />
+            <circle data-hf-id="hf-l980" cx="1400" cy="542" r="16" fill="#fe7c3f" />
+            <text data-hf-id="hf-g0o5" x="1400" y="628" text-anchor="middle" font-family="SUSE Mono, ui-monospace, monospace" font-weight="500" font-size="22" fill="#90ebcd">built right</text>
+          </g>
+        </svg>
+        <div data-hf-id="hf-y2kh" class="block end-small" id="s7-foot" style="top: 925px; width: 1740px; font-size: 36px; color: var(--mint)">On premises and air-gapped · Built on open source · Ready for the Cyber Resilience Act</div>
+      </section>
+
+      <!-- ================= 7b. END CARD 104-120s ================= -->
+      <section data-hf-id="hf-97qd" id="s7b" class="clip" data-start="140.16" data-duration="20.64" data-track-index="1">
+        <div data-hf-id="hf-afat" class="block end-h" id="e-h" style="top: 300px; width: 1400px"><span data-hf-id="hf-x3ip" class="line">Stop AI hacks</span><span data-hf-id="hf-kgt5" class="line">at every step.</span></div>
+        <div data-hf-id="hf-4j0n" class="block end-sub" id="e-sub" style="top: 584px; width: 1400px"><span data-hf-id="hf-ue37" class="line">From the library you install</span><span data-hf-id="hf-8y7m" class="line">to the pod you run.</span></div>
+        <div data-hf-id="hf-ivtk" class="block end-small" id="e-small" style="top: 770px; width: 1740px; font-size: 33px"><span data-hf-id="hf-fumw" class="mono line">suse.com/blog/kubecon-na-2026-secure-supply-chain-platform/</span><span data-hf-id="hf-3c2o" id="e-small-ai" class="mono line" style="margin-top: 14px">suse.com/blog/agentic-secops-on-suse-ai-factory-with-nvidia-agent-safety-platform</span><span data-hf-id="hf-vs77" class="line" style="margin-top: 54px">KubeCon NA 2026</span></div>
+        <img data-hf-id="hf-g5sg" id="e-qr" src="assets/blog-qr.png" alt="QR code to the SUSE blog" style="position: absolute; left: 1030px; top: 320px; width: 360px; height: 360px; border-radius: 18px; display: block" />
+        <img data-hf-id="hf-qnjz" id="e-qr2" src="assets/ai-blog.svg" alt="QR code to the SUSE AI blog" style="background: #fff;position: absolute; left: 1420px; top: 320px; width: 360px; height: 360px; border-radius: 18px; display: block" />
+        <div data-hf-id="hf-thg8" id="e-qr-cap" class="mono" style="position: absolute; left: 1030px; top: 702px; width: 360px; text-align: center; font-size: 24px; color: var(--mint)">KubeCon 2026 blog</div>
+        <div data-hf-id="hf-10sp" id="e-qr2-cap" class="mono" style="position: absolute; left: 1420px; top: 702px; width: 360px; text-align: center; font-size: 24px; color: var(--mint)">AI Factory blog</div>
+      </section>
+
+      <!-- ================= SUSE logo, top right, the whole film ================= -->
+      <section data-hf-id="hf-64lo" id="logo-clip" class="clip" data-start="0" data-duration="23.372" data-track-index="3">
+        <img data-hf-id="hf-b36m" class="logo" id="logo" src="assets/SUSE_Logo-hor_L_Green-White-neg_sRGB.svg" alt="SUSE" />
+      </section>
+
+      <!-- ================= SUSE AI Factory stacked logo, top right, from inside the factory (23.5 s) to the end ================= -->
+      <section data-hf-id="hf-2b5q" id="logo-af-clip" class="clip" data-start="22.262" data-duration="138.538" data-track-index="3">
+        <img data-hf-id="hf-v7ji" class="logo-af" id="logo-af" src="assets/SUSE-AI-Factory-Logo_neg-green-stacked.svg" alt="SUSE AI Factory" />
+      </section>
+    </div>
+
+    <script>
+      (function () {
+        const tl = gsap.timeline({ paused: true });
+
+        // ---------- helpers ----------
+        const clamp01 = (x) => (x < 0 ? 0 : x > 1 ? 1 : x);
+        const seg = (t, a, d) => clamp01((t - a) / d);
+        const lerp = (a, b, p) => a + (b - a) * p;
+        const e2io = (x) => (x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2);
+        const e3o = (x) => 1 - Math.pow(1 - x, 3);
+
+        const FADE = 0.6;
+        const fadeUp = (sel, at, dist) =>
+          tl.fromTo(sel, { opacity: 0, y: dist == null ? 28 : dist }, { opacity: 1, y: 0, duration: FADE, ease: "power3.out" }, at);
+        const fadeOut = (sel, at) =>
+          tl.fromTo(sel, { opacity: 1 }, { opacity: 0, duration: 0.5, ease: "power2.in", immediateRender: false }, at);
+
+        // ---------- cached nodes ----------
+        const $ = (id) => document.getElementById(id);
+        const counter = $("counter");
+        const sbBox = $("sb-box"), sbT = $("sb-wall-t"), sbB = $("sb-wall-b"), sbDot = $("sb-dot");
+        const e2i = (x) => x * x;
+        const e2o = (x) => 1 - (1 - x) * (1 - x);
+
+        // ---------- SUSE AI Factory scenes ----------
+        const doorClipRect = $("door-clip-rect"), shellA = $("fc-shell-a"), shellB = $("fc-shell-b"), smokeEl = $("fc-smoke"), fcam = $("fcam"), doorFrame = $("fc-doorframe"), gears = Array.from({ length: 10 }, (_, i) => $("gear" + i)), fgs = Array.from({ length: 8 }, (_, i) => $("fg" + i)), flDash = $("fl-dash"), ivBox = $("iv-box");
+        const chip1 = $("iv-chip1"), chip2 = $("iv-chip2");
+        const wins = [$("fc-win0"), $("fc-win1")];
+        const smoke = [];
+        for (let i = 0; i < 14; i++) smoke.push($("sm" + i));
+        const CHIM = [[968, 200], [1528, 215]];
+        const FOCAL = [1240, 670];            // centre of the open door
+        const SF = 1776 / 320;                // zoom at which the door opening fills the stage
+        const ZOOM_T = 22.4, ZOOM_D = 2.0;
+        const SMOKE_T0 = 11.4, PUFFS = 7, PUFF_LIFE = 5.6;
+        const GEAR_X = Array.from({ length: 10 }, (_, i) => 150 + 300 * i), GEAR_R = 46;
+        const FG_X = [300, 760, 1150, 1500, 1980, 2400, 2800, 3200], FG_PARALLAX = 1.6, FG_LOOP = 3600, GEAR_LOOP = 3000;
+        const wrap = (x, off, loop) => ((((x + off) % loop) + loop) % loop) - off;
+        // box opens (flaps swing out), then packages drop into it one after another
+        const OPEN_T = 38.0, OPEN_D = 0.6, PK_T0 = 39.0, PK_GAP = 0.5, PK_FALL = 0.8;
+        const PK_X = [-60, 0, 60, -60, 0, 60, -30, 30], PK_REST = [-30, -30, -30, -84, -84, -84, -138, -138], PK_S = [0.82, 0.78, 0.86, 0.8, 0.84, 0.78, 0.82, 0.8], PK_R = [-14, 10, -6, 16, 8, -12, 12, -8];
+        // Kata scene (48-60 s): lid closes, box turns x-ray, the agent dot pushes at the walls, an arm lowers the box into a steel microVM
+        const CLOSE_T = 47.4, XRAY_T = 48.8, DOT_T = 49.0, DOT_P = 1.1;
+        const CLAW_DOWN = 52.6, GRIP_T = 53.2, LIFT_T = 53.7, VAULT_T = 53.7, LOWER_T = 54.8, RELEASE_T = 55.7, LID_T = 56.4, VAULT_X = 1208;
+        // OpenShell scene (64-76 s): requests leave the vault port, the guard lets approved ones through and swaps the decoy key for the real one
+        const OS_T = 64.8, REQ = [{ t0: 66.4, ok: true }, { t0: 68.6, ok: false }, { t0: 70.8, ok: true }, { t0: 73.0, ok: false }];
+        const PORT_X = 1392, GUARD_X = 1480, GUARD_Y = 502;
+        const rqs = REQ.map((r, i) => ({ g: $("rq" + i), k: $("rqk" + i), ...r }));
+        const tilesEl = $("iv-tiles"), guardEl = $("iv-guard"), ringOk = $("iv-ring-ok"), ringBad = $("iv-ring-bad"), tileAFlash = $("iv-tile-a-flash"), tileBRing = $("iv-tile-b-ring");
+        const decay = (tt, rate) => (tt < 0 ? 0 : tt < 0.08 ? tt / 0.08 : Math.exp(-(tt - 0.08) * rate));
+        // Cluster scene (76-88 s): pods appear, the vault drops in among them, a scan beam sweeps and flags the exploitable ones
+        const CL_T = 76.0, CL_DROP = 78.4, CL_SCAN = 92.2, CL_SCAN_D = 3.2;
+        const CL_X = [1090, 1242, 1394, 1546], CL_Y = [310, 462, 614];
+        const clPods = Array.from({ length: 12 }, (_, i) => ({ g: $("cl-pod" + i), bd: $("cl-bd" + i), ring: $("cl-fl" + i), x: CL_X[i % 4], y: CL_Y[Math.floor(i / 4)] }));
+        const clVault = $("cl-vault"), clVaultBd = $("cl-vbd"), clFrame = $("cl-frame"), clBeam = $("cl-beam");
+        // Runtime Enforcer scene (88-100 s): zoom on a neighbouring pod, learn its normal behaviour, enforce, block a poisoned package's shell
+        // Admission Controller scene (106-122 s): the camera zooms back out, pods arrive at a gate, risky ones are turned away
+        const ZOUT_T = 118.0, ZOUT_D = 2.2, AD_T = 120.4, CL_DROP_Y = 60, AD_Y = 679 + CL_DROP_Y + 90;   // cluster and incoming pods sit 60 px lower when zoomed out
+        const AD = [{ t0: 121.6, ok: true }, { t0: 124.2, ok: false }, { t0: 126.8, ok: true }, { t0: 129.4, ok: false }];
+        const adPods = AD.map((r, i) => ({ g: $("ad" + i), x: $("adx" + i), ...r }));
+        const adGate = $("ad-gate"), adRingOk = $("ad-ring-ok"), adRingBad = $("ad-ring-bad"), adRej = $("ad-rej"), clOk8 = $("cl-ok8");
+        // Rancher Prime scene (76-88 s): the hub reaches every pod, pulses run down the management lines
+        const rnLines = $("rn-lines"), rnHub = $("rn-hub"), rnPulses = Array.from({ length: 8 }, (_, i) => $("rn-pu" + i));
+        const RN_T = 78.0, RN_END = 86.8, RN_X = [1155, 1307, 1459, 1611];
+        const clCam = $("cl-cam"), clIn = $("cl-in6"), clMeter = $("cl-meter"), clMt = $("cl-mt"), clPol = $("cl-pol"), clBlk = $("cl-blk"), clShb = $("cl-shb");
+        const clChips = [0, 1, 2].map((i) => $("cl-ch" + i)), clSh = $("cl-sh"), clX = $("cl-x"), clPk = $("cl-pk");
+        const clState = $("cl-state"), clStL = $("cl-st-learn"), clStE = $("cl-st-enf"), clStB = $("cl-st-blk");
+        const CLZ_T = 100.0, CLZ_D = 2.4, CLZ_S = 2.0, CL_FOC = [1459, 527], CL_TGT = [1450, 560];
+        const RE_IN = 102.8, RE_CH = [103.2, 104.0, 104.8], RE_METER = 103.6, RE_METER_D = 4.4, RE_ENF = 108.4, RE_PK = 111.0, RE_SH = 112.0, RE_BLK = 113.4;
+        const ivFront = $("iv-front"), ivDot = $("iv-dot"), vBack = $("iv-vault-back"), vFront = $("iv-vault-front"), vLid = $("iv-lid"), vFlash = $("iv-flash");
+        const rail = $("iv-rail"), claw = $("iv-claw"), rod = $("iv-rod"), fingerL = $("iv-fl"), fingerR = $("iv-fr");
+        const flapL = $("iv-flapl"), flapR = $("iv-flapr"), tab = $("iv-tab"), pks = Array.from({ length: 8 }, (_, i) => $("pk" + i));
+        // pan along the conveyor: world scrolls left, the belt and the box stay put in frame
+        const PAN_T0 = 24.4, PAN_RAMP = 1.4, PAN_V = 80;
+        const pan = (t) => { const u = t - PAN_T0; return u <= 0 ? 0 : u < PAN_RAMP ? (PAN_V * u * u) / (2 * PAN_RAMP) : PAN_V * (u - PAN_RAMP / 2); };
+        const DROP_T = 26.0, DROP_D = 0.55, LAND_T = DROP_T + DROP_D, BOX_X0 = 1208;  // 1208 + 72 = 1280 px: two thirds across the frame. The box stays put, the belt moves under it.
+        const CHIP_T = [28.4, 30.8];
+
+        // ---------- typewriter headers: the markup stays the source of truth, characters are revealed by t ----------
+        const typers = [];
+        const initTyper = (id, t0, cps) => {
+          const host = $(id);
+          const chars = [];
+          const walk = (node) => {
+            Array.from(node.childNodes).forEach((n) => {
+              if (n.nodeType === 3) {
+                const frag = document.createDocumentFragment();
+                for (const ch of n.textContent) {
+                  const sp = document.createElement("span");
+                  sp.textContent = ch;
+                  frag.appendChild(sp);
+                  chars.push(sp);
+                }
+                n.replaceWith(frag);
+              } else if (n.nodeType === 1) walk(n);
+            });
+          };
+          walk(host);
+          const caret = document.createElement("span");
+          caret.className = "tw-caret";
+          typers.push({ chars, caret, t0, cps, last: -1 });
+        };
+        initTyper("s2-a", 10.9, 24);
+        initTyper("s3-label", 24.5, 24);
+        initTyper("s3b-h", 36.3, 24);
+        initTyper("s3c-h", 48.4, 24);
+        initTyper("s3d-h", 64.4, 24);
+        initTyper("s3h-h", 76.4, 24);
+        initTyper("s3e-h", 88.4, 24);
+        initTyper("s3f-h", 100.4, 24);
+        initTyper("s3g-h", 118.4, 24);
+        initTyper("s7-h", 134.6, 24);
+        const runTypers = (t) => {
+          typers.forEach((ty) => {
+            const len = ty.chars.length;
+            const n = Math.max(0, Math.min(len, Math.floor((t - ty.t0) * ty.cps)));
+            if (n !== ty.last) {
+              ty.chars.forEach((c, i) => (c.style.opacity = i < n ? "1" : "0"));
+              if (n < len) ty.chars[n].before(ty.caret);
+              else ty.chars[len - 1].after(ty.caret);
+              ty.last = n;
+            }
+            const done = ty.t0 + len / ty.cps;
+            const on = t >= ty.t0 && t < done ? 1 : 0;
+            ty.caret.style.opacity = String(on);
+          });
+        };
+
+        // ---------- master render: everything procedural is a pure function of t ----------
+        const C0 = 4.4, CSTEP = 0.22;
+        function render(t) {
+          // hook: the agent breaks out of its test sandbox, then lands in the first pod
+          sbBox.setAttribute("opacity", (seg(t, 0.6, 0.5) * (1 - seg(t, 2.8, 0.5))).toFixed(3));
+          const br = e3o(seg(t, 2.2, 0.5));
+          sbT.setAttribute("transform", "rotate(" + (-40 * br).toFixed(2) + " 1430 330)");
+          sbB.setAttribute("transform", "rotate(" + (40 * br).toFixed(2) + " 1430 610)");
+          let hx = 1290, hy = 470;
+          if (t >= 1.6) hx = lerp(1290, 1430, e2i(seg(t, 1.6, 0.6)));
+          if (t >= 2.2) hx = lerp(1430, 1580, e2o(seg(t, 2.2, 0.5)));
+          if (t >= 2.9) {
+            const q = e2io(seg(t, 2.9, 0.7));
+            hx = lerp(1580, 1215, q);
+            hy = lerp(470, 395, q);
+          }
+          sbDot.setAttribute("cx", hx.toFixed(2));
+          sbDot.setAttribute("cy", hy.toFixed(2));
+          sbDot.setAttribute("opacity", (seg(t, 1.0, 0.4) * (1 - seg(t, 3.6, 0.15))).toFixed(3));
+
+
+          // counter 1 -> 11 (one pod, then ten more nodes)
+          const n = t < C0 ? 1 : 1 + Math.min(10, Math.floor((t - C0) / CSTEP + 1e-6) + 1);
+          counter.textContent = String(n);
+
+          // factory: smoke puffs rise from both chimneys, emitted one after another from SMOKE_T0
+          for (let ch = 0; ch < 2; ch++) {
+            for (let i = 0; i < PUFFS; i++) {
+              const el = smoke[ch * PUFFS + i];
+              const age = t - (SMOKE_T0 + i * (PUFF_LIFE / PUFFS) + ch * 0.9);
+              if (age < 0) {
+                el.setAttribute("opacity", "0");
+                continue;
+              }
+              const p = (age % PUFF_LIFE) / PUFF_LIFE;
+              const x = CHIM[ch][0] + 46 * p + 12 * Math.sin(p * 5 + i * 1.7);
+              const y = CHIM[ch][1] - 12 - 125 * Math.pow(p, 0.85);
+              el.setAttribute("cx", x.toFixed(2));
+              el.setAttribute("cy", y.toFixed(2));
+              el.setAttribute("r", (12 + 34 * p).toFixed(2));
+              el.setAttribute("opacity", (0.5 * Math.pow(1 - p, 1.2) * seg(p, 0, 0.08)).toFixed(3));
+            }
+          }
+          wins[0].setAttribute("opacity", (0.65 + 0.2 * Math.sin(t * 2.1)).toFixed(3));
+          wins[1].setAttribute("opacity", (0.65 + 0.2 * Math.sin(t * 2.1 + 1.9)).toFixed(3));
+
+          // factory camera: exponential zoom into the open door until the belt hall fills the stage
+          const zp = e2io(seg(t, ZOOM_T, ZOOM_D));
+          const fs = Math.exp(lerp(0, Math.log(SF), zp));
+          const fx = lerp(FOCAL[0], 888, zp), fy = lerp(FOCAL[1], 429, zp);
+          doorFrame.setAttribute("opacity", (1 - seg(zp, 0.6, 0.35)).toFixed(3));
+          doorClipRect.setAttribute("x", (1080 - 24 * zp).toFixed(2));
+          doorClipRect.setAttribute("width", (320 + 48 * zp).toFixed(2));
+          const shellOp = (1 - seg(zp, 0.72, 0.28)).toFixed(3);
+          shellA.setAttribute("opacity", shellOp);
+          shellB.setAttribute("opacity", shellOp);
+          smokeEl.setAttribute("opacity", (1 - seg(zp, 0.45, 0.3)).toFixed(3));
+          fcam.setAttribute("transform", "translate(" + (fx - fs * FOCAL[0]).toFixed(3) + " " + (fy - fs * FOCAL[1]).toFixed(3) + ") scale(" + fs.toFixed(5) + ")");
+
+          // conveyor belt texture runs from the start; the box is dropped on it, then rides with the belt
+          const D = pan(t);
+          gears.forEach((g, i) => {
+            const ang = (D / GEAR_R) * (180 / Math.PI) + i * 11;
+            g.setAttribute("transform", "translate(" + wrap(GEAR_X[i] - D, 250, GEAR_LOOP).toFixed(2) + " 734) rotate(" + ang.toFixed(2) + ")");
+          });
+          fgs.forEach((g, i) => g.setAttribute("transform", "translate(" + wrap(FG_X[i] - FG_PARALLAX * D, 300, FG_LOOP).toFixed(2) + " 845)"));
+          flDash.setAttribute("stroke-dashoffset", ((FG_PARALLAX * D) % 126).toFixed(2));
+          const fo = e3o(seg(t, OPEN_T, OPEN_D)) * (1 - e3o(seg(t, CLOSE_T, 0.6)));
+          flapL.setAttribute("transform", "translate(-105 -170) rotate(" + (-110 * fo).toFixed(2) + ")");
+          flapR.setAttribute("transform", "translate(105 -170) rotate(" + (110 * fo).toFixed(2) + ")");
+          tab.setAttribute("opacity", Math.max(1 - seg(t, OPEN_T - 0.25, 0.25), seg(t, CLOSE_T + 0.5, 0.2)).toFixed(3));
+          let pulse = 0;
+          pks.forEach((pk, i) => {
+            const t0 = PK_T0 + i * PK_GAP;
+            const pp = seg(t, t0, PK_FALL);
+            pk.setAttribute("transform", "translate(" + PK_X[i] + " " + lerp(-550, PK_REST[i], pp * pp).toFixed(2) + ") rotate(" + (PK_R[i] * pp).toFixed(2) + ") scale(" + PK_S[i] + ")");
+            pk.setAttribute("opacity", seg(t, t0, 0.15).toFixed(3));
+            pulse += Math.sin(Math.PI * seg(t, t0 + 0.74, 0.2));
+          });
+          const dp = seg(t, DROP_T, DROP_D);
+          let by = lerp(-300, 620, dp * dp);
+          const q = seg(t, LAND_T + 0.18, 0.35);
+          by -= 26 * 4 * q * (1 - q);
+          const sq = Math.sin(Math.PI * seg(t, LAND_T, 0.18));
+          // Kata: arm lifts the box, the vault slides in, the box is lowered inside and the lid closes
+          const lift = 300 * e2io(seg(t, LIFT_T, 0.8)) - 270 * e2io(seg(t, LOWER_T, 0.8));
+          by -= lift;
+          const roll = 1000 * e2io(seg(t, 74.2, 1.2)); // end of the OpenShell scene: box and vault roll off to the right
+          const bx = BOX_X0 + roll;
+          const vx = lerp(2150, VAULT_X, e3o(seg(t, VAULT_T, 0.9))) + roll;
+          vBack.setAttribute("transform", "translate(" + vx.toFixed(2) + " 620)");
+          vFront.setAttribute("transform", "translate(" + vx.toFixed(2) + " 620)");
+          const lidIn = e3o(seg(t, LID_T, 0.6));
+          vLid.setAttribute("opacity", (seg(t, LID_T - 0.05, 0.1)).toFixed(3));
+          vLid.setAttribute("transform", "translate(" + ((1 - lidIn) * 420).toFixed(2) + " 0)");
+          // x-ray front and the agent dot pushing at the walls (it hits a wall every DOT_P seconds)
+          // the agent fights the box: the side it hits bulges out, the box rocks a little
+          const kick = (tt) => (tt < 0 ? 0 : tt < 0.1 ? tt / 0.1 : Math.exp(-(tt - 0.1) * 6));
+          let bL = 0, bR = 0;
+          for (let k = 0; k < 40; k++) {
+            const h = DOT_T + DOT_P * k;
+            if (t >= h && t - h < 1.5) (k % 2 === 0 ? (bL += kick(t - h)) : (bR += kick(t - h)));
+          }
+          const amp = lerp(8, 24, seg(t, DOT_T, 3.5)) * seg(t, DOT_T, 0.3) * (1 - 0.5 * seg(t, LOWER_T, 0.6));
+          bL = Math.min(bL, 1) * amp;
+          bR = Math.min(bR, 1) * amp;
+          ivFront.setAttribute("d", "M-95 -170 H95 Q105 -170 105 -160 Q" + (105 + 2 * bR).toFixed(2) + " -85 105 -10 Q105 0 95 0 H-95 Q-105 0 -105 -10 Q" + (-105 - 2 * bL).toFixed(2) + " -85 -105 -160 Q-105 -170 -95 -170 Z");
+          const rock = 0.08 * (bR - bL);
+          ivFront.setAttribute("fill-opacity", (1 - 0.78 * e3o(seg(t, XRAY_T, 0.5))).toFixed(3));
+          const ph = (t - DOT_T) / DOT_P;
+          ivDot.setAttribute("cx", (-86 * Math.cos(Math.PI * ph)).toFixed(2));
+          ivDot.setAttribute("cy", (-80 + 34 * Math.sin(Math.PI * ph + 1.3)).toFixed(2));
+          ivDot.setAttribute("opacity", seg(t, DOT_T, 0.3).toFixed(3));
+          let hitFlash = 0;
+          for (let k = 0; k < 30; k++) {
+            const h = DOT_T + DOT_P * k;
+            if (h >= LID_T + 0.7 && t >= h) hitFlash += Math.exp(-(t - h) * 7);
+          }
+          vFlash.setAttribute("opacity", Math.min(hitFlash, 1).toFixed(3));
+          // cluster
+          clFrame.setAttribute("opacity", (seg(t, CL_T + 0.2, 0.5) * (1 - e2io(seg(t, CLZ_T, CLZ_D)) * (1 - e2io(seg(t, ZOUT_T, ZOUT_D))))).toFixed(3));
+          const beamX = lerp(1040, 1740, e2io(seg(t, CL_SCAN, CL_SCAN_D)));
+          clBeam.setAttribute("transform", "translate(" + beamX.toFixed(2) + " 0)");
+          clBeam.setAttribute("opacity", (seg(t, CL_SCAN - 0.2, 0.3) * (1 - seg(t, CL_SCAN + CL_SCAN_D + 0.1, 0.4))).toFixed(3));
+          const zoomDim = e2io(seg(t, CLZ_T, CLZ_D)) * (1 - e2io(seg(t, ZOUT_T, ZOUT_D)));
+          clPods.forEach((p, i) => {
+            if (!p.g) return;
+            const ap = seg(t, CL_T + 0.5 + i * 0.14, 0.35);
+            const sc = 0.8 + 0.2 * e3o(ap);
+            p.g.setAttribute("opacity", (ap * (i === 6 ? 1 : 1 - 0.86 * zoomDim)).toFixed(3));
+            p.g.setAttribute("transform", "translate(" + (p.x + 65) + " " + (p.y + 65) + ") scale(" + sc.toFixed(3) + ") translate(-65 -65)");
+            const scanned = seg(beamX, p.x + 35, 60);
+            p.bd.setAttribute("opacity", scanned.toFixed(3));
+            if (p.ring) p.ring.setAttribute("opacity", (scanned * (0.5 + 0.5 * Math.sin(t * 6)) * (1 - seg(t, 98.6, 0.5))).toFixed(3));
+          });
+          // runtime enforcer: camera zooms onto the neighbouring pod (the agent's vault pod stays in view, calm)
+          const zq = e2io(seg(t, CLZ_T, CLZ_D)) * (1 - e2io(seg(t, ZOUT_T, ZOUT_D)));
+          const reOut = 1 - seg(t, 117.0, 0.6);
+          const zs = Math.exp(lerp(0, Math.log(CLZ_S), zq));
+          const zx = lerp(CL_FOC[0], CL_TGT[0], zq), zy = lerp(CL_FOC[1], CL_TGT[1], zq);
+          clCam.setAttribute("transform", "translate(" + (zx - zs * CL_FOC[0]).toFixed(3) + " " + (zy - zs * CL_FOC[1] + (CL_DROP_Y + 90 * e2io(seg(t, ZOUT_T, ZOUT_D))) * (1 - zq)).toFixed(3) + ") scale(" + zs.toFixed(5) + ")");
+          clIn.setAttribute("opacity", (seg(t, RE_IN, 0.4) * reOut).toFixed(3));
+          clChips.forEach((c, i) => c.setAttribute("opacity", e3o(seg(t, RE_CH[i], 0.35)).toFixed(3)));
+          clMeter.setAttribute("width", (98 * e2io(seg(t, RE_METER, RE_METER_D))).toFixed(2));
+          clMt.setAttribute("opacity", (1 - seg(t, RE_ENF, 0.3)).toFixed(3));
+          const enf = e3o(seg(t, RE_ENF, 0.4));
+          clPol.setAttribute("opacity", (enf * (0.55 + 0.45 * decay(t - RE_ENF - 0.2, 3)) * reOut).toFixed(3));
+          clShb.setAttribute("opacity", (enf * reOut).toFixed(3));
+          clShb.setAttribute("transform", "translate(118 116) scale(" + (0.6 + 0.4 * enf).toFixed(3) + ")");
+          const pkp = seg(t, RE_PK, 0.75);
+          clPk.setAttribute("transform", "translate(" + (1459 + 14 * (1 - pkp)).toFixed(2) + " " + lerp(150, 520, pkp * pkp).toFixed(2) + ") rotate(" + (18 * (1 - pkp)).toFixed(2) + ")");
+          clPk.setAttribute("opacity", (t >= RE_PK ? 1 - seg(t, RE_PK + 0.75, 0.2) : 0).toFixed(3));
+          const shIn = e3o(seg(t, RE_SH, 0.25));
+          const shOut = 1 - seg(t, RE_BLK + 0.6, 0.4);
+          clSh.setAttribute("opacity", (shIn * shOut).toFixed(3));
+          clSh.setAttribute("transform", "translate(0 " + ((1 - shIn) * 10).toFixed(2) + ")");
+          clX.setAttribute("opacity", seg(t, RE_BLK, 0.15).toFixed(3));
+          clBlk.setAttribute("opacity", Math.min(decay(t - RE_BLK, 3.5), 1).toFixed(3));
+          clState.setAttribute("opacity", (seg(t, RE_IN, 0.3) * reOut).toFixed(3));
+          clStL.setAttribute("opacity", (seg(t, RE_IN + 0.2, 0.3) * (1 - seg(t, RE_ENF - 0.1, 0.2))).toFixed(3));
+          clStE.setAttribute("opacity", (seg(t, RE_ENF, 0.3) * (1 - seg(t, RE_BLK, 0.2))).toFixed(3));
+          clStB.setAttribute("opacity", seg(t, RE_BLK + 0.1, 0.3).toFixed(3));
+
+          // admission: pods queue up outside, the gate checks them
+          let adOk = 0, adBad = 0, adRejOp = 0, adPod8 = 0;
+          adPods.forEach((r) => {
+            const u = t - r.t0;
+            let x = 700, op = 0, bad = 0;
+            if (u >= 0) {
+              if (u < 1.0) x = lerp(700, 950, e2io(seg(u, 0, 1.0)));
+              else if (u < 1.5) x = 950;
+              else if (r.ok) x = lerp(950, 1155, e2io(seg(u, 1.5, 0.7)));
+              else x = lerp(950, 700, e2o(seg(u, 1.5, 0.6)));
+              op = seg(u, 0, 0.3);
+              if (r.ok) {
+                op *= 1 - seg(u, 2.1, 0.3);
+                adOk += decay(u - 1.1, 5);
+                adPod8 += decay(u - 2.2, 4);
+              } else {
+                op *= 1 - seg(u, 2.0, 0.3);
+                adBad += decay(u - 1.1, 5);
+                adRejOp = Math.max(adRejOp, seg(u, 1.2, 0.2) * (1 - seg(u, 2.5, 0.3)));
+                bad = seg(u, 1.1, 0.15);
+              }
+            }
+            r.g.setAttribute("transform", "translate(" + x.toFixed(2) + " " + AD_Y + ")");
+            r.g.setAttribute("opacity", op.toFixed(3));
+            r.x.setAttribute("opacity", bad.toFixed(3));
+            r.g.querySelector("rect").setAttribute("stroke", bad > 0.5 ? "#fe7c3f" : "#90ebcd");
+          });
+          adGate.setAttribute("opacity", (seg(t, AD_T, 0.5) * (1 - seg(t, 133.0, 0.5))).toFixed(3));
+          adRingOk.setAttribute("opacity", Math.min(adOk, 1).toFixed(3));
+          adRingBad.setAttribute("opacity", Math.min(adBad, 1).toFixed(3));
+          adRej.setAttribute("opacity", adRejOp.toFixed(3));
+          clOk8.setAttribute("opacity", Math.min(adPod8, 1).toFixed(3));
+
+          // rancher prime: hub and management lines
+          const rnOp = seg(t, RN_T, 0.6) * (1 - seg(t, RN_END, 0.6));
+          rnHub.setAttribute("opacity", rnOp.toFixed(3));
+          rnLines.setAttribute("opacity", rnOp.toFixed(3));
+          rnPulses.forEach((c, i) => {
+            const u = ((((t - RN_T - 0.4) + (i % 4) * 0.55 + Math.floor(i / 4) * 1.2) % 2.4) + 2.4) % 2.4 / 2.4;
+            c.setAttribute("cy", (330 + u * 410).toFixed(2));
+            c.setAttribute("opacity", (Math.sin(Math.PI * u) * (t > RN_T + 0.4 ? 1 : 0)).toFixed(3));
+          });
+
+          const vdp = seg(t, CL_DROP, 0.6);
+          const vbounce = 22 * 4 * seg(t, CL_DROP + 0.6, 0.3) * (1 - seg(t, CL_DROP + 0.6, 0.3));
+          const vy = lerp(-200, CL_Y[1], vdp * vdp) - vbounce;
+          clVault.setAttribute("transform", "translate(" + CL_X[1] + " " + vy.toFixed(2) + ")");
+          clVault.setAttribute("opacity", t >= CL_DROP ? "1" : "0");
+          clVaultBd.setAttribute("opacity", seg(beamX, CL_X[1] + 35, 60).toFixed(3));
+
+          // OpenShell: shield and destinations fade in, then requests go out through the port
+          tilesEl.setAttribute("opacity", (seg(t, OS_T + 0.4, 0.5) * (1 - seg(t, 73.8, 0.4))).toFixed(3));
+          guardEl.setAttribute("opacity", (seg(t, OS_T, 0.5) * (1 - seg(t, 73.8, 0.4))).toFixed(3));
+          let okPulse = 0, badPulse = 0, tileA = 0, tileB = 0;
+          rqs.forEach((r) => {
+            const u = t - r.t0;
+            let x = PORT_X, y = GUARD_Y, op = 0, col = "#bababa", pcol = "#bababa";
+            if (u >= 0) {
+              if (r.ok) {
+                if (u < 0.5) x = lerp(PORT_X, GUARD_X, e2io(seg(u, 0, 0.5)));
+                else if (u < 0.7) x = GUARD_X;
+                else {
+                  const q2 = e2io(seg(u, 0.7, 0.6));
+                  x = lerp(GUARD_X, 1560, q2);
+                  y = lerp(GUARD_Y, 415, q2);
+                }
+                op = u < 1.3 ? 1 : 1 - seg(u, 1.3, 0.25);
+                if (u >= 0.6) { col = "#30ba78"; pcol = "#90ebcd"; }
+                okPulse += decay(u - 0.55, 5);
+                tileA += decay(u - 1.3, 4);
+              } else {
+                if (u < 0.4) x = lerp(PORT_X, 1424, e2io(seg(u, 0, 0.4)));
+                else x = lerp(1424, PORT_X, e2io(seg(u, 0.5, 0.5)));
+                op = u < 1.0 ? 1 : 1 - seg(u, 1.0, 0.2);
+                if (u >= 0.4) { col = "#fe7c3f"; pcol = "#fe7c3f"; }
+                badPulse += decay(u - 0.4, 5);
+                tileB += decay(u - 0.4, 3);
+              }
+            }
+            r.g.setAttribute("transform", "translate(" + x.toFixed(2) + " " + y.toFixed(2) + ") scale(1.5)");
+            r.g.setAttribute("opacity", op.toFixed(3));
+            r.k.setAttribute("stroke", col);
+            r.g.querySelector("rect").setAttribute("stroke", pcol);
+          });
+          ringOk.setAttribute("opacity", Math.min(okPulse, 1).toFixed(3));
+          ringBad.setAttribute("opacity", Math.min(badPulse, 1).toFixed(3));
+          tileAFlash.setAttribute("opacity", (0.45 * Math.min(tileA, 1)).toFixed(3));
+          tileBRing.setAttribute("opacity", (0.8 * Math.min(tileB, 1)).toFixed(3));
+          // claw: descends, grips, carries the box, releases and retracts
+          const boxTop = by - 186;
+          const clawTarget = boxTop - 24;
+          let clawY = lerp(100, clawTarget, e2io(seg(t, CLAW_DOWN, 0.6)));
+          if (t >= GRIP_T) clawY = clawTarget;
+          if (t >= RELEASE_T + 0.3) clawY = lerp(clawTarget, 100, e2io(seg(t, RELEASE_T + 0.3, 0.7)));
+          const gripX = t < GRIP_T ? 150 : t < RELEASE_T ? lerp(150, 119, e3o(seg(t, GRIP_T, 0.3))) : lerp(119, 150, e3o(seg(t, RELEASE_T, 0.3)));
+          claw.setAttribute("transform", "translate(1208 " + clawY.toFixed(2) + ")");
+          claw.setAttribute("opacity", (seg(t, CLAW_DOWN - 0.3, 0.3) * (1 - seg(t, 57.2, 0.5))).toFixed(3));
+          rail.setAttribute("opacity", (seg(t, CLAW_DOWN - 0.3, 0.3) * (1 - seg(t, 57.2, 0.5))).toFixed(3));
+          rod.setAttribute("y", (70 - clawY).toFixed(2));
+          rod.setAttribute("height", Math.max(0, clawY - 86).toFixed(2));
+          fingerL.setAttribute("transform", "translate(" + (-gripX).toFixed(2) + " 0)");
+          fingerR.setAttribute("transform", "translate(" + gripX.toFixed(2) + " 0)");
+          ivBox.setAttribute("transform", "translate(" + bx.toFixed(2) + " " + by.toFixed(2) + ") rotate(" + rock.toFixed(2) + ") scale(" + (1 + 0.06 * sq).toFixed(4) + " " + (1 - 0.12 * sq - 0.03 * Math.min(pulse, 1)).toFixed(4) + ")");
+          ivBox.setAttribute("opacity", t >= DROP_T - 0.05 ? "1" : "0");
+          [chip1, chip2].forEach((chip, i) => {
+            const cp = e3o(seg(t, CHIP_T[i], 0.4));
+            chip.setAttribute("opacity", (cp * (1 - seg(t, 48.4, 0.3))).toFixed(3));
+            chip.setAttribute("transform", "translate(0 " + ((1 - cp) * 14).toFixed(2) + ")");
+          });
+
+          runTypers(t);
+
+        }
+
+        // one linear driver over the full film: any seek lands the identical frame
+        const proxy = { t: 0 };
+        tl.fromTo(proxy, { t: 0 }, { t: 173, duration: 173, ease: "none", onUpdate: () => render(proxy.t) }, 0);
+        render(0);
+
+        // ---------- 1. Hook (0-10) ----------
+        fadeUp("#s1-date", 0.4);
+        fadeUp("#s1-h", 1.5);
+        fadeUp("#s1-l2", 3.2);
+        tl.fromTo("#pod0", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }, 3.2);
+        tl.fromTo("#pod0 .pod-dot", { opacity: 0 }, { opacity: 1, duration: 0.05, ease: "none" }, 3.55);
+        fadeUp("#s1-count", C0);
+        for (let i = 0; i < 11; i++) {
+          const at = i === 0 ? C0 : C0 + CSTEP * (i - 1);
+          const p = "#pod" + i;
+          if (i > 0) tl.fromTo(p, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" }, at);
+          tl.fromTo(p + " .pod-flash", { opacity: 0 }, { opacity: 1, duration: 0.1, ease: "none" }, at);
+          tl.fromTo(p + " .pod-flash", { opacity: 1 }, { opacity: 0, duration: 0.5, ease: "power2.out", immediateRender: false }, at + 0.14);
+          tl.fromTo(p, { backgroundColor: "#01564a" }, { backgroundColor: "#47190d", duration: 0.25, ease: "none" }, at + 0.12);
+          if (i > 0) tl.fromTo(p + " .pod-dot", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" }, at + 0.12);
+        }
+        fadeOut(["#s1-date", "#s1-h", "#s1-l2", "#s1-count"], 9.3);
+        tl.fromTo("#pods", { opacity: 1 }, { opacity: 0, duration: 0.6, ease: "power2.inOut", immediateRender: false }, 10.1);
+
+        // world fade (inner stage, never the clip itself)
+
+        // top-right logo: the regular SUSE logo stays outside the factory, then hands over to the stacked SUSE AI Factory logo as the camera enters the door
+        fadeOut(["#logo"], 21.8);   // gone before the zoom starts (22.4 s)
+        tl.fromTo("#logo-af", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 24.5);   // fades in once the zoom has landed (24.4 s)
+
+        // ---------- 2. SUSE AI Factory (10-24) ----------
+        tl.fromTo("#fstage", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 10.6);
+        tl.fromTo("#fc-body", { y: 36, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: "power3.out" }, 10.7);
+        fadeUp("#s2-tag", 14.2, 18);
+        fadeUp("#s2-b", 15.9);
+        fadeUp("#s2-c", 18.6);
+        fadeOut(["#s2-a", "#s2-tag", "#s2-b", "#s2-c"], 22.3);
+
+        // ---------- 3. Base containers (24-36): the zoom lands on an empty belt, the box drops at 26 s ----------
+        fadeUp("#s3-card", 27.6, 24);
+        fadeUp("#s3-p1", 28.2, 14);
+        fadeUp("#s3-p2", 30.4, 14);
+        fadeOut(["#s3-label", "#s3-card"], 35.3);
+
+        // ---------- 3b. Application Collection (36-48): same shot, box opens, packages drop in ----------
+        fadeUp("#s3b-card", 38.6, 24);
+        fadeUp("#s3b-p1", 39.4, 14);
+        fadeUp("#s3b-p2", 41.0, 14);
+        fadeUp("#s3b-p3", 42.6, 14);
+        fadeOut(["#s3b-h", "#s3b-card"], 46.0);
+
+        // ---------- 3c. Kata Containers (48-60): arm lowers the box into the steel microVM ----------
+        fadeUp("#s3c-card", 50.0, 24);
+        fadeUp("#s3c-p1", 50.6, 14);
+        fadeUp("#s3c-p2", 53.4, 14);
+        fadeUp("#s3c-p3", 55.9, 14);
+        fadeUp("#s3c-p4", 58.4, 14);
+        fadeOut(["#s3c-h", "#s3c-card"], 62.0);
+
+        // ---------- 3d. NVIDIA OpenShell (64-76): the guard at the vault's port ----------
+        fadeUp("#s3d-card", 65.6, 24);
+        fadeUp("#s3d-p1", 66.2, 14);
+        fadeUp("#s3d-p2", 68.6, 14);
+        fadeUp("#s3d-p3", 71.0, 14);
+        fadeOut(["#s3d-h", "#s3d-card"], 73.6);
+
+        // ---------- 3h. SUSE Rancher Prime (76-88): the vault is delivered into a managed cluster ----------
+        fadeUp("#s3h-card", 78.0, 24);
+        fadeUp("#s3h-p1", 78.6, 14);
+        fadeUp("#s3h-p2", 81.0, 14);
+        fadeOut(["#s3h-h", "#s3h-card"], 86.0);
+
+        // ---------- 3e. Vulnerability Scanner (88-100): the vault joins the pods, the scan beam sweeps ----------
+        fadeUp("#s3e-card", 90.0, 24);
+        fadeUp("#s3e-p1", 90.6, 14);
+        fadeUp("#s3e-p2", 94.4, 14);
+        fadeUp("#s3e-p3", 96.2, 14);
+        fadeOut(["#s3e-h", "#s3e-card"], 99.0);
+
+        // ---------- 3f. Runtime Enforcer (88-100): zoom onto a neighbouring pod ----------
+        fadeUp("#s3f-card", 102.0, 24);
+        fadeUp("#s3f-p1", 102.8, 14);
+        fadeUp("#s3f-p2", 108.9, 14);   // once the pod is in enforcing mode (RE_ENF = 96.4 s, label and shield are in by about 96.8 s)
+        fadeUp("#s3f-tag", 109.6, 14);
+        fadeOut(["#s3f-h", "#s3f-card", "#s3f-tag"], 116.0);
+
+        // ---------- 3g. Admission Controller (106-122): the camera zooms out, pods are checked at the gate ----------
+        fadeUp("#s3g-card", 120.0, 24);
+        fadeUp("#s3g-p1", 120.6, 14);
+        fadeUp("#s3g-p2", 124.6, 14);
+        fadeUp("#s3g-p3", 128.6, 14);
+        fadeUp("#s3g-p4", 130.4, 14);
+        fadeOut(["#s3g-h", "#s3g-card"], 133.0);
+        tl.fromTo("#cl-svg", { opacity: 1 }, { opacity: 0, duration: 0.6, ease: "power2.in", immediateRender: false }, 133.2);
+        tl.fromTo("#fstage", { opacity: 1 }, { opacity: 0, duration: 0.6, ease: "power2.in", immediateRender: false }, 74.9);
+
+        // ---------- 7a. Recap (134-157): defence in depth ----------
+        fadeUp("#s7-card", 135.8, 24);
+        fadeUp("#s7-p1", 136.4, 14);
+        fadeUp("#rc-in", 136.4, 20);
+        tl.fromTo("#rc-glow-in", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "none" }, 137.0).to("#rc-glow-in", { opacity: 0, duration: 0.7, ease: "power2.out" }, 137.4);
+        fadeUp("#s7-p2", 139.4, 14);
+        fadeUp("#rc-mid", 139.4, 20);
+        tl.fromTo("#rc-glow-mid", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "none" }, 140.0).to("#rc-glow-mid", { opacity: 0, duration: 0.7, ease: "power2.out" }, 140.4);
+        fadeUp("#s7-p3", 142.4, 14);
+        fadeUp("#rc-outer", 142.4, 20);
+        tl.fromTo("#rc-glow-outer", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "none" }, 143.0).to("#rc-glow-outer", { opacity: 0, duration: 0.7, ease: "power2.out" }, 143.4);
+        fadeUp("#s7-p4", 145.0, 14);
+        fadeUp("#rc-rp", 145.0, 20);
+        tl.fromTo("#rc-glow-rp", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "none" }, 145.6).to("#rc-glow-rp", { opacity: 0, duration: 0.7, ease: "power2.out" }, 146.0);
+        fadeUp("#s7-foot", 148.0, 14);
+        fadeOut(["#s7-h", "#s7-card", "#rc-in", "#rc-mid", "#rc-outer", "#rc-rp", "#s7-foot"], 156.1);
+
+        // ---------- 7b. End card (157-173) ----------
+        fadeUp("#e-h", 157.6, 30);
+        fadeUp("#e-sub", 158.6, 22);
+        fadeUp("#e-small", 159.6, 16);
+        fadeUp("#e-qr", 162.54, 16);
+        fadeUp("#e-qr-cap", 162.74, 12);
+        fadeUp("#e-qr2", 163.04, 16);
+        fadeUp("#e-qr2-cap", 163.24, 12);
+
+        // ---------- RETIME to the voiceover ----------
+        // `tl` above is authored in its own time. WARP maps film time -> authored time, [film, authored] pairs.
+        // Re-run the retime or edit this table to move a scene; delete this block and register `tl` to undo.
+        const WARP = [[0, 0], [3.3, 2.2], [5.4, 3.2], [6.5, 4.4], [8.0, 6.8], [8.95, 9.3], [9.5, 10], [9.7, 10.9], [12.48, 14.2], [14.2, 15.9], [18.9, 18.6], [21.5, 22.3], [22.58, 24], [32.08, 36], [43.82, 48], [58.54, 64], [70.0, 73.6], [70.6, 74.2], [71.8, 75.4], [71.98, 76], [82.42, 88], [93.11999999999999, 100], [103.5, 112], [105.8, 113.4], [108.14, 118], [122.89999999999999, 134], [125.2, 135.8], [126.3, 136.4], [128.1, 139.4], [129.39999999999998, 142.4], [131.3, 145.0], [134.20000000000002, 148.0], [139.60000000000002, 156.1], [140.16000000000003, 157], [152.8, 169.64], [160.8, 169.64]];
+        const warp = (T) => {
+          for (let i = 0; i < WARP.length - 1; i++) {
+            const [n0, a0] = WARP[i], [n1, a1] = WARP[i + 1];
+            if (T <= n1) return a0 + ((Math.max(T, n0) - n0) * (a1 - a0)) / (n1 - n0);
+          }
+          return WARP[WARP.length - 1][1];
+        };
+        const film = gsap.timeline({ paused: true });
+        const drive = { t: 0 };
+        film.fromTo(drive, { t: 0 }, { t: 160.8, duration: 160.8, ease: "none", onUpdate: () => tl.time(warp(drive.t), false) }, 0);
+        window.__timelines["main"] = film;
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,156 @@
+# HyperFrames video workspace: one folder per video project, one toolchain for all of them.
+#
+#   mise install                      install node + ffmpeg
+#   mise tasks                        list everything below
+#   mise run new my-video             scaffold a project with the SUSE brand assets
+#   mise run render:hd my-video       1080p MP4  -> my-video/renders/my-video-1080p.mp4
+#   mise run render:4k my-video       4K MP4     -> my-video/renders/my-video-4k.mp4
+#
+# The project name is optional when the workspace holds only one project.
+min_version = "2024.12.0"
+
+[tools]
+node = "24"        # the HyperFrames CLI needs Node >= 22
+ffmpeg = "latest"  # frame encoding and audio mixing at render time
+
+[env]
+# One CLI version for every project, so a re-render months later looks the same.
+# Bump it here (then run `mise run check <project>` and re-render) to move all projects up.
+HYPERFRAMES_VERSION = "0.9.98"
+# draft | looks | delivery (see `npx hyperframes render --help`)
+HF_QUALITY = "delivery"
+
+# ---------------------------------------------------------------- projects
+
+[tasks.list]
+description = "List the video projects in this workspace"
+run = '''
+source scripts/lib.sh
+list_projects
+'''
+
+[tasks.new]
+description = "Create a project: HyperFrames scaffold + SUSE fonts and logos + BRIEF.md"
+usage = '''
+arg "<name>" help="Folder name, lowercase with dashes (e.g. kubecon-recap)"
+flag "--resolution <preset>" default="landscape" help="landscape | portrait | square (4K variants also work)"
+'''
+run = '''
+source scripts/lib.sh
+name="${usage_name}"
+case "$name" in
+  *[!a-z0-9-]*|"") echo "Use lowercase letters, digits and dashes only: '$name'" >&2; exit 1 ;;
+esac
+[ -e "$ROOT/$name" ] && { echo "$name already exists." >&2; exit 1; }
+( cd "$ROOT" && hf init "$name" --skip-skills --skill=general-video --non-interactive --resolution "${usage_resolution}" )
+mkdir -p "$ROOT/$name/assets/fonts"
+cp "$ROOT"/shared/brand/fonts/* "$ROOT/$name/assets/fonts/"
+cp "$ROOT"/shared/brand/logos/* "$ROOT/$name/assets/"
+cat > "$ROOT/$name/BRIEF.md" <<BRIEF
+---
+message: ""        # the one sentence the video leaves behind
+destination: ""    # where it plays (LinkedIn feed, booth screen, keynote...)
+aspect: "16:9"
+length: 0          # seconds
+voiceover: no      # yes -> time the picture to the voice, see ../CLAUDE.md
+---
+
+# $name
+
+## Source material
+(copy, links, claims the requester supplied. Only use what is written here.)
+
+## Notes
+(decisions, version log)
+BRIEF
+echo "✔ $ROOT/$name ready. Next: open it in Claude Code and start from ../CLAUDE.md"
+'''
+
+# ---------------------------------------------------------------- working on a project
+
+[tasks.check]
+description = "Lint, layout, motion and contrast check of a project"
+usage = 'arg "[project]" help="Project folder (optional when there is only one)"'
+run = '''
+source scripts/lib.sh
+resolve_project "${usage_project:-}"
+cd "$PROJECT_DIR" && hf check
+'''
+
+[tasks.preview]
+description = "Open the Studio preview in the foreground (Ctrl-C to stop)"
+usage = 'arg "[project]" help="Project folder (optional when there is only one)"'
+run = '''
+source scripts/lib.sh
+resolve_project "${usage_project:-}"
+cd "$PROJECT_DIR" && hf preview
+'''
+
+[tasks."preview:bg"]
+description = "Start the Studio preview in the background (what agents use)"
+usage = 'arg "[project]" help="Project folder (optional when there is only one)"'
+run = '''
+source scripts/lib.sh
+resolve_project "${usage_project:-}"
+cd "$PROJECT_DIR" && hf preview --background && hf preview --status
+'''
+
+[tasks."preview:stop"]
+description = "Stop the background Studio preview"
+usage = 'arg "[project]" help="Project folder (optional when there is only one)"'
+run = '''
+source scripts/lib.sh
+resolve_project "${usage_project:-}"
+cd "$PROJECT_DIR" && hf preview --stop
+'''
+
+# ---------------------------------------------------------------- rendering
+# Extra flags go after "--", e.g.  mise run render:hd my-video -- --start 10 --end 20
+
+[tasks."render:hd"]
+description = "Render a project to MP4 at 1080p (1920x1080 for landscape)"
+usage = '''
+arg "[project]" help="Project folder (optional when there is only one)"
+arg "[flags]..." var=#true help="Extra `hyperframes render` flags, after --"
+'''
+run = '''
+source scripts/lib.sh
+resolve_project "${usage_project:-}"
+# shellcheck disable=SC2086
+render_project 1080p ${usage_flags:-}
+'''
+
+[tasks."render:4k"]
+description = "Render a project to MP4 at 4K (3840x2160 for landscape)"
+usage = '''
+arg "[project]" help="Project folder (optional when there is only one)"
+arg "[flags]..." var=#true help="Extra `hyperframes render` flags, after --"
+'''
+run = '''
+source scripts/lib.sh
+resolve_project "${usage_project:-}"
+# shellcheck disable=SC2086
+render_project 4k ${usage_flags:-}
+'''
+
+[tasks."render:all"]
+description = "Render both the 1080p and the 4K MP4"
+usage = 'arg "[project]" help="Project folder (optional when there is only one)"'
+run = '''
+source scripts/lib.sh
+resolve_project "${usage_project:-}"
+render_project 1080p
+render_project 4k
+'''
+
+# ---------------------------------------------------------------- environment
+
+[tasks.doctor]
+description = "Show the tool versions this workspace renders with"
+run = '''
+source scripts/lib.sh
+echo "node        $(node --version)"
+echo "ffmpeg      $(ffmpeg -version | head -1)"
+echo "hyperframes $HF_VERSION (pinned in mise.toml)"
+echo "projects    $(list_projects | tr '\n' ' ')"
+'''
