@@ -18,7 +18,7 @@ ffmpeg = "latest"  # frame encoding and audio mixing at render time
 # Bump it here (then run `mise run check <project>` and re-render) to move all projects up.
 HYPERFRAMES_VERSION = "0.9.98"
 # draft | looks | delivery (see `npx hyperframes render --help`)
-HF_QUALITY = "delivery"
+HF_QUALITY = "{{ get_env(name='HF_QUALITY', default='delivery') }}"
 
 # ---------------------------------------------------------------- projects
 
